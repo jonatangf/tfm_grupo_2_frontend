@@ -6,6 +6,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { TripListComponent } from './pages/trips/trip-list/trip-list.component';
 import { TripDetailComponent } from './pages/trips/trip-detail/trip-detail.component';
 import { TripFormComponent } from './pages/trips/trip-form/trip-form.component';
+
 export const routes: Routes = [
     {path: "", pathMatch: 'full', redirectTo: 'home'},
     {path: "home", component: HomeComponent},
