@@ -12,7 +12,8 @@ export const routes: Routes = [
     {path: "home", component: HomeComponent},
     {path: "login", component: LoginComponent},
     {path: "register", component: RegisterComponent},
-    {path: "profile", component: ProfileComponent},
+    //Juan-------- Guard = true --> Acceso ¿dashboard o profile?
+    {path: "profile", component: ProfileComponent},   
     {path: "trips", component: TripListComponent},
     {path: "trips/:idTrip", component: TripDetailComponent},
     {path: "newTrip", component: TripFormComponent},

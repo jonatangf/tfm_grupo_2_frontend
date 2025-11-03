@@ -8,4 +8,9 @@ import { Component } from '@angular/core';
 })
 export class LoginComponent {
 
+/*Juan* 
+ Guardar token en localStorage
+ Recuperamos en /guards/login
+*/
+
 }
