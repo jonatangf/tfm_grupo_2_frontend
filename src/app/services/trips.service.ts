@@ -32,7 +32,7 @@ export class TripsService {
     }
 
     //Crear un nuevo viaje
-    newTrip(trip: ITrip): Promise<{success: boolean; tripId: number}>{
+    createTrip(trip: ITrip): Promise<{success: boolean; tripId: number}>{
         return lastValueFrom(this.httpClient.post<{success: boolean; tripId: number}>(this.baseUrl, trip));
     }
 
