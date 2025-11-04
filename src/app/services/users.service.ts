@@ -12,8 +12,12 @@ export class UsersService {
   private httpClient = inject(HttpClient);
   private baseUrl: string = '';
 
-    login(user: IUser): Promise<ILoginResponse | IError> {
-    return lastValueFrom(this.httpClient.post<any>(`${this.baseUrl}/login`, user))
+  login(user: IUser): Promise<ILoginResponse | IError> {
+    return lastValueFrom(this.httpClient.post<ILoginResponse>(`${this.baseUrl}/login`, user));
+  }
+
+  register(user:IUser): Promise<ILoginResponse | IError> {
+    return lastValueFrom(this.httpClient.post<ILoginResponse>(`${this.baseUrl}/register`, user));
   }
   
 }
