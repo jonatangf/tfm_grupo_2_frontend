@@ -6,6 +6,7 @@ import { ILoginResponse } from '../interfaces/ilogin-response';
 import { IError } from '../interfaces/ierror';
 import { ISingleNumberResponse } from '../interfaces/users/isingle-number-response';
 import { ILoginRequest } from '../interfaces/ilogin-request';
+import { ISingleStringResponse } from '../interfaces/users/isingle-string-response';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,7 @@ export class UsersService {
   private baseUrl: string = '';
 
 
-  /* POST */
+  /*------------------------------ POST ------------------------------*/
 
   //Post de credenciales para el login
   login(credentials: ILoginRequest): Promise<ILoginResponse | IError> {
@@ -27,7 +28,14 @@ export class UsersService {
     return lastValueFrom(this.httpClient.post<ILoginResponse>(`${this.baseUrl}/register`, user));
   }
 
-  /* GET */
+  /*------------------------------ PUT ------------------------------*/
+
+  // Actualiza usuario
+  updateUserById(user:IUser): Promise<ISingleStringResponse|IError>{
+    return lastValueFrom(this.httpClient.put<ISingleStringResponse>(`${this.baseUrl}/users/${user.id}`,user))
+  }
+
+  /*------------------------------ GET ------------------------------*/
 
   //Encuentra un usuario por ID
   getUserById(id:number): Promise<IUser|IError>{
