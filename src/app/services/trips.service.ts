@@ -13,13 +13,13 @@ export class TripsService {
     //--------------------------------FALTA PONER URL DE LA API -----------------------------------//
 
     //Obtener todos los viajes (con filtros opcionales)
-    getAllTrips(filters?: {destination?: string; startDate?: string; endDate?: string; price?: number}):    Promise<ITrip[]> {
+    getAllTrips(filters?: {destinyPlace?: string; startDate?: string; endDate?: string; max_cost?: number}):    Promise<ITrip[]> {
         //Construye los parametros de la url
         let params = new HttpParams();
         if(filters){
             //Convierte los parametros y los añade a a los parametros 
             Object.entries(filters).forEach(([key, value]) =>{
-                if(value)
+                if(value!==undefined && value !== null && value!=='')
                     params = params.set(key, value.toString());
             })
         }
@@ -28,7 +28,7 @@ export class TripsService {
 
     //Obtener un viaje por id
     getTripById(id: number): Promise<ITrip> {
-        return lastValueFrom(this.httpClient.get<ITrip>(`{this.baseUrl}/${id}`));
+        return lastValueFrom(this.httpClient.get<ITrip>(`${this.baseUrl}/${id}`));
     }
 
     //Crear un nuevo viaje
@@ -44,6 +44,6 @@ export class TripsService {
 
     //Eliminar un viaje
     removeTrip(id: number): Promise<{success: boolean}>{
-        return lastValueFrom(this.httpClient.delete<{success: boolean}>(`{this.baseUrl}/${id}`));
+        return lastValueFrom(this.httpClient.delete<{success: boolean}>(`${this.baseUrl}/${id}`));
     }
 }

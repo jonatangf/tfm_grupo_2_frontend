@@ -12,7 +12,9 @@ export interface ITrip {
     accommodationsId?: number;
     costPerPerson?: number;
     minParticipants: number;
+    //maxParticipants: number;
     status?: 'open' | 'closed' | 'completed' | 'cancelled';
+    //status?: 'draft' | 'published' | 'full' | 'finished' | 'archived';
     createdAt?: string;
     updatedAt?: string;  
 }

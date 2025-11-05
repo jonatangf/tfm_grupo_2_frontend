@@ -1,5 +1,6 @@
 export interface IReview {
-    usersId?: number;
+    id?: number;
+    usersId: number;
     tripsId: number;
     reviewedUserId: number;
     review: string;
