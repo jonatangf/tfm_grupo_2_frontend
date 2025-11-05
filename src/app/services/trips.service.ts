@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-import { ITrip } from '../interfaces/itrip.interface';
+import { ITrip, ITripResponse } from '../interfaces/itrip.interface';
 @Injectable({
     providedIn: 'root',
 })
@@ -13,7 +13,7 @@ export class TripsService {
     //--------------------------------FALTA PONER URL DE LA API -----------------------------------//
 
     //Obtener todos los viajes (con filtros opcionales)
-    getAllTrips(filters?: {destinyPlace?: string; startDate?: string; endDate?: string; max_cost?: number}):    Promise<ITrip[]> {
+    getAllTrips(filters?: {destinyPlace?: string; startDate?: string; endDate?: string; max_cost?: number}):    Promise<ITripResponse[]> {
         //Construye los parametros de la url
         let params = new HttpParams();
         if(filters){
@@ -23,27 +23,26 @@ export class TripsService {
                     params = params.set(key, value.toString());
             })
         }
-        return lastValueFrom(this.httpClient.get<ITrip[]>(this.baseUrl, {params})); 
+        return lastValueFrom(this.httpClient.get<ITripResponse[]>(`${this.baseUrl}/trips`, {params})); 
     }
 
     //Obtener un viaje por id
-    getTripById(id: number): Promise<ITrip> {
-        return lastValueFrom(this.httpClient.get<ITrip>(`${this.baseUrl}/${id}`));
+    getTripById(tripId: number): Promise<ITripResponse> {
+        return lastValueFrom(this.httpClient.get<ITripResponse>(`${this.baseUrl}/trips/${tripId}`));
     }
 
     //Crear un nuevo viaje
     createTrip(trip: ITrip): Promise<{success: boolean; tripId: number}>{
-        return lastValueFrom(this.httpClient.post<{success: boolean; tripId: number}>(this.baseUrl, trip));
+        return lastValueFrom(this.httpClient.post<{success: boolean; tripId: number}>(`${this.baseUrl}/trips`, trip));
     }
 
     //Actualizar un viaje
-    updateTrip(trip: ITrip): Promise<{success:boolean}> {
-        const {id, ...restTrip} = trip;
-        return lastValueFrom(this.httpClient.put<{success: boolean}>(`${this.baseUrl}/${id}`, restTrip));
+    updateTrip(tripId: number, trip: ITrip): Promise<{success:boolean}> {
+        return lastValueFrom(this.httpClient.put<{success: boolean}>(`${this.baseUrl}/trips/${tripId}`, trip));
     }
 
     //Eliminar un viaje
-    removeTrip(id: number): Promise<{success: boolean}>{
-        return lastValueFrom(this.httpClient.delete<{success: boolean}>(`${this.baseUrl}/${id}`));
+    removeTrip(tripId: number): Promise<{success: boolean}>{
+        return lastValueFrom(this.httpClient.delete<{success: boolean}>(`${this.baseUrl}/trips/${tripId}`));
     }
 }
