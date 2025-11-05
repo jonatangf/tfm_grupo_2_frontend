@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IReview } from '../interfaces/ireview.interface';
+import { IReview, IReviewResponse } from '../interfaces/ireview.interface';
 import { lastValueFrom } from 'rxjs';
 @Injectable({
   providedIn: 'root',
@@ -14,12 +14,11 @@ export class ReviewsService {
 
     //Crear valoracion
     createReview(tripId: number, review: IReview): Promise<{success: true}>{
-        const {usersId, tripsId, ...restReview} = review;
-        return lastValueFrom(this.httpClient.post<{success: true}>(`${this.baseUrl}/trips/${tripId}/reviews`, restReview));
+        return lastValueFrom(this.httpClient.post<{success: true}>(`${this.baseUrl}/trips/${tripId}/reviews`, review));
     }
 
     //Obtener las valoraciones recibidas por un usuario
-    getUserReviews(userId: number): Promise<IReview[]>{
-        return lastValueFrom(this.httpClient.get<IReview[]>(`${this.baseUrl}/users/${userId}/reviews`));
+    getUserReviews(userId: number): Promise<IReviewResponse[]>{
+        return lastValueFrom(this.httpClient.get<IReviewResponse[]>(`${this.baseUrl}/users/${userId}/reviews`));
     }
 }

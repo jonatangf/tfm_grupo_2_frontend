@@ -1,10 +1,11 @@
 export interface IReview {
-    id?: number;
-    usersId: number;
-    tripsId: number;
-    reviewedUserId: number;
-    review: string;
+    toUserId: number;
     score: number;
-    createdAt?: string;
-    updatedAt?: string;
+    comment: string;
+}
+
+export interface IReviewResponse {
+    from: string;
+    score: number;
+    comment: string;
 }

@@ -37,7 +37,7 @@ export class TripsService {
     }
 
     //Actualizar un viaje
-    upadateTrip(trip: ITrip): Promise<{success:boolean}> {
+    updateTrip(trip: ITrip): Promise<{success:boolean}> {
         const {id, ...restTrip} = trip;
         return lastValueFrom(this.httpClient.put<{success: boolean}>(`${this.baseUrl}/${id}`, restTrip));
     }
