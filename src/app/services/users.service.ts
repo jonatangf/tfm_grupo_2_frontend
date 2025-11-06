@@ -4,9 +4,7 @@ import { lastValueFrom } from 'rxjs';
 import { IUser } from '../interfaces/users/iuser';
 import { ILoginResponse } from '../interfaces/ilogin-response';
 import { IError } from '../interfaces/ierror';
-import { ISingleNumberResponse } from '../interfaces/users/isingle-number-response';
 import { ILoginRequest } from '../interfaces/ilogin-request';
-import { ISingleStringResponse } from '../interfaces/users/isingle-string-response';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +12,6 @@ import { ISingleStringResponse } from '../interfaces/users/isingle-string-respon
 export class UsersService {
   private httpClient = inject(HttpClient);
   private baseUrl: string = '';
-
 
   /*------------------------------ POST ------------------------------*/
 
@@ -24,15 +21,15 @@ export class UsersService {
   }
 
   //Post de registro de un nuevo usuario
-  register(user:IUser): Promise<ILoginResponse | IError> {
+  registerUser(user:IUser): Promise<ILoginResponse | IError> {
     return lastValueFrom(this.httpClient.post<ILoginResponse>(`${this.baseUrl}/register`, user));
   }
 
   /*------------------------------ PUT ------------------------------*/
 
   // Actualiza usuario
-  updateUserById(user:IUser): Promise<ISingleStringResponse|IError>{
-    return lastValueFrom(this.httpClient.put<ISingleStringResponse>(`${this.baseUrl}/users/${user.id}`,user))
+  updateUserById(user:IUser): Promise<string|IError>{
+    return lastValueFrom(this.httpClient.put<string>(`${this.baseUrl}/users/${user.id}`,user))
   }
 
   /*------------------------------ GET ------------------------------*/
@@ -42,14 +39,9 @@ export class UsersService {
     return lastValueFrom(this.httpClient.get<IUser>(`${this.baseUrl}/users/${id}`));
   }
 
-/**
- * Método que devuelve el atributo numérico 'param' de un usuario de la tabla 'id'
- * @param id    --> Identificador único de un usuario
- * @param param --> Atributo de IUser a recuperar
- * @returns 
- */
-  getNumberParamById(id:number,param:string): Promise<ISingleNumberResponse|IError>{
-    return lastValueFrom(this.httpClient.get<ISingleNumberResponse>(`${this.baseUrl}/users/${id}/${param}`))
+  //Encuentra valoracion media de un usuario por ID
+  getUserScore(id:number): Promise<number|IError>{
+    return lastValueFrom(this.httpClient.get<number>(`${this.baseUrl}/users/${id}/score`))
   }
 
 }
