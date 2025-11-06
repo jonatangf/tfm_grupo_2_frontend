@@ -1,0 +1,15 @@
+export interface IUser {
+  id: number;
+  name: string;
+  lastname: string;
+  email: string;
+  password: string;
+  countries_id?: number | null;
+  photo?: string | null;
+  birthdate?: Date | string | null;
+  description?: string | null;
+  telephone?: string | null;
+  avg_rating?: number | null;
+  created_at: Date | string;
+  updated_at: Date | string;
+}
