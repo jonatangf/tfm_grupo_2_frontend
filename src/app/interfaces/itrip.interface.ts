@@ -1,10 +1,9 @@
 export interface ITrip {
-    id?: number;
     name: string;
     description: string;
     destinyPlace: string;
     itinerary: string;
-    meansOfTransportsId: number; //Supongo que sera el id del enum de trasnsportes que tengamos
+    meansOfTransportsId: number; 
     startDate: string;
     endDate: string;
     creatorId: number;

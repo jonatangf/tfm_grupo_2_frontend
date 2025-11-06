@@ -13,8 +13,8 @@ export class ReviewsService {
     //--------------------------------FALTA PONER URL DE LA API -----------------------------------// 
 
     //Crear valoracion
-    createReview(tripId: number, review: IReview): Promise<{success: true}>{
-        return lastValueFrom(this.httpClient.post<{success: true}>(`${this.baseUrl}/trips/${tripId}/reviews`, review));
+    createReview(tripId: number, review: IReview): Promise<{success: boolean}>{
+        return lastValueFrom(this.httpClient.post<{success: boolean}>(`${this.baseUrl}/trips/${tripId}/reviews`, review));
     }
 
     //Obtener las valoraciones recibidas por un usuario
