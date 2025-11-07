@@ -4,7 +4,7 @@ export interface ITripMember{
     email: string;
 }
 
-export interface ITripJoinRequest{
+export interface ITripJoinRequestResponse{
     requestId: number;
     userId: number;
     name: string;

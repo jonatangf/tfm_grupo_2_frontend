@@ -8,14 +8,16 @@ import { IComment } from '../interfaces/icomment.interface';
 export class CommentsService {
     private httpClient = inject(HttpClient);
 
-    //--------------------------------FALTA PONER URL DE LA API -----------------------------------//
+    /*--------------------FALTA PONER URL DE LA API --------------------*/
     private baseUrl: string = '';
-    //--------------------------------FALTA PONER URL DE LA API -----------------------------------//
 
+    /*------------------------------ GET ------------------------------*/
     //Obterner los comentarios
     getAllComments(tripId: number): Promise<IComment[]>{
         return lastValueFrom(this.httpClient.get<IComment[]>(`${this.baseUrl}/trips/${tripId}/comments`));
     }
+
+    /*------------------------------ POST ------------------------------*/
     //Publicar comentario en foro
     addComments(tripId: number, comment: IComment): Promise<{success: boolean; commentId: number}>{
         const {user, ... message} = comment;
