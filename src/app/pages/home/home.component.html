@@ -1,28 +1,37 @@
-
 <body>
   <div class="container">
     <div class="grid">
       <!-- Column 1: full image -->
       <div class="image-col">
-        <img src="https://images.unsplash.com/photo-1522276498395-f4f68f7f8452?q=80&w=1600&auto=format&fit=crop" alt="Sample" />
+        <img
+          src="https://images.unsplash.com/photo-1522276498395-f4f68f7f8452?q=80&w=1600&auto=format&fit=crop"
+          alt="Sample"
+        />
       </div>
 
       <!-- Column 2: welcome text or login/reg forms -->
       <div class="content-col">
-        <h1>Plan your next ride</h1>
+        @if (login) {
+        <app-login [register]="register"></app-login>
+        } @else {
+        <h1>TravelTogether</h1>
+        <h2>¡Bienvenido!</h2>
         <p>
-          Find, share, and coordinate trips with friends or commuters near you.
-          Flexible schedules, transparent costs, and trusted profiles.
+          Conecta con personas con las mismas ganas de explorar el mundo, ofreciendo una plataforma
+          web para organizar viajes en grupo. Aquí podrás compartir gastos, experiencias y
+          aventuras, creando una comunidad colaborativa donde planificar juntos cada detalle del
+          viaje sea fácil y divertido. Descubre nuevos destinos, conoce compañeros de ruta y haz que
+          cada viaje sea una experiencia compartida.
         </p>
-        <p>
-          Start by exploring routes or create your own. It only takes a minute.
-        </p>
-
         <div class="spacer"></div>
+        }
 
         <div class="actions">
-          <button class="btn btn-primary">Get started</button>
-          <button class="btn btn-secondary">Learn more</button>
+          @if (!register) {
+          <button class="btn btn-primary" (click)="loadLogin('log')">{{ button1 }}</button>
+          } @else {
+          <button class="btn btn-secondary" (click)="loadLogin('reg')">{{ button2 }}</button>
+          }
         </div>
       </div>
     </div>
