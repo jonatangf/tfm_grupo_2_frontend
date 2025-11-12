@@ -1,23 +1,31 @@
 import { Component } from '@angular/core';
 import { LoginComponent } from '../login/login.component';
+import { LoginHeaderComponent } from "../../components/login-header/login-header.component";
 
 @Component({
   selector: 'app-home',
-  imports: [LoginComponent],
+  imports: [LoginComponent, LoginHeaderComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
 
-  login:boolean = false;
-  register:boolean = false;
-  button1:string = 'INICIAR SESION';
-  button2:string = 'REGISTRARSE';
+  subtitle:string='¡Bienvenido!'
+  // estados posibles: 'initial' | 'login' | 'register'
+  state: 'initial' | 'login' | 'register' = 'initial';
 
+  buttonLogin: string = 'INICIAR SESION';
+  buttonRegister: string = 'REGISTRARSE';
+  buttonBack: string = 'VOLVER';
 
-loadLogin(btn: string) {
-  this.login = true; // siempre que pulses, entras en modo login
-  this.register = btn === 'reg'; // true si es registro, false si es login
+  loadLogin(mode: 'log' | 'reg') {
+    this.state = mode === 'log' ? 'login' : 'register';
+    this.subtitle = mode === 'log' ? 'Iniciar sesión' : 'Registro de cuenta'
+  }
+
+  goBack() {
+    this.state = 'initial';
+    this.subtitle = '¡Bienvenido!';
+  }
 }
 
-}

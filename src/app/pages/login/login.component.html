@@ -1,10 +1,18 @@
-<p>login works!</p>
 
-      <!-- <div class="actions">
-            @if(!register){
-            <button class="btn btn-primary">INICIAR SESION</button>
-            }
-            @else{
-            <button class="btn btn-secondary">REGISTRARSE</button>
-            }
-        </div>--> 
+
+<form [formGroup]="userForm" ngDubmit="submitUser()">
+      @if(register!){
+      <div class="formField">
+            <label for="name">Nombre</label>
+            <input type="text" name="name" id="name" placeholder="Introduce el valor">
+      </div>
+      }
+      <div class="formField">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" placeholder="Introduce el valor">
+      </div>
+            <div class="formField">
+            <label for="password">Contraseña</label>
+            <input type="password" name="password" id="password" placeholder="Introduce el valor">
+      </div>
+</form>

@@ -1,7 +1,7 @@
 <body>
   <div class="container">
     <div class="grid">
-      <!-- Column 1: full image -->
+      <!-- Columna 1 -->
       <div class="image-col">
         <img
           src="https://images.unsplash.com/photo-1522276498395-f4f68f7f8452?q=80&w=1600&auto=format&fit=crop"
@@ -9,30 +9,43 @@
         />
       </div>
 
-      <!-- Column 2: welcome text or login/reg forms -->
+      <!-- Columna 2 -->
       <div class="content-col">
-        @if (login) {
-        <app-login [register]="register"></app-login>
-        } @else {
-        <h1>TravelTogether</h1>
-        <h2>¡Bienvenido!</h2>
-        <p>
-          Conecta con personas con las mismas ganas de explorar el mundo, ofreciendo una plataforma
+        <app-login-header></app-login-header>
+        <h2>{{subtitle}}</h2>
+        @switch (state) {
+          @case ('initial') {
+            <p>
+              Conecta con personas con las mismas ganas de explorar el mundo, ofreciendo una plataforma
           web para organizar viajes en grupo. Aquí podrás compartir gastos, experiencias y
           aventuras, creando una comunidad colaborativa donde planificar juntos cada detalle del
           viaje sea fácil y divertido. Descubre nuevos destinos, conoce compañeros de ruta y haz que
           cada viaje sea una experiencia compartida.
-        </p>
-        <div class="spacer"></div>
+            </p>
+            <div class="spacer"></div>
+            <div class="actions">
+              <button class="btn btn-primary" (click)="loadLogin('log')">{{ buttonLogin }}</button>
+              <button class="btn btn-secondary" (click)="loadLogin('reg')">{{ buttonRegister }}</button>
+            </div>
+          }
+
+          @case ('login') {
+            <app-login [register]="false"></app-login>
+            <div class="actions">
+              <button class="btn btn-primary">{{ buttonLogin }}</button>
+              <button class="btn btn-secondary" (click)="goBack()">{{ buttonBack }}</button>
+            </div>
+          }
+
+          @case ('register') {
+            <app-login [register]="true"></app-login>
+            <div class="actions">
+              <button class="btn btn-secondary">{{ buttonRegister }}</button>
+              <button class="btn btn-secondary" (click)="goBack()">{{ buttonBack }}</button>
+            </div>
+          }
         }
 
-        <div class="actions">
-          @if (!register) {
-          <button class="btn btn-primary" (click)="loadLogin('log')">{{ button1 }}</button>
-          } @else {
-          <button class="btn btn-secondary" (click)="loadLogin('reg')">{{ button2 }}</button>
-          }
-        </div>
       </div>
     </div>
   </div>
