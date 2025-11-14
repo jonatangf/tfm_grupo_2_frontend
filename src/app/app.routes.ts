@@ -16,7 +16,7 @@ export const routes: Routes = [
   //Juan-------- Guard = true --> Acceso ¿dashboard o profile como pagina inicial?
   {path: 'profile', component: ProfileComponent, canActivate: [loginGuard],
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'profile' },
+      { path: '', pathMatch: 'full', redirectTo: 'trips' },
       { path: 'trips', component: TripListComponent },
       { path: 'trips/:idTrip', component: TripDetailComponent },
       { path: 'newTrip', component: TripFormComponent },

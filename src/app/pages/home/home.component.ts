@@ -1,8 +1,9 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import { LoginComponent } from '../login/login.component';
-import { LoginHeaderComponent } from "../login/header/login-header.component";
+import { LoginHeaderComponent } from '../login/header/login-header.component';
 import { UsersService } from '../../services/users.service';
 import { ILoginRequest } from '../../interfaces/ilogin-request';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -11,13 +12,14 @@ import { ILoginRequest } from '../../interfaces/ilogin-request';
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
-
   @ViewChild(LoginComponent) loginChild!: LoginComponent; //Permite invocar un método del hijo desde el padre
 
   private userService = inject(UsersService);
-  loginReq! : ILoginRequest;
+  router = inject(Router);
 
-  subtitle:string='¡Bienvenido!'
+  loginReq!: ILoginRequest;
+
+  subtitle: string = '¡Bienvenido!';
   // estados posibles: 'initial' | 'login' | 'register'
   state: 'initial' | 'login' | 'register' = 'initial';
 
@@ -27,7 +29,7 @@ export class HomeComponent {
 
   loadLogin(mode: 'log' | 'reg') {
     this.state = mode === 'log' ? 'login' : 'register';
-    this.subtitle = mode === 'log' ? 'Iniciar sesión' : 'Registro de cuenta'
+    this.subtitle = mode === 'log' ? 'Iniciar sesión' : 'Registro de cuenta';
   }
 
   goBack() {
@@ -35,16 +37,36 @@ export class HomeComponent {
     this.subtitle = '¡Bienvenido!';
   }
 
-  onLogin(data: any) {
+  async onLogin(data: any) {
     this.loginReq = data;
-    if(data.name){
+    if (data.username) {
       console.log('register');
-      this.userService.registerUser(this.loginReq);
-    }else{
+      const response: any = await this.userService.registerUser(this.loginReq);
+      try {
+        //aqui me logado correctamente redirijo dashboard
+        if (response.token) {
+          //almacenar ese token en el localstorage para poder guardar el estado de logado en la aplicacion.
+          console.log(response.token);
+          localStorage.setItem('token', response.token);
+          this.router.navigate(['/profile']);
+        }
+      } catch (msg: any) {
+        alert(response.error);
+      }
+    } else {
       console.log('login');
-      this.userService.login(this.loginReq);
+      const response: any = await this.userService.login(this.loginReq);
+      try {
+        //aqui me logado correctamente redirijo dashboard
+        if (response.token) {
+          //almacenar ese token en el localstorage para poder guardar el estado de logado en la aplicacion.
+          localStorage.setItem('token', response.token);
+          this.router.navigate(['/profile']);
+        }
+      } catch (msg: any) {
+        alert(response.error);
+      }
     }
     console.log('fin');
   }
 }
-

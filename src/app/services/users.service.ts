@@ -27,8 +27,13 @@ export class UsersService {
     console.log(credentials);
     this.authResponse = await lastValueFrom(this.httpClient.post<ILoginResponse>(`${this.baseUrl}/auth/register`, credentials));
     console.log(this.authResponse);
-    if(this.authResponse.success==='OK'){
-      return lastValueFrom(this.httpClient.post<ILoginResponse>(`${this.baseUrl}/auth/login`, credentials));
+    if(this.authResponse.success){
+      const { email, password } = credentials;
+      const loginData = { email, password };
+      const resultado = await lastValueFrom(this.httpClient.post<ILoginResponse>(`${this.baseUrl}/auth/login`, loginData));
+      console.log('resultado')
+      console.log(resultado)
+      return resultado;
     }
     return this.authError;
   }
