@@ -2,14 +2,13 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IReview, IReviewResponse } from '../interfaces/ireview.interface';
 import { lastValueFrom } from 'rxjs';
+import { SuccessResponse } from '../types/api-responses'
 @Injectable({
   providedIn: 'root',
 })
 export class ReviewsService {
     private httpClient = inject(HttpClient);
-
-    /*-------------------FALTA PONER URL DE LA API ---------------------*/
-    private baseUrl: string = '';
+    private baseUrl: string = 'http://localhost:3000/api';
 
     /*------------------------------ GET ------------------------------*/
     //Obtener las valoraciones recibidas por un usuario
@@ -21,8 +20,8 @@ export class ReviewsService {
     /*------------------------------ POST ------------------------------*/
     //Crear valoracion
     createReview(tripId: number, review: IReview): 
-    Promise<{success: boolean}>{
-        return lastValueFrom(this.httpClient.post<{success: boolean}>
+    Promise<SuccessResponse>{
+        return lastValueFrom(this.httpClient.post<SuccessResponse>
         (`${this.baseUrl}/trips/${tripId}/reviews`, review));
     }
 }

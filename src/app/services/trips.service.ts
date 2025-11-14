@@ -2,14 +2,14 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { ITrip, ITripResponse } from '../interfaces/itrip.interface';
+import { SuccessResponse, CreateTripResponse } from '../types/api-responses'
+
 @Injectable({
     providedIn: 'root',
 })
 export class TripsService {
     private httpClient = inject(HttpClient);
-
-    /*--------------------FALTA PONER URL DE LA API -------------------*/
-    private baseUrl: string = '';
+    private baseUrl: string = 'http://localhost:3000/api';
 
     /*------------------------------ GET ------------------------------*/
     //Obtener todos los viajes (con filtros opcionales)
@@ -37,23 +37,23 @@ export class TripsService {
 
     /*------------------------------ POST ------------------------------*/
     //Crear un nuevo viaje
-    createTrip(trip: ITrip): Promise<{success: boolean; tripId: number}>{
+    createTrip(trip: ITrip): Promise<CreateTripResponse>{
         return lastValueFrom
-        (this.httpClient.post<{success: boolean; tripId: number}>
+        (this.httpClient.post<CreateTripResponse>
         (`${this.baseUrl}/trips`, trip));
     }
 
     /*------------------------------ PUT ------------------------------*/
     //Actualizar un viaje
-    updateTrip(tripId: number, trip: ITrip): Promise<{success:boolean}> {
-        return lastValueFrom(this.httpClient.put<{success: boolean}>
+    updateTrip(tripId: number, trip: ITrip): Promise<SuccessResponse> {
+        return lastValueFrom(this.httpClient.put<SuccessResponse>
                             (`${this.baseUrl}/trips/${tripId}`, trip));
     }
 
     /*------------------------------ DELETE ------------------------------*/
     //Eliminar un viaje
-    removeTrip(tripId: number): Promise<{success: boolean}>{
-        return lastValueFrom(this.httpClient.delete<{success: boolean}>
+    removeTrip(tripId: number): Promise<SuccessResponse>{
+        return lastValueFrom(this.httpClient.delete<SuccessResponse>
                             (`${this.baseUrl}/trips/${tripId}`));
     }
 }

@@ -2,13 +2,13 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { ITripMember, ITripJoinRequestResponse } from '../interfaces/iparticipation.interface';
+import { SuccessResponse, CreateTripRequestResponse } from '../types/api-responses'
 @Injectable({
   providedIn: 'root',
 })
 export class ParticipationsService {
     private httpClient = inject(HttpClient);
-    /*--------------------FALTA PONER URL DE LA API --------------------*/
-    private baseUrl: string = '';
+    private baseUrl: string = 'http://localhost:3000/api';
     
     /*------------------------------ GET ------------------------------*/
     //Obtener los miembros aceptados
@@ -25,17 +25,17 @@ export class ParticipationsService {
 
     /*------------------------------ POST ------------------------------*/
     //Solicitar unirse al viaje
-    createTripRequest(tripId: number): Promise<{success: boolean; requestId: number}>{
-        return lastValueFrom(this.httpClient.post<{success: boolean; requestId: number}>(`${this.baseUrl}/trips/${tripId}/join-request`, {}));
+    createTripRequest(tripId: number): Promise<CreateTripRequestResponse>{
+        return lastValueFrom(this.httpClient.post<CreateTripRequestResponse>(`${this.baseUrl}/trips/${tripId}/join-request`, {}));
     }
 
     //Aceptar solictud
-    acceptTripRequest(tripId: number, requestId: number): Promise<{success:boolean}>{
-        return lastValueFrom(this.httpClient.post<{success: boolean}>(`${this.baseUrl}/trips/${tripId}/request/${requestId}/accept`,{}));        
+    acceptTripRequest(tripId: number, requestId: number): Promise<SuccessResponse>{
+        return lastValueFrom(this.httpClient.post<SuccessResponse>(`${this.baseUrl}/trips/${tripId}/request/${requestId}/accept`,{}));        
     }
 
     //Rechazar solictud
-    rejectTripRequest(tripId: number, requestId: number): Promise<{success:boolean}>{
-        return lastValueFrom(this.httpClient.post<{success: boolean}>(`${this.baseUrl}/trips/${tripId}/request/${requestId}/reject`,{}));        
+    rejectTripRequest(tripId: number, requestId: number): Promise<SuccessResponse>{
+        return lastValueFrom(this.httpClient.post<SuccessResponse>(`${this.baseUrl}/trips/${tripId}/request/${requestId}/reject`,{}));        
     }
 }

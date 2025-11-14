@@ -2,14 +2,13 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { IComment } from '../interfaces/icomment.interface';
+import { SuccessResponse, AddCommentResponse } from '../types/api-responses'
 @Injectable({
   providedIn: 'root',
 })
 export class CommentsService {
     private httpClient = inject(HttpClient);
-
-    /*--------------------FALTA PONER URL DE LA API --------------------*/
-    private baseUrl: string = '';
+    private baseUrl: string = 'http://localhost:3000/api';
 
     /*------------------------------ GET ------------------------------*/
     //Obterner los comentarios
@@ -19,14 +18,14 @@ export class CommentsService {
 
     /*------------------------------ POST ------------------------------*/
     //Publicar comentario en foro
-    addComments(tripId: number, comment: IComment): Promise<{success: boolean; commentId: number}>{
+    addComments(tripId: number, comment: IComment): Promise<AddCommentResponse>{
         const {user, ... message} = comment;
-        return lastValueFrom(this.httpClient.post<{success: boolean; commentId:number}>(`${this.baseUrl}/trips/${tripId}/comments`, message));
+        return lastValueFrom(this.httpClient.post<AddCommentResponse>(`${this.baseUrl}/trips/${tripId}/comments`, message));
     }
 
     //Responder a comentario
-    replyComment(tripId: number, commentId: number, comment: IComment): Promise<{success: boolean}>{
+    replyComment(tripId: number, commentId: number, comment: IComment): Promise<SuccessResponse>{
         const {user, ... message} = comment;
-        return lastValueFrom(this.httpClient.post<{success: boolean}>(`${this.baseUrl}/trips/${tripId}/comments/${commentId}/reply`, message));
+        return lastValueFrom(this.httpClient.post<SuccessResponse>(`${this.baseUrl}/trips/${tripId}/comments/${commentId}/reply`, message));
     }
 }

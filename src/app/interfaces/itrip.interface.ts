@@ -2,6 +2,7 @@ export interface ITrip {
     name: string;
     description: string;
     destinyPlace: string;
+    destinyImage: string;
     itinerary: string;
     meansOfTransportsId: number; 
     startDate: string;
@@ -18,6 +19,7 @@ export interface ITripResponse{
     name: string;
     description: string;
     destinyPlace: string;
+    destinyImage: string;
     itinerary: string;
     meansOfTransportsId: number;
     startDate: string;
