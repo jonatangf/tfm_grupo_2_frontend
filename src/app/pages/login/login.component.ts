@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
@@ -10,13 +10,12 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 })
 export class LoginComponent {
 @Input() register! : boolean;
+@Output() submitted = new EventEmitter<any>();
 userForm! : FormGroup;
 
 constructor(){
   this.userForm = new FormGroup({
-    name: new FormControl("",[
-      Validators.required,
-    ]),
+    username: new FormControl(""),
     email: new FormControl("",[
       Validators.required,
       Validators.pattern(/\S+\@\S+\.\S+/)
@@ -27,8 +26,28 @@ constructor(){
   });
 }
 
-submitUser(){
+  ngOnInit() {
+    // Condicionalidad de validadores según register
+    if (this.register) {
+      this.userForm.get('username')?.setValidators([Validators.required]);
+    } else {
+      this.userForm.get('username')?.clearValidators();
+    }
+    this.userForm.get('username')?.updateValueAndValidity(); //Actualiza las propiedades internas: valid, invalid, errors, status
+  }
 
-}
+  submitUser() {
+    if (this.userForm.valid) {
+      console.log('submitted!')
+      this.submitted.emit(this.userForm.value);
+    } else {
+      this.userForm.markAllAsTouched();
+    }
+  }
+
+   checkControl(controlName:string, errorName:string) : boolean  | undefined {
+    return this.userForm.get(controlName)?.hasError(errorName) 
+            && this.userForm.get(controlName)?.touched
+  }
 
 }

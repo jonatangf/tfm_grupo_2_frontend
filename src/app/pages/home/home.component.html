@@ -30,17 +30,17 @@
           }
 
           @case ('login') {
-            <app-login [register]="false"></app-login>
+            <app-login [register]="false" (submitted)="onLogin($event)"></app-login>
             <div class="actions">
-              <button class="btn btn-primary">{{ buttonLogin }}</button>
+              <button class="btn btn-primary" (click)="loginChild.submitUser()">{{ buttonLogin }}</button>
               <button class="btn btn-secondary" (click)="goBack()">{{ buttonBack }}</button>
             </div>
           }
 
           @case ('register') {
-            <app-login [register]="true"></app-login>
+            <app-login [register]="true" (submitted)="onLogin($event)"></app-login>
             <div class="actions">
-              <button class="btn btn-secondary">{{ buttonRegister }}</button>
+              <button class="btn btn-secondary" (click)="loginChild.submitUser()">{{ buttonRegister }}</button>
               <button class="btn btn-secondary" (click)="goBack()">{{ buttonBack }}</button>
             </div>
           }

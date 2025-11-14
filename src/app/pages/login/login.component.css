@@ -50,3 +50,9 @@ button {
 button:hover {
   background: #1e40af; /* azul más intenso */
 }
+
+.error{
+  color: red;
+  font-size: 0.8rem;
+  font-weight: 200;
+}

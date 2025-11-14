@@ -11,18 +11,26 @@ import { ILoginRequest } from '../interfaces/ilogin-request';
 })
 export class UsersService {
   private httpClient = inject(HttpClient);
-  private baseUrl: string = '';
+  private baseUrl: string = 'http://localhost:3000/api';
+  private authResponse!: ILoginResponse;
+  private authError!: IError;
 
   /*------------------------------ POST ------------------------------*/
 
   //Post de credenciales para el login
   login(credentials: ILoginRequest): Promise<ILoginResponse | IError> {
-    return lastValueFrom(this.httpClient.post<ILoginResponse>(`${this.baseUrl}/login`, credentials));
+    return lastValueFrom(this.httpClient.post<ILoginResponse>(`${this.baseUrl}/auth/login`, credentials));
   }
 
   //Post de registro de un nuevo usuario
-  registerUser(user:IUser): Promise<ILoginResponse | IError> {
-    return lastValueFrom(this.httpClient.post<ILoginResponse>(`${this.baseUrl}/register`, user));
+  async registerUser(credentials:ILoginRequest): Promise<ILoginResponse | IError> {
+    console.log(credentials);
+    this.authResponse = await lastValueFrom(this.httpClient.post<ILoginResponse>(`${this.baseUrl}/auth/register`, credentials));
+    console.log(this.authResponse);
+    if(this.authResponse.success==='OK'){
+      return lastValueFrom(this.httpClient.post<ILoginResponse>(`${this.baseUrl}/auth/login`, credentials));
+    }
+    return this.authError;
   }
 
   /*------------------------------ PUT ------------------------------*/
