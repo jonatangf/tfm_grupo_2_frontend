@@ -13,15 +13,14 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  //Juan-------- Guard = true --> Acceso ¿dashboard o profile como pagina inicial?
-  {path: 'profile', component: ProfileComponent, canActivate: [loginGuard],
-    children: [
-      { path: '', pathMatch: 'full', redirectTo: 'profile' },
-      { path: 'trips', component: TripListComponent },
-      { path: 'trips/:idTrip', component: TripDetailComponent },
-      { path: 'newTrip', component: TripFormComponent },
-      { path: 'updateTrip/:idTrip', component: TripDetailComponent },
-    ],
-  },
+
+  // Rutas protegidas
+  { path: 'profile', component: ProfileComponent, canActivate: [loginGuard] },
+  { path: 'trips', component: TripListComponent, canActivate: [loginGuard] },
+  { path: 'trips/:idTrip', component: TripDetailComponent, canActivate: [loginGuard] },
+  { path: 'newTrip', component: TripFormComponent, canActivate: [loginGuard] },
+  { path: 'updateTrip/:idTrip', component: TripDetailComponent, canActivate: [loginGuard] },
+
   { path: '**', redirectTo: 'home' },
 ];
+

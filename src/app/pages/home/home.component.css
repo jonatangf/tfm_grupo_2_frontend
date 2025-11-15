@@ -1,0 +1,108 @@
+   :root {
+      --page-margin: 84px;   /* margin to screen edges */
+      --column-gap: 24px;    /* space between columns */
+      --max-width: 1200px;   /* optional max width */
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple sans-serif, Segoe UI, Roboto, Arial, sans-serif;
+      background: #f7f7f8;
+      color: #111;
+    }
+
+    .container {
+      padding: var(--page-margin);
+      margin: 0 auto;
+      max-width: var(--max-width);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--column-gap);
+      min-height: 70vh; /* adjust as needed */
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden; /* keeps inner corners clean */
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    /* Left: full image column */
+    .image-col {
+      position: relative;
+      background: #ddd;
+    }
+
+    .image-col img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* makes image fill the column */
+      display: block;
+    }
+
+    /* Right: text with buttons at bottom */
+    .content-col {
+      display: flex;
+      flex-direction: column;
+      padding: 32px;
+    }
+
+    .content-col h1 {
+      margin: 0 0 12px;
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+
+    .content-col p {
+      margin: 0 0 16px;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    h2{
+      color: gray;
+      font-weight: 300;
+    }
+
+    /* Spacer pushes buttons to the bottom */
+    .spacer {
+      flex: 1;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      appearance: none;
+      border: none;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: black;
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background: #eef2ff;
+      color: #1e2b4d;
+    }
+
+    /* Responsive: stack on small screens */
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+      .image-col {
+        height: 40vh; /* keep a nice image area on mobile */
+      }
+    }
