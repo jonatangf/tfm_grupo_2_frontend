@@ -3,7 +3,7 @@ import { RouterOutlet } from "@angular/router";
 
 @Component({
   selector: 'app-profile',
-  imports: [RouterOutlet],
+  standalone: true,
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
 })

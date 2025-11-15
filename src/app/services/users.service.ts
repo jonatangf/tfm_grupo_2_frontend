@@ -24,15 +24,11 @@ export class UsersService {
 
   //Post de registro de un nuevo usuario
   async registerUser(credentials:ILoginRequest): Promise<ILoginResponse | IError> {
-    console.log(credentials);
     this.authResponse = await lastValueFrom(this.httpClient.post<ILoginResponse>(`${this.baseUrl}/auth/register`, credentials));
-    console.log(this.authResponse);
     if(this.authResponse.success){
       const { email, password } = credentials;
       const loginData = { email, password };
       const resultado = await lastValueFrom(this.httpClient.post<ILoginResponse>(`${this.baseUrl}/auth/login`, loginData));
-      console.log('resultado')
-      console.log(resultado)
       return resultado;
     }
     return this.authError;

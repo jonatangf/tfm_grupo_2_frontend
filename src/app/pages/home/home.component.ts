@@ -40,13 +40,11 @@ export class HomeComponent {
   async onLogin(data: any) {
     this.loginReq = data;
     if (data.username) {
-      console.log('register');
       const response: any = await this.userService.registerUser(this.loginReq);
       try {
         //aqui me logado correctamente redirijo dashboard
         if (response.token) {
           //almacenar ese token en el localstorage para poder guardar el estado de logado en la aplicacion.
-          console.log(response.token);
           localStorage.setItem('token', response.token);
           this.router.navigate(['/profile']);
         }
@@ -54,7 +52,6 @@ export class HomeComponent {
         alert(response.error);
       }
     } else {
-      console.log('login');
       const response: any = await this.userService.login(this.loginReq);
       try {
         //aqui me logado correctamente redirijo dashboard
@@ -67,6 +64,5 @@ export class HomeComponent {
         alert(response.error);
       }
     }
-    console.log('fin');
   }
 }
