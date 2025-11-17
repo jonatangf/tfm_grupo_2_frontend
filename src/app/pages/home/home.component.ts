@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { LoginComponent } from '../login/login.component';
 import { LoginHeaderComponent } from '../login/header/login-header.component';
 import { UsersService } from '../../services/users.service';
@@ -11,7 +11,8 @@ import { Router } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent {
+export class HomeComponent{
+
   @ViewChild(LoginComponent) loginChild!: LoginComponent; //Permite invocar un método del hijo desde el padre
 
   private userService = inject(UsersService);
@@ -43,9 +44,7 @@ export class HomeComponent {
       const response: any = await this.userService.registerUser(this.loginReq);
       try {
         //aqui me logado correctamente redirijo dashboard
-        if (response.token) {
-          //almacenar ese token en el localstorage para poder guardar el estado de logado en la aplicacion.
-          localStorage.setItem('token', response.token);
+        if (response.id) {
           this.router.navigate(['/profile']);
         }
       } catch (msg: any) {
