@@ -1,0 +1,40 @@
+.mainHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  height: 64px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logoIcon {
+  width: 28px;
+  height: 28px;
+}
+
+.logoText {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.avatarButton {
+  display: flex;
+  align-items: center;
+}
+
+.avatarImg {
+  width: 32px;
+  height: 32px;
+}

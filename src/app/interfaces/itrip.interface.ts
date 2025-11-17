@@ -33,3 +33,10 @@ export interface ITripResponse{
     updatedAt: string;
     participantsId: number[];
 }
+
+export interface ITripFilters {
+    destinyPlace?: string;
+    startDate?: string;
+    endDate?: string;
+    maxCost?: number | null;
+}

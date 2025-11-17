@@ -1,0 +1,24 @@
+.tripsHeader{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tripsFilters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 24px 0;
+}
+
+/*Quitar las flechas del input del budget*/
+.budgetInput::-webkit-outer-spin-button,
+.budgetInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.budgetInput[type="number"] {
+  -moz-appearance: textfield;
+}

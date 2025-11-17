@@ -1,1 +1,87 @@
-<p>trip-list works!</p>
+<app-trips-header></app-trips-header>
+<div class="tripsPage">
+    <section class="tripsHeader">
+
+        <div class="selectTripsContainer">
+            <h2>Viajes</h2>
+        
+            <!-- SELECT DE MIS VIAJES / VIAJES DISPONIBLES -->
+            <select 
+                class="tripTypeSelect"
+                [(ngModel)]="mode"
+                (click)="changeMode(mode)">
+                <option value="available">Viajes disponibles</option>
+                <option value="mine">Mis viajes</option>
+            </select>
+        </div>
+        <!-- BOTON DE CREAR VIAJE -->
+        @if (mode === 'mine'){
+            <button 
+                type="button"
+                class="createTripButton"
+                (click)="createTripSidebar()">
+                CREAR VIAJE
+            </button>
+        }
+    </section>
+
+    <section class="tripsFilters">
+
+        <!-- Filtro destino -->
+        <input 
+            type="text"
+            class="filterInput"
+            placeholder="Destino"
+            [(ngModel)]="filters.destinyPlace">
+        
+        <!-- Filtro start date -->
+        <input 
+            type="date"
+            class="filterInput"
+            placeholder="Fecha Alta"
+            [(ngModel)]="filters.startDate">
+
+        <!-- Filtro end date -->
+        <input 
+            type="date"
+            class="filterInput"
+            placeholder="Fecha Baja"
+            [(ngModel)]="filters.endDate">
+
+        <div class="budgetContainer">
+            <label class="budgetLabel" for="budgetInput">Presupuesto</label>
+            <div class="budgetInputContainer">
+                <input 
+                    id="budgetInput"
+                    type="number"
+                    class="budgetInput"
+                    placeholder="Price"
+                    min="0"
+                    max="10000"
+                    [(ngModel)]="filters.maxCost"
+                    (ngModelChange)="onMaxCostChange($event)">
+                <span class="budgetCurrency">€</span>
+                <button type="button"
+                        class="clearBudgetButton"
+                        (click)="filters.maxCost = null">
+                    x
+                </button>
+            </div>
+        </div>
+
+        <button 
+            type="button"
+            class="clearFiltersButton"
+            (click)="clearFilters()">
+            LIMPIAR FILTROS
+        </button>
+
+        <button
+            type="button"
+            class="searchButton"
+            (click)="searchTrips()">
+            BUSCAR
+        </button>
+
+    </section>
+</div>
