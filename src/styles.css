@@ -1,1 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+.error-snackbar {
+  background-color: #d32f2f; /* rojo */
+  color: #fff;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
