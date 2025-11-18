@@ -1,0 +1,67 @@
+<div class="tripCard">
+    <div class="tripImageContainer">
+        <img 
+            class="tripImage" 
+            [src]="trip.destinyImage" 
+            [alt]="trip.destinyPlace">
+    </div>
+
+    <div class="tripMain">
+        <div class="tripHeader">
+            <div>
+                <h4 class="tripName">{{trip.name}}</h4>
+                <p class="tripDates">
+                    <!-- LOS MESES ESTAN EN INGLES -->
+                    {{ trip.startDate | date:'d' }} al {{ trip.endDate | date:'d \'de\' MMMM' }}
+                </p>
+            </div>
+
+            <div class="tripPrice">
+                {{trip.costPerPerson}}€
+            </div>
+        </div>
+
+        <div class="tripButtons">
+            @if (mode ==='available') {
+                <button
+                    type="button" 
+                    class="joinButton"
+                    (click)="joinPopUp()">
+                    UNIRSE
+                </button>
+                <button
+                    type="button" 
+                    class="detailsButton"
+                    (click)="viewDetails()">
+                    VER DETALLE
+                </button>
+            } @else {
+                <button
+                    type="button" 
+                    class="editButton"
+                    (click)="editTrip()">
+                    EDITAR
+                </button>
+                <button
+                    type="button" 
+                    class="deleteButton"
+                    (click)="deleteTrip()">
+                    ELIMINAR
+                </button>
+                <button
+                    type="button" 
+                    class="requestsButton"
+                    (click)="showRequests()">
+                    SOLICITUDES
+                </button>
+                <button
+                    type="button" 
+                    class="detailsButton"
+                    (click)="viewDetails()">
+                    VER DETALLE
+                </button>               
+            }
+        </div>
+    </div>
+
+</div>

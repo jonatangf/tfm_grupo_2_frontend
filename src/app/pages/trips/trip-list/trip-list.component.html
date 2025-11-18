@@ -3,16 +3,18 @@
     <section class="tripsHeader">
 
         <div class="selectTripsContainer">
-            <h2>Viajes</h2>
-        
-            <!-- SELECT DE MIS VIAJES / VIAJES DISPONIBLES -->
-            <select 
-                class="tripTypeSelect"
-                [(ngModel)]="mode"
-                (click)="changeMode(mode)">
-                <option value="available">Viajes disponibles</option>
-                <option value="mine">Mis viajes</option>
-            </select>
+            <div class="tripsTitleGroup">
+                <h2>Viajes</h2>
+                
+                <!-- SELECT DE MIS VIAJES / VIAJES DISPONIBLES -->
+                <select 
+                    class="tripTypeSelect"
+                    [(ngModel)]="mode"
+                    (change)="changeMode(mode)">
+                    <option value="available">Viajes disponibles</option>
+                    <option value="mine">Mis viajes</option>
+                </select>
+            </div>
         </div>
         <!-- BOTON DE CREAR VIAJE -->
         @if (mode === 'mine'){
@@ -75,13 +77,21 @@
             (click)="clearFilters()">
             LIMPIAR FILTROS
         </button>
-
         <button
             type="button"
             class="searchButton"
             (click)="searchTrips()">
             BUSCAR
         </button>
-
     </section>
+
+    <section class="tripsCards">
+        @for(trip of trips; track trip.id){
+            <app-trips-card 
+                [trip]="trip"
+                [mode]="mode" >
+            </app-trips-card>
+        }
+    </section>
+
 </div>

@@ -9,8 +9,7 @@
         <a [routerLink]="['/trips']" routerLinkActive="active">Foro</a> 
         
         <button class="avatarButton" type="button" (click)="toggleProfileSidebar()">
-            <!-- TODO: CAMBIAR FOTO DE CURRENT USER -->
-            <img class="avatarImg" src="" alt="Avatar de usuario">
+            <img class="avatarImg" [src]="sesionData?.photo" alt="Avatar de usuario">
         </button>
     </div>
 </nav>
