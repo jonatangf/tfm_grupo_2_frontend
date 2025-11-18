@@ -1,7 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ITripResponse } from '../../interfaces/itrip.interface';
-import { TripDetailComponent } from '../../pages/trips/trip-detail/trip-detail.component';
 
 type TripListMode = 'available' | 'mine';
 
@@ -14,9 +13,11 @@ type TripListMode = 'available' | 'mine';
 export class TripCardComponent {
     @Input() trip!: ITripResponse;
     @Input() mode: TripListMode = 'available';
+    @Output() joinClicked = new EventEmitter<void>()
 
     joinPopUp(){
         //TODO: hacer que aparezca el pop up del componente de join
+        this.joinClicked.emit();
     }
 
     viewDetails(){

@@ -1,17 +1,18 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TripsHeaderComponent } from '../../../components/trips-header/trips-header.component';
-import { ITripFilters, ITripResponse } from '../../../interfaces/itrip.interface';
+import { ITrip, ITripFilters, ITripResponse } from '../../../interfaces/itrip.interface';
 import { TripsService } from '../../../services/trips.service';
 import { UsersService } from '../../../services/users.service';
 import { ISession } from '../../../interfaces/users/isession';
 import { TripCardComponent } from '../../../components/trips-card/trips-card.component';
+import { JoinTripComponent } from '../../../components/join-trip/join-trip.component';
 
 type TripListMode = 'available' | 'mine';
 
 @Component({
   selector: 'app-trip-list',
-  imports: [TripsHeaderComponent, TripCardComponent, FormsModule],
+  imports: [TripsHeaderComponent, TripCardComponent, JoinTripComponent, FormsModule],
   templateUrl: './trip-list.component.html',
   styleUrl: './trip-list.component.css',
 })
@@ -143,13 +144,21 @@ export class TripListComponent {
   };
 
   mode: TripListMode = 'available';
-
   filters: ITripFilters = {
     destinyPlace: '',
     startDate: '',
     endDate: '',
     maxCost: null,
   };
+
+  //Funciones para gestionar el pop up del request join
+  selectedTrip: ITripResponse | null = null;
+  onOpenJoinPopUp(trip: ITripResponse){
+    this.selectedTrip = trip;
+  }
+  onCloseJoinPopUp(){
+    this.selectedTrip = null;
+  }
 
   ngOnInit() {
     this.getSessionData();

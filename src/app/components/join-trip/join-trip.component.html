@@ -1,1 +1,61 @@
-<p>join-trip works!</p>
+<div class="joinPopUp">
+    <div class="joinImageContainer">
+        <img 
+            class="joinImage" 
+            [src]="trip.destinyImage" 
+            [alt]="trip.destinyPlace">
+    </div>
+
+    <div class="joinInfo">
+        <div class="joinHeader">
+            <h3 class="joinTitle">{{trip.destinyPlace}}</h3>
+
+            <button
+                type="button"
+                class="closeButton"
+                (click)="closePopUp()">
+                ✕
+            </button>
+        </div>
+
+        <span class="joinDatesTag">
+            <!-- LOS MESES ESTAN EN INGLES -->
+            {{ trip.startDate | date:'d' }} al {{ trip.endDate | date:'d \'de\' MMMM' }}
+        </span>
+
+        <div class="joinPrice">{{trip.costPerPerson}}€</div>
+
+        <p class="joinCreator">Creado por {{tripCreator?.username}}</p>
+
+        <button 
+            type="button"
+            class="joinRequest"
+            (click)="requetsJoin()">
+            SOLICITAR UNIRSE
+        </button>
+
+        <!-- Acordion de bootstrap para la descripcion del viaje -->
+        <div class="accordion moreInfoAccordion" id="tripInfoAccordion">
+            <div class="accordionItem">
+                <h2 class="accordionHeader" id="headingInfo">
+                    <button
+                        class="accordionButton collapsed moreInfoHeader"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseInfo"
+                        aria-expanded="false"
+                        aria-controls="collapseInfo">
+                        <span>Más información sobre el viaje</span>
+                    </button>
+                </h2>
+                <div
+                    id="collapseInfo"
+                    class="accordionCollapse collapse"
+                    aria-labelledby="headingInfo"
+                    data-bs-parent="#tripInfoAccordion">
+                    <div class="accordionBody moreInfoBody">{{ trip.description}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

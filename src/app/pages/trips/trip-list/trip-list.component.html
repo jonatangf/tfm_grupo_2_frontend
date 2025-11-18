@@ -89,9 +89,17 @@
         @for(trip of trips; track trip.id){
             <app-trips-card 
                 [trip]="trip"
-                [mode]="mode" >
+                [mode]="mode"
+                (joinClicked)="onOpenJoinPopUp(trip)">
             </app-trips-card>
         }
     </section>
+
+    @if(selectedTrip){
+        <app-join-trip
+            [trip]="selectedTrip"
+            (close)="onCloseJoinPopUp()">
+        </app-join-trip>
+    }
 
 </div>
