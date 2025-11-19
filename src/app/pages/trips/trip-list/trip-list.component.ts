@@ -8,11 +8,12 @@ import { ISession } from '../../../interfaces/users/isession';
 import { TripCardComponent } from '../../../components/trips-card/trips-card.component';
 import { JoinTripComponent } from '../../../components/join-trip/join-trip.component';
 import { DeleteTripComponent } from "../../../components/delete-trip/delete-trip.component";
+import { DetailTripComponent } from '../../../components/detail-trip/detail-trip.component';
 import { TripListMode, PopUpType } from '../../../types/trip-types';
 
 @Component({
   selector: 'app-trip-list',
-  imports: [TripsHeaderComponent, TripCardComponent, JoinTripComponent, FormsModule, DeleteTripComponent],
+  imports: [TripsHeaderComponent, TripCardComponent, JoinTripComponent, FormsModule, DeleteTripComponent, DetailTripComponent],
   templateUrl: './trip-list.component.html',
   styleUrl: './trip-list.component.css',
 })

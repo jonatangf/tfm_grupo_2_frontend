@@ -50,6 +50,7 @@
             placeholder="Fecha Baja"
             [(ngModel)]="filters.endDate">
 
+        <!-- filtro para el budget -->
         <div class="budgetContainer">
             <label class="budgetLabel" for="budgetInput">Presupuesto</label>
             <div class="budgetInputContainer">
@@ -71,12 +72,15 @@
             </div>
         </div>
 
+        <!-- boton limpiar filtros -->
         <button 
             type="button"
             class="clearFiltersButton"
             (click)="clearFilters()">
             LIMPIAR FILTROS
         </button>
+
+        <!-- boton buscar viajes -->
         <button
             type="button"
             class="searchButton"
@@ -91,11 +95,13 @@
                 [trip]="trip"
                 [mode]="mode"
                 (joinClicked)="onOpenPopUp(trip, 'join')"
-                (deleteClicked)="onOpenPopUp(trip, 'delete')">
+                (deleteClicked)="onOpenPopUp(trip, 'delete')"
+                (detailClicked="onOpenPopUp(trip, 'detail')")>
             </app-trips-card>
         }
     </section>
 
+    <!-- PopUp Join -->
     @if(selectedTrip && popUpType === 'join'){
         <div class="joinTripContainer">
             <app-join-trip
@@ -105,12 +111,22 @@
         </div>
     }
 
+
     @if(selectedTrip && popUpType === 'delete'){
-        <div class="joinTripContainer">
+        <div class="deleteTripContainer">
             <app-delete-trip
                 [trip]="selectedTrip"
                 (close)="onClosePopUp()">
             </app-delete-trip>
+        </div>
+    }
+
+    @if(selectedTrip && popUpType === 'detail'){
+        <div class="detailTripContainer">
+            <app-detail-trip
+                [trip]="selectedTrip"
+                (close)="onClosePopUp()">
+            </app-detail-trip>
         </div>
     }
 

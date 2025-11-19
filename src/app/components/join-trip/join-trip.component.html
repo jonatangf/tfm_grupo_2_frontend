@@ -37,7 +37,9 @@
         <div class="accordion">
             <button class="accordionHeader" (click)="isOpen = !isOpen">
                 <span>Más información sobre el viaje</span>
-                <span class="arrow" [class.open]="isOpen">▾</span>
+                <span class="arrow" [class.open]="isOpen">
+                    <i class="bi bi-chevron-down"></i>
+                </span>
             </button>
 
             <div class="accordionContent" [class.open]="isOpen">

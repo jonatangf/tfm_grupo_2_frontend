@@ -1,2 +1,2 @@
 export type TripListMode = 'available' | 'mine';
-export type PopUpType = 'join' | 'delete' | 'details' | 'edit' | 'requests';
+export type PopUpType = 'join' | 'delete' | 'detail' | 'edit' | 'request';
