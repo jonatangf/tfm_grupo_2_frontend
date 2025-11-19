@@ -1,23 +1,51 @@
 <aside class="tripDetail">
-    <header class="tripDetailHeader">
+    <div class="tripDetailHeader">
         <span class="tripDetailTittle"> DETALLE DEL VIAJE </span>
+            <div class="tripDetailIcons">
+                <button 
+                    type="button"
+                    class="editTripButton"
+                    (click)="editTrip()">
+                        <i class="bi bi-pencil"></i>
+                </button>
 
-        <div class="TripDetailButtons">
+                <button
+                    type="button"
+                    class="closeButton"
+                    (click)="closePopUp()">
+                    ✕
+                </button>
+            </div>
 
-            <button 
-                type="button"
-                class="editTripButton"
-                (click)="editTrip()">
-                <i class="bi bi-pencil"></i>
-            </button>
+            <div class="tripMembersContainer">
+                <button 
+                    type="button"
+                    class="tripMembersButton"
+                    (click)="showTripMembers()">
+                    VER MIEMBROS ACEPTADOS
+                </button>
+            </div>
+    </div>
 
-            <button
-                type="button"
-                class="closeButton"
-                (click)="closePopUp()">
-                ✕
-            </button>
+    <main class="tripDetails">
 
+        <div class="detailContainer">
+            <h3 class="detailLabel">TITULO</h3>
+            <p class="tripTitulo">{{trip.name}}</p>
         </div>
-    </header>
+        <div class="detailContainer">
+            <h3 class="detailLabel">DESCRIPCIÓN</h3>
+            <p class="tripDescription">{{trip.description}}</p>
+        </div>
+
+        <div class="detailContainer">
+            <h3 class="detailLabel">FECHAS DEL VIAJE</h3>
+            <p class="tripDate">{{ trip.startDate | date:'d' }} al {{ trip.endDate | date:'d \'de\' MMMM' }}</p>
+        </div>
+        <div class="detailContainer">
+            <h3 class="detailLabel">COSTE POR PERSONA</h3>
+            <p class="tripCost">{{trip.costPerPerson}}€</p>
+        </div>
+    </main>
+
 </aside>

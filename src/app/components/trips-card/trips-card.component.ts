@@ -14,24 +14,26 @@ export class TripCardComponent {
 
     @Output() joinClicked = new EventEmitter<void>();
     @Output() deleteClicked = new EventEmitter<void>();
-
+    @Output() detailClicked =  new EventEmitter<void>();
+    @Output() requestClicked = new EventEmitter<void>();
+    @Output() editClicked = new EventEmitter<void>();
 
     joinPopUp(){
         this.joinClicked.emit();
     }
 
     viewDetails(){
-        //TODO: hacer que aparezca la pantalla de ver detalles
+        this.detailClicked.emit();
     }
 
     editTrip(){
-        //TODO: hacer que aparezca la pantalla de editar viaje
+        this.editClicked.emit();
     }
 
     deleteTrip(){
         this.deleteClicked.emit();
     }
     showRequests(){
-        //TODO: ir a la ruta de de requests
+        this.requestClicked.emit();
     }
 }
