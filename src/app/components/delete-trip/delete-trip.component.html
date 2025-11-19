@@ -1,0 +1,27 @@
+<div class="deletePopUp">
+    <button
+        type="button"
+        class="closeButton"
+        (click)="closePopUp()">
+                ✕
+    </button>
+
+    <h2 class="deleteTitle">Eliminar viaje</h2>
+    <p class="deleteMessage">¿Estas seguro que quieres eliminar el viaje de {{trip.name}}?</p>
+
+    <div class="deleteActions">
+        <button 
+            type="button"
+            class="rejectButton"
+            (click)="rejectDelete()">
+            RECHAZAR
+        </button>
+        <button 
+            type="button"
+            class="acceptButton"
+            (click)="acceptDelete()">
+            ACEPTAR
+        </button>
+    </div>
+
+</div>

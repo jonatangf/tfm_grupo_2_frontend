@@ -11,10 +11,10 @@
 
 /* Imagen grande de la izquierda */
 .joinImageContainer {
-  width: 320px;
-  height: 220px;
+  width: 360px;
+  height: 240px;
   background-color: #f5f5f5;
-  border-radius: 4px;
+  border-radius: 6px;
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -52,16 +52,18 @@
   font-size: 16px;
 }
 
-/* Chip verde de fechas */
 .joinDatesTag {
-  display: inline-block;
+  display: inline-block;      
   margin-top: 8px;
-  padding: 2px 8px;
-  border-radius: 999px;
+  padding: 2px 10px;          
+  border-radius: 999px;       
   background-color: #d3f6dd;
   color: #1a7f3c;
   font-size: 11px;
+  line-height: 1.2;
+  width: fit-content;                
 }
+
 
 /* Precio grande */
 .joinPrice {
@@ -90,53 +92,54 @@
   cursor: pointer;
 }
 
-/* Acordeón de más información */
-
-/* Contenedor con borde y esquinas redondeadas */
-.moreInfoAccordion {
-  margin-top: 12px;
-  border-radius: 4px;
-  border: 1px solid #e0e0e0;
+.accordion {
+  width: fit-content;
+  min-width: 280px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
   overflow: hidden;
+  background-color: white;
+  margin-top: 16px;
 }
 
-/* Item del acordeón */
-.accordionItem {
-  border: none;
-}
-
-/* Cabecera del acordeón */
+/* Header del acordeón */
 .accordionHeader {
-  margin: 0;
-}
-
-.accordionButton {
-  width: 100%;
-  padding: 8px 12px;
-  border: none;
-  background-color: #ffffff;
+  width: 100%; 
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  font-size: 12px;
+  align-items: center;
+  padding: 12px 16px;
+  background: white;
+  border: none;
+  font-size: 14px;
   cursor: pointer;
 }
 
-/* Estado abierto: sin fondo azul ni sombra */
-.accordionButton:not(.collapsed) {
-  background-color: #ffffff;
-  color: #000000;
-  box-shadow: none;
+/* Icono flecha */
+.arrow {
+  transition: transform 0.2s ease;
+  font-size: 16px;
 }
 
-/* Cuerpo (zona que se despliega) */
-.accordionCollapse {
-  border-top: 1px solid #e0e0e0;
+.arrow.open {
+  transform: rotate(180deg);
 }
 
-.accordionBody {
-  padding: 8px 12px 12px;
-  font-size: 11px;
-  color: #555555;
-  background-color: #ffffff;
+/* Contenido del acordeón */
+.accordionContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease;
+  padding: 0 16px;
+}
+
+.accordionContent.open {
+  max-height: 300px;
+  padding: 12px 16px;
+}
+
+.accordionContent p {
+  margin: 0;
+  color: #444;
 }

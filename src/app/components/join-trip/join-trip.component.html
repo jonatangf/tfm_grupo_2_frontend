@@ -19,7 +19,7 @@
         </div>
 
         <span class="joinDatesTag">
-            <!-- LOS MESES ESTAN EN INGLES -->
+            <!-- TODO: LOS MESES ESTAN EN INGLES -->
             {{ trip.startDate | date:'d' }} al {{ trip.endDate | date:'d \'de\' MMMM' }}
         </span>
 
@@ -34,28 +34,16 @@
             SOLICITAR UNIRSE
         </button>
 
-        <!-- Acordion de bootstrap para la descripcion del viaje -->
-        <div class="accordion moreInfoAccordion" id="tripInfoAccordion">
-            <div class="accordionItem">
-                <h2 class="accordionHeader" id="headingInfo">
-                    <button
-                        class="accordionButton collapsed moreInfoHeader"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#collapseInfo"
-                        aria-expanded="false"
-                        aria-controls="collapseInfo">
-                        <span>Más información sobre el viaje</span>
-                    </button>
-                </h2>
-                <div
-                    id="collapseInfo"
-                    class="accordionCollapse collapse"
-                    aria-labelledby="headingInfo"
-                    data-bs-parent="#tripInfoAccordion">
-                    <div class="accordionBody moreInfoBody">{{ trip.description}}</div>
-                </div>
+        <div class="accordion">
+            <button class="accordionHeader" (click)="isOpen = !isOpen">
+                <span>Más información sobre el viaje</span>
+                <span class="arrow" [class.open]="isOpen">▾</span>
+            </button>
+
+            <div class="accordionContent" [class.open]="isOpen">
+                <p>{{trip.description}}</p>
             </div>
         </div>
+
     </div>
 </div>

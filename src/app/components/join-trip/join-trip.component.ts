@@ -20,6 +20,8 @@ export class JoinTripComponent {
     @Input() trip!: ITripResponse;
     @Output() close = new EventEmitter<void>();
 
+    isOpen: boolean = false;
+
     async ngOnInit(){
         if(!this.trip.creatorId) return;
             
@@ -34,7 +36,7 @@ export class JoinTripComponent {
         this.close.emit();
     }
 
-    //TODO: HAY QUE CHECKEAR SI LA REQUES YA SE HA HECHO PREVIAMENTE
+    //TODO: HAY QUE CHECKEAR SI LA REQUEST YA SE HA HECHO PREVIAMENTE
     async requetsJoin(){
         if(!this.trip.creatorId) return;
             

@@ -7,12 +7,12 @@ import { UsersService } from '../../../services/users.service';
 import { ISession } from '../../../interfaces/users/isession';
 import { TripCardComponent } from '../../../components/trips-card/trips-card.component';
 import { JoinTripComponent } from '../../../components/join-trip/join-trip.component';
-
-type TripListMode = 'available' | 'mine';
+import { DeleteTripComponent } from "../../../components/delete-trip/delete-trip.component";
+import { TripListMode, PopUpType } from '../../../types/trip-types';
 
 @Component({
   selector: 'app-trip-list',
-  imports: [TripsHeaderComponent, TripCardComponent, JoinTripComponent, FormsModule],
+  imports: [TripsHeaderComponent, TripCardComponent, JoinTripComponent, FormsModule, DeleteTripComponent],
   templateUrl: './trip-list.component.html',
   styleUrl: './trip-list.component.css',
 })
@@ -151,13 +151,20 @@ export class TripListComponent {
     maxCost: null,
   };
 
-  //Funciones para gestionar el pop up del request join
+  //Funciones para gestionar los pop ups
   selectedTrip: ITripResponse | null = null;
-  onOpenJoinPopUp(trip: ITripResponse){
+  popUpType: PopUpType | null = null;
+
+  onOpenPopUp(trip: ITripResponse, type: PopUpType){
     this.selectedTrip = trip;
+    this.popUpType = type;
   }
-  onCloseJoinPopUp(){
+  onClosePopUp(){
+    if(this.popUpType === 'delete')
+        this.searchTrips();
+
     this.selectedTrip = null;
+    this.popUpType = null;
   }
 
   ngOnInit() {

@@ -1,9 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ITripResponse } from '../../interfaces/itrip.interface';
-
-type TripListMode = 'available' | 'mine';
-
+import { TripListMode, PopUpType } from '../../types/trip-types';
 @Component({
   selector: 'app-trips-card',
   imports: [DatePipe],
@@ -13,10 +11,12 @@ type TripListMode = 'available' | 'mine';
 export class TripCardComponent {
     @Input() trip!: ITripResponse;
     @Input() mode: TripListMode = 'available';
-    @Output() joinClicked = new EventEmitter<void>()
+
+    @Output() joinClicked = new EventEmitter<void>();
+    @Output() deleteClicked = new EventEmitter<void>();
+
 
     joinPopUp(){
-        //TODO: hacer que aparezca el pop up del componente de join
         this.joinClicked.emit();
     }
 
@@ -29,9 +29,9 @@ export class TripCardComponent {
     }
 
     deleteTrip(){
-        //TODO: hacer que aparezca el pop up del elimar trip msg
+        this.deleteClicked.emit();
     }
     showRequests(){
-        //TODO: ir a la ruta de de rquessts
+        //TODO: ir a la ruta de de requests
     }
 }

@@ -90,16 +90,28 @@
             <app-trips-card 
                 [trip]="trip"
                 [mode]="mode"
-                (joinClicked)="onOpenJoinPopUp(trip)">
+                (joinClicked)="onOpenPopUp(trip, 'join')"
+                (deleteClicked)="onOpenPopUp(trip, 'delete')">
             </app-trips-card>
         }
     </section>
 
-    @if(selectedTrip){
-        <app-join-trip
-            [trip]="selectedTrip"
-            (close)="onCloseJoinPopUp()">
-        </app-join-trip>
+    @if(selectedTrip && popUpType === 'join'){
+        <div class="joinTripContainer">
+            <app-join-trip
+                [trip]="selectedTrip"
+                (close)="onClosePopUp()">
+            </app-join-trip>
+        </div>
+    }
+
+    @if(selectedTrip && popUpType === 'delete'){
+        <div class="joinTripContainer">
+            <app-delete-trip
+                [trip]="selectedTrip"
+                (close)="onClosePopUp()">
+            </app-delete-trip>
+        </div>
     }
 
 </div>
