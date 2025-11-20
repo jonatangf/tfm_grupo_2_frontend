@@ -140,7 +140,7 @@
 }
 
 
-.joinTripContainer, .deleteTripContainer, .detailTripContainer {
+.joinTripContainer, .deleteTripContainer, .detailTripContainer, .formTripContainer {
   position: fixed;
   top: 0;
   left: 0;

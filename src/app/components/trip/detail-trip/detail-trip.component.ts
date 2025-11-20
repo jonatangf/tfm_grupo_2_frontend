@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { ITripResponse } from '../../interfaces/itrip.interface';
+import { ITripResponse } from '../../../interfaces/itrip.interface';
 import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-detail-trip',
@@ -9,6 +9,8 @@ import { DatePipe } from '@angular/common';
 })
 export class DetailTripComponent {
     @Input() trip!: ITripResponse;
+    
+    @Output() editFormClicked = new EventEmitter<void>();
     @Output() close = new EventEmitter<void>();
 
     closePopUp(){
@@ -16,7 +18,7 @@ export class DetailTripComponent {
     }
 
     editTrip(){
-        //TODO: DESPLEGAR PAGINA DE EDIT TRIPS
+        this.editFormClicked.emit();
     }
 
     showTripMembers(){

@@ -1,9 +1,9 @@
 import { Component, inject, Input, Output, EventEmitter } from '@angular/core';
-import { ITripResponse } from '../../interfaces/itrip.interface';
+import { ITripResponse } from '../../../interfaces/itrip.interface';
 import { DatePipe } from '@angular/common';
-import { IUser } from '../../interfaces/users/iuser';
-import { UsersService } from '../../services/users.service';
-import { ParticipationsService } from '../../services/participations.service';
+import { IUser } from '../../../interfaces/users/iuser';
+import { UsersService } from '../../../services/users.service';
+import { ParticipationsService } from '../../../services/participations.service';
 
 @Component({
   selector: 'app-join-trip',

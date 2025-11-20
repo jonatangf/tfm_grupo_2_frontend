@@ -1,19 +1,19 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TripsHeaderComponent } from '../../../components/trips-header/trips-header.component';
+import { TripsHeaderComponent } from '../../../components/trip/trips-header/trips-header.component';
 import { ITrip, ITripFilters, ITripResponse } from '../../../interfaces/itrip.interface';
 import { TripsService } from '../../../services/trips.service';
 import { UsersService } from '../../../services/users.service';
 import { ISession } from '../../../interfaces/users/isession';
-import { TripCardComponent } from '../../../components/trips-card/trips-card.component';
-import { JoinTripComponent } from '../../../components/join-trip/join-trip.component';
-import { DeleteTripComponent } from "../../../components/delete-trip/delete-trip.component";
-import { DetailTripComponent } from '../../../components/detail-trip/detail-trip.component';
-import { TripListMode, PopUpType } from '../../../types/trip-types';
-
+import { TripCardComponent } from '../../../components/trip/trips-card/trips-card.component';
+import { JoinTripComponent } from '../../../components/trip/join-trip/join-trip.component';
+import { DeleteTripComponent } from "../../../components/trip/delete-trip/delete-trip.component";
+import { DetailTripComponent } from '../../../components/trip/detail-trip/detail-trip.component';
+import { TripListMode, PopUpType, TripFormMode } from '../../../types/trip-types';
+import { TripFormComponent } from '../../../components/trip/trip-form/trip-form.component';
 @Component({
   selector: 'app-trip-list',
-  imports: [TripsHeaderComponent, TripCardComponent, JoinTripComponent, FormsModule, DeleteTripComponent, DetailTripComponent],
+  imports: [TripsHeaderComponent, TripCardComponent, JoinTripComponent, FormsModule, DeleteTripComponent, DetailTripComponent, TripFormComponent],
   templateUrl: './trip-list.component.html',
   styleUrl: './trip-list.component.css',
 })
@@ -144,7 +144,6 @@ export class TripListComponent {
     photo: '',
   };
 
-  mode: TripListMode = 'available';
   filters: ITripFilters = {
     destinyPlace: '',
     startDate: '',
@@ -152,20 +151,25 @@ export class TripListComponent {
     maxCost: null,
   };
 
-  //Funciones para gestionar los pop ups
+  mode: TripListMode = 'available';
+  tripFormMode: TripFormMode | null = null;
   selectedTrip: ITripResponse | null = null;
   popUpType: PopUpType | null = null;
-
-  onOpenPopUp(trip: ITripResponse, type: PopUpType){
+  
+  //Funciones para gestionar los pop ups
+  onOpenPopUp(trip: ITripResponse, type: PopUpType, formMode: TripFormMode | null){
+    if(formMode) this.tripFormMode = formMode;
+    
     this.selectedTrip = trip;
     this.popUpType = type;
   }
   onClosePopUp(){
-    if(this.popUpType === 'delete')
+    if(this.popUpType === 'delete' || this.popUpType === 'form')
         this.searchTrips();
 
     this.selectedTrip = null;
     this.popUpType = null;
+    this.tripFormMode = null;
   }
 
   ngOnInit() {
@@ -185,7 +189,8 @@ export class TripListComponent {
   }
 
   createTripSidebar() {
-    // TODO:QUE APREZCA A CREAR VIAJE SIDEBAR
+    this.popUpType ='form';
+    this.tripFormMode = 'create';
   }
 
   onMaxCostChange(value: number) {

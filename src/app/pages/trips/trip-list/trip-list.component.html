@@ -94,9 +94,10 @@
             <app-trips-card 
                 [trip]="trip"
                 [mode]="mode"
-                (joinClicked)="onOpenPopUp(trip, 'join')"
-                (deleteClicked)="onOpenPopUp(trip, 'delete')"
-                (detailClicked)="onOpenPopUp(trip, 'detail')">
+                (joinClicked)="onOpenPopUp(trip, 'join', null)"
+                (deleteClicked)="onOpenPopUp(trip, 'delete', null)"
+                (detailClicked)="onOpenPopUp(trip, 'detail', null)"
+                (editClicked)="onOpenPopUp(trip, 'form', 'edit')">
             </app-trips-card>
         }
     </section>
@@ -111,7 +112,6 @@
         </div>
     }
 
-
     @if(selectedTrip && popUpType === 'delete'){
         <div class="deleteTripContainer">
             <app-delete-trip
@@ -125,8 +125,29 @@
         <div class="detailTripContainer">
             <app-detail-trip
                 [trip]="selectedTrip"
+                (editFormClicked)="onOpenPopUp(selectedTrip, 'form', 'edit')"
                 (close)="onClosePopUp()">
             </app-detail-trip>
+        </div>
+    }
+
+    @if(selectedTrip && popUpType === 'form' && tripFormMode === 'edit'){
+        <div class="formTripContainer">
+            <app-trip-form
+                [trip]="selectedTrip" 
+                [formMode]="'edit'"
+                (close)="onClosePopUp()">
+            </app-trip-form>
+        </div>
+    }
+
+    @if(popUpType==='form'&& tripFormMode === 'create'){
+        <div class="formTripContainer">
+            <app-trip-form
+                [trip]="null"
+                [formMode]="'create'"
+                (close)="onClosePopUp()">
+            </app-trip-form>
         </div>
     }
 

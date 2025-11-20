@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { ITripResponse } from '../../interfaces/itrip.interface';
-import { TripListMode, PopUpType } from '../../types/trip-types';
+import { ITripResponse } from '../../../interfaces/itrip.interface';
+import { TripListMode, TripFormMode } from '../../../types/trip-types';
 @Component({
   selector: 'app-trips-card',
   imports: [DatePipe],
@@ -17,7 +17,7 @@ export class TripCardComponent {
     @Output() detailClicked =  new EventEmitter<void>();
     @Output() requestClicked = new EventEmitter<void>();
     @Output() editClicked = new EventEmitter<void>();
-
+    
     joinPopUp(){
         this.joinClicked.emit();
     }

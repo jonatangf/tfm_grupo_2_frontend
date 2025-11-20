@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { UsersService } from '../../services/users.service';
-import { ISession } from '../../interfaces/users/isession';
+import { UsersService } from '../../../services/users.service';
+import { ISession } from '../../../interfaces/users/isession';
 
 @Component({
   selector: 'app-trips-header',

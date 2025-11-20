@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { ITripResponse } from '../../interfaces/itrip.interface';
-import { TripsService } from '../../services/trips.service';
+import { ITripResponse } from '../../../interfaces/itrip.interface';
+import { TripsService } from '../../../services/trips.service';
 
 @Component({
   selector: 'app-delete-trip',
