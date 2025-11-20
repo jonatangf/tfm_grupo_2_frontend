@@ -6,26 +6,14 @@
             <label for="username">Nombre</label>
             <input type="text" name="username" id="username" placeholder="Introduce el valor" formControlName="username">
       </div>
-            @if(checkControl('name','required')){
-                  <p class="error">'nombre de usuario obligatorio'</p>
-            }
       }
       <div class="formField">
             <label for="email">Email</label>
             <input type="email" name="email" id="email" placeholder="Introduce el valor" formControlName="email">
       </div>
-            @if(checkControl('email','required')){
-                  <p class="error">email obligatorio</p>
-            }
-           @if(checkControl('email','pattern')){
-                  <p class="error">El email tiene que ser valido</p>
-            }
 
       <div class="formField">
             <label for="password">Contraseña</label>
             <input type="password" name="password" id="password" placeholder="Introduce el valor" formControlName="password">
       </div>
-            @if(checkControl('password','required')){
-                  <p class="error">contraseña obligatoria</p>
-            }
 </form>
