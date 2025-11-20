@@ -41,19 +41,18 @@ export class HomeComponent {
 
   async onLogin(data: any) {
     this.loginReq = data;
-    if (data.username) {
+    console.log(this.state)
+    if (this.state === 'register'){
       const response: any = await this.userService.registerUser(this.loginReq);
       //aqui me logado correctamente redirijo dashboard
       if (response.userId) {
         this.showWelcomeToast(response.username || 'Usuario');
         this.router.navigate(['/profile']);
       }
-    } else {
+    } else if (this.state === 'login'){
       const response: any = await this.userService.login(this.loginReq);
       //aqui me logado correctamente redirijo dashboard
-      if (response.token) {
-        //almacenar ese token en el localstorage para poder guardar el estado de logado en la aplicacion.
-        localStorage.setItem('token', response.token);
+      if (response.userId) {
         this.router.navigate(['/profile']);
       }
     }
