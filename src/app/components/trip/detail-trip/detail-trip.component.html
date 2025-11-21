@@ -1,0 +1,55 @@
+<aside class="tripDetail">
+    <div class="tripDetailHeader">
+        <span class="tripDetailTittle"> DETALLE DEL VIAJE </span>
+            <div class="tripDetailIcons">
+                <button 
+                    type="button"
+                    class="editTripButton"
+                    (click)="editTrip()">
+                        <i class="bi bi-pencil"></i>
+                </button>
+
+                <button
+                    type="button"
+                    class="closeButton"
+                    (click)="closePopUp()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+
+            <div class="tripMembersContainer">
+                <button 
+                    type="button"
+                    class="tripMembersButton"
+                    (click)="showTripMembers()">
+                    VER MIEMBROS ACEPTADOS
+                </button>
+            </div>
+    </div>
+
+    <main class="tripDetails">
+
+        <div class="detailContainer">
+            <h3 class="detailLabel">TITULO</h3>
+            <p class="tripTitulo">{{trip.name}}</p>
+        </div>
+        <div class="detailContainer">
+            <h3 class="detailLabel">DESCRIPCIÓN</h3>
+            <p class="tripDescription">{{trip.description}}</p>
+        </div>
+
+        <div class="detailContainer">
+            <h3 class="detailLabel">FECHAS DEL VIAJE</h3>
+            <p class="tripDate">{{ trip.startDate | date:'d' }} al {{ trip.endDate | date:'d \'de\' MMMM' }}</p>
+        </div>
+        <div class="detailContainer">
+            <h3 class="detailLabel">COSTE POR PERSONA</h3>
+            <p class="tripCost">{{trip.costPerPerson}}€</p>
+        </div>
+        <div class="detailContainer">
+            <h3 class="detailLabel">ITINERARIO</h3>
+            <p class="itinerary">{{trip.itinerary}}</p>
+        </div>
+    </main>
+
+</aside>

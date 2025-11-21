@@ -1,0 +1,51 @@
+<div class="joinPopUp">
+    <div class="joinImageContainer">
+        <img 
+            class="joinImage" 
+            [src]="trip.destinyImage" 
+            [alt]="trip.destinyPlace">
+    </div>
+
+    <div class="joinInfo">
+        <div class="joinHeader">
+            <h3 class="joinTitle">{{trip.destinyPlace}}</h3>
+
+            <button
+                type="button"
+                class="closeButton"
+                (click)="closePopUp()">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+
+        <span class="joinDatesTag">
+            <!-- TODO: LOS MESES ESTAN EN INGLES -->
+            {{ trip.startDate | date:'d' }} al {{ trip.endDate | date:'d \'de\' MMMM' }}
+        </span>
+
+        <div class="joinPrice">{{trip.costPerPerson}}€</div>
+
+        <p class="joinCreator">Creado por {{tripCreator?.username}}</p>
+
+        <button 
+            type="button"
+            class="joinRequest"
+            (click)="requetsJoin()">
+            SOLICITAR UNIRSE
+        </button>
+
+        <div class="accordion">
+            <button class="accordionHeader" (click)="isOpen = !isOpen">
+                <span>Más información sobre el viaje</span>
+                <span class="arrow" [class.open]="isOpen">
+                    <i class="bi bi-chevron-down"></i>
+                </span>
+            </button>
+
+            <div class="accordionContent" [class.open]="isOpen">
+                <p>{{trip.description}}</p>
+            </div>
+        </div>
+
+    </div>
+</div>

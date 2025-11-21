@@ -1,0 +1,20 @@
+<nav class="mainHeader">
+    <div class="logo">
+        <img class="logoIcon" src="assets/icons/maletin.png" alt="Logo TravelTogether" />
+        <span class="logoText">TravelTogether</span>
+    </div>
+    <div class="navigation">
+        <a [routerLink]="['/trips']" routerLinkActive="active">Viajes</a>
+        <!-- TODO: CAMBIAR RUTA CUANDO ESTE HECHA LA PAGE DEL FORO -->
+        <a [routerLink]="['/trips']" routerLinkActive="active">Foro</a> 
+        
+        <button class="avatarButton" type="button" (click)="toggleProfileSidebar()">
+            <img class="avatarImg" [src]="sesionData?.photo" alt="Avatar de usuario">
+        </button>
+    </div>
+</nav>
+
+<!-- TODO: TENER EN CUENTA COMO SE CIERRA DESDE EL COMPONENTE DEL PERFIL -->
+<div class="profileSideBar" [class.open]="isProfileSidebarOpen" >
+    <!-- TODO: AQUI AÑADIR COMPONENTE DE SIDEBAR DE PERFIL -->
+</div>

@@ -1,6 +1,7 @@
 export interface ITrip {
     name: string;
     description: string;
+    destinyCountryId: number;
     destinyPlace: string;
     destinyImage: string;
     itinerary: string;
@@ -18,6 +19,7 @@ export interface ITripResponse{
     id: number;
     name: string;
     description: string;
+    destinyCountryId: number;
     destinyPlace: string;
     destinyImage: string;
     itinerary: string;
@@ -31,5 +33,11 @@ export interface ITripResponse{
     status: 'open' | 'closed' | 'completed' | 'cancelled';
     createdAt: string;
     updatedAt: string;
-    participantsId: number[];
+}
+
+export interface ITripFilters {
+    destinyPlace?: string;
+    startDate?: string;
+    endDate?: string;
+    maxCost?: number | null;
 }

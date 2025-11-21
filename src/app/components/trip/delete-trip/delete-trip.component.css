@@ -1,0 +1,63 @@
+.deletePopUp {
+  position: relative;
+  padding: 32px 40px;
+  background: #ffffff;
+  border-radius: 4px;
+  text-align: center;
+  min-width: 480px;
+}
+
+/* Botón cierre (✕) */
+.closeButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* Título */
+.deleteTitle {
+  margin: 8px 0 16px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Mensaje */
+.deleteMessage {
+  margin: 0 0 32px;
+  font-size: 14px;
+  color: #555555;
+}
+
+/* Contenedor de acciones */
+.deleteActions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+/* Botones base */
+.rejectButton,
+.acceptButton {
+  padding: 10px 24px;
+  font-size: 13px;
+  text-transform: uppercase;
+  border-radius: 2px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Botón rechazar */
+.rejectButton {
+  background: transparent;
+  color: #333333;
+}
+
+/* Botón aceptar */
+.acceptButton {
+  background: #222222;
+  color: #ffffff;
+}
