@@ -33,6 +33,8 @@ export class TripCardComponent {
     deleteTrip(){
         this.deleteClicked.emit();
     }
+
+    //TODO: MIRAR COMO HAN HECHO ESTO PARA JUNTARLO
     showRequests(){
         this.requestClicked.emit();
     }

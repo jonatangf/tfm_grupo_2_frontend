@@ -13,7 +13,7 @@
                     type="button"
                     class="closeButton"
                     (click)="closePopUp()">
-                    ✕
+                    <i class="bi bi-x-lg"></i>
                 </button>
             </div>
 
@@ -45,6 +45,10 @@
         <div class="detailContainer">
             <h3 class="detailLabel">COSTE POR PERSONA</h3>
             <p class="tripCost">{{trip.costPerPerson}}€</p>
+        </div>
+        <div class="detailContainer">
+            <h3 class="detailLabel">ITINERARIO</h3>
+            <p class="itinerary">{{trip.itinerary}}</p>
         </div>
     </main>
 

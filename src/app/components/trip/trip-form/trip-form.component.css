@@ -1,0 +1,126 @@
+.formTripContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  overflow-y: auto;
+}
+
+.tripForm {
+  background: #fff;
+  padding: 28px 22px;
+  width: 410px;
+  max-width: 96vw;
+  border-radius: 10px;
+  box-shadow: 0 2px 18px -2px rgba(40,40,40,0.12);
+  font-family: 'Inter', Arial, sans-serif;
+  max-height: 91vh; 
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.titleContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+
+.formTitle {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0;
+  color: #232323;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: #232323;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+form > div {
+  margin-bottom: 18px;
+}
+
+.formLabel {
+  font-size: 1rem;
+  color: #393939;
+  font-weight: 500;
+  margin-bottom: 7px;
+}
+
+.formControl {
+  width: 100%;
+  background: #fafafa;
+  border: 1.4px solid #e1e1e1;
+  border-radius: 5px;
+  font-size: 1rem;
+  padding: 12px;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s;
+  color: #232323;
+}
+
+.formControl:focus {
+  border-color: #232323;
+}
+
+.tripdescriptionContainer .formControl {
+  min-height: 48px;
+}
+
+.submitContainer {
+  margin-top: 17px;
+  margin-bottom: 0;
+}
+
+.submitContainer input[type="submit"] {
+  width: 100%;
+  background: #232323;
+  color: #fff;
+  font-size: 1.09rem;
+  border-radius: 6px;
+  border: none;
+  padding: 14px 0;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: background 0.19s, opacity 0.16s;
+  box-shadow: 0 1px 2px rgba(40,40,40,0.03);
+}
+
+.submitContainer input[type="submit"]:hover:enabled {
+  background: #444;
+  opacity: 0.96;
+}
+
+.submitContainer input[type="submit"]:disabled {
+  background-color: #eee;
+  color: #aaa;
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+.tripCountryContainer select,
+.tripTransportContainer select {
+  min-height: 40px;
+  appearance: none;
+}
+
+/* Errores en inputs */
+.text-danger {
+  color: #c62d2d;
+  font-size: 0.93rem;
+  margin-top: 4px;
+  margin-bottom: 0;
+}
