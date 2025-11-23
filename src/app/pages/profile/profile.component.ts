@@ -1,14 +1,9 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
   inject,
-  Input,
   Output,
-  ViewChild,
-  ViewEncapsulation,
 } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { ISession } from '../../interfaces/users/isession';
 import { FormsModule } from '@angular/forms';
 import { UsersService } from '../../services/users.service';
@@ -23,7 +18,6 @@ import { IUser } from '../../interfaces/users/iuser';
 })
 export class ProfileComponent {
   @Output() close = new EventEmitter<void>();
-  @ViewChild('avatarInput') avatarInput!: ElementRef<HTMLInputElement>;
 
   userService = inject(UsersService);
   sesionData!: ISession;
@@ -59,9 +53,9 @@ export class ProfileComponent {
     }
   }
 
-  onAvatarClick() {
-    // dispara el input file oculto
-    this.avatarInput.nativeElement.click();
+  //Cuando hacemos click activamos el elemento HTML oculto que es un input de tipo file
+  onAvatarClick(input: HTMLInputElement) {
+    input.click(); // dispara el diálogo de selección de archivo
   }
 
   async onAvatarSelected(event: Event) {

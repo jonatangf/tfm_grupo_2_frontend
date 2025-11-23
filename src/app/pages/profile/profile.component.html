@@ -11,13 +11,13 @@
   </div>
 <!-- Avatar -->
 <div class="avatarContainer">
-  <div class="avatarWrapper" (click)="onAvatarClick()">
-    <img 
-      class="avatarImg" 
-      [src]="user?.photo"   
-      alt="Avatar de usuario"> <!--DEFAULT FOTO ? user.photo : 'assets/icons/default-avatar.png'"-->
-  </div>
-  <!-- input oculto para seleccionar archivo -->
+  <div class="avatarWrapper" (click)="onAvatarClick(avatarInput)">
+  <img 
+    class="avatarImg" 
+    [src]="user.photo || 'assets/icons/default-avatar.png'"   
+    alt="Avatar de usuario"><!--DEFAULT FOTO ? user.photo : 'assets/icons/default-avatar.png'"-->
+</div>
+  <!-- input oculto para seleccionar archivo, escondemos lo típico de "Subir archivo" de este tipo de inputs -->
   <input 
     type="file" 
     accept="image/*" 
@@ -29,7 +29,7 @@
     <!-- Puntuación (siempre readonly) -->
     <div class="detailContainer">
       <label class="detailLabel">Puntuación</label>
-      <div class="ratingValue">{{ user?.avg_rating }}</div>
+      <div class="ratingValue">{{ user.avg_rating }}</div>
     </div>
 
     <!-- Correo -->
