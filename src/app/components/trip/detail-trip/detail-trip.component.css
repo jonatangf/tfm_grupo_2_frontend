@@ -83,6 +83,10 @@
   flex-direction: column;
   gap: 16px;
   font-size: 12px;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 4px;
 }
 
 .detailContainer {
@@ -106,3 +110,4 @@
   margin: 0;
   font-size: 12px;
 }
+

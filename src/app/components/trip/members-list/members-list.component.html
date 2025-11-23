@@ -1,0 +1,180 @@
+<div class="members-list-modal">
+  <div class="modal-overlay" (click)="closeModal()"></div>
+  <div class="modal-content">
+    <!-- Vista de Miembros -->
+    <div class="members-view" *ngIf="showMembersView">
+      <div class="modal-header">
+        <div class="header-title-group">
+          <h2 class="modal-title">Miembros aceptados</h2>
+          <p class="modal-subtitle" *ngIf="trip">
+            {{ trip.destinyPlace }} | {{ trip.startDate | date:'d' }} al {{ trip.endDate | date:'d \'de\' MMMM' }}
+          </p>
+          <p class="modal-subtitle" *ngIf="!trip && members.length > 0">
+            {{ members.length }} miembro{{ members.length > 1 ? 's' : '' }} en el viaje
+          </p>
+        </div>
+        <button class="close-btn" (click)="closeModal()" aria-label="Cerrar">
+          ×
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="loading" *ngIf="loadingMembers">
+          <p>Cargando miembros...</p>
+        </div>
+
+        <div class="members-grid" *ngIf="!loadingMembers && members.length > 0">
+          <div class="member-card" *ngFor="let member of members" (click)="selectMember(member)">
+            <div class="member-avatar">
+              <img
+                [src]="'https://via.placeholder.com/50'"
+                [alt]="getMemberFullName(member)"
+                onerror="this.src='https://via.placeholder.com/50'"
+              />
+            </div>
+            <div class="member-info">
+              <h3 class="member-name">{{ getMemberFullName(member) }}</h3>
+              <p class="member-detail" *ngIf="member.email">{{ member.email }}</p>
+            </div>
+            <button
+              class="view-icon"
+              (click)="selectMember(member); $event.stopPropagation()"
+              aria-label="Ver reseñas"
+            >
+              👁️
+            </button>
+          </div>
+        </div>
+
+        <div class="empty-state" *ngIf="!loadingMembers && members.length === 0">
+          <p>No hay miembros aceptados en este viaje aún.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vista de Reseñas -->
+    <div class="reviews-view" *ngIf="showReviewsView && selectedMember">
+      <div class="modal-header">
+        <div class="header-title-group">
+          <button class="back-btn" (click)="goBackToMembers()" aria-label="Volver">
+            ←
+          </button>
+          <h2 class="modal-title">Reseñas sobre {{ getMemberFullName(selectedMember) }}</h2>
+        </div>
+        <div class="header-actions">
+          <button class="btn-primary" (click)="openCreateReviewForm()" *ngIf="!showCreateReviewForm">
+            CREAR RESEÑA
+          </button>
+          <button class="close-btn" (click)="closeModal()" aria-label="Cerrar">
+            ×
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <div class="create-review-form" *ngIf="showCreateReviewForm">
+          <h3 class="form-title">Crear reseña sobre {{ getMemberFullName(selectedMember) }}</h3>
+
+          <form class="review-form" (ngSubmit)="createReview()">
+            <div class="stars-selector">
+              <label class="form-label">Puntuación</label>
+              <div class="stars-input">
+                <button
+                  type="button"
+                  class="star-btn"
+                  [class.active]="i <= reviewForm.score"
+                  *ngFor="let i of [1, 2, 3, 4, 5]"
+                  (click)="setScore(i)"
+                  (mouseenter)="hoverScore = i"
+                  (mouseleave)="hoverScore = 0"
+                >
+                  <span class="star-icon" [class.filled]="i <= (hoverScore || reviewForm.score)">★</span>
+                </button>
+              </div>
+              <p class="score-text" *ngIf="reviewForm.score > 0">{{ reviewForm.score }} de 5 estrellas</p>
+            </div>
+
+            <div class="form-group">
+              <label for="review-title" class="form-label">Titulo de la reseña</label>
+              <input
+                type="text"
+                id="review-title"
+                class="form-input"
+                [(ngModel)]="reviewForm.title"
+                name="title"
+                placeholder="Escribe un título para tu reseña"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="review-comment" class="form-label">Comentario</label>
+              <textarea
+                id="review-comment"
+                class="form-textarea"
+                [(ngModel)]="reviewForm.comment"
+                name="comment"
+                placeholder="Escribe tu comentario sobre este usuario"
+                rows="5"
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button
+                type="button"
+                class="btn-secondary"
+                (click)="showCreateReviewForm = false"
+              >
+                CANCELAR
+              </button>
+              <button
+                type="submit"
+                class="btn-submit"
+                [disabled]="creatingReview || reviewForm.score === 0"
+              >
+                {{ creatingReview ? 'Creando...' : 'CREAR' }}
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="reviews-list" *ngIf="!showCreateReviewForm">
+          <div class="loading" *ngIf="loadingReviews">
+            <p>Cargando reseñas...</p>
+          </div>
+
+          <div class="reviews-grid" *ngIf="!loadingReviews && memberReviews.length > 0">
+            <div class="review-card" *ngFor="let review of memberReviews">
+              <div class="review-stars">
+                <span class="star" [class.filled]="i <= review.score" *ngFor="let i of [1, 2, 3, 4, 5]">
+                  ★
+                </span>
+              </div>
+              <h3 class="review-title">{{ review.title }}</h3>
+              <p class="review-body">{{ review.comment }}</p>
+              <div class="review-footer">
+                <div class="reviewer-avatar">
+                  <img
+                    src="https://via.placeholder.com/30"
+                    [alt]="review.from"
+                    onerror="this.src='https://via.placeholder.com/30'"
+                  />
+                </div>
+                <div class="reviewer-info">
+                  <p class="reviewer-name">{{ review.from }}</p>
+                  <p class="review-date">{{ review.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="empty-state" *ngIf="!loadingReviews && memberReviews.length === 0">
+            <p>Este usuario aún no tiene reseñas.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

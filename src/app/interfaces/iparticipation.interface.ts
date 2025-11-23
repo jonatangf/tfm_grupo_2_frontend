@@ -1,12 +1,12 @@
-export interface ITripMember{
+export interface ITripMember {
     userId: number;
-    name: string; 
+    name: string;
     email: string;
 }
 
-export interface ITripJoinRequestResponse{
+export interface ITripJoinRequestResponse {
     requestId: number;
     userId: number;
     name: string;
-    status: 'pending' | 'accepted' |'rejected';
+    status: 'pending' | 'accepted' | 'rejected';
 }

@@ -1,9 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ITripResponse } from '../../../interfaces/itrip.interface';
 import { DatePipe } from '@angular/common';
+import { MembersListComponent } from '../../../components/trip/members-list/members-list.component';
+import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-detail-trip',
-  imports: [DatePipe],
+  imports: [DatePipe, MembersListComponent, CommonModule],
   templateUrl: './detail-trip.component.html',
   styleUrl: './detail-trip.component.css',
 })
@@ -13,6 +16,8 @@ export class DetailTripComponent {
     @Output() editFormClicked = new EventEmitter<void>();
     @Output() close = new EventEmitter<void>();
 
+    showMembersList = false;
+
     closePopUp(){
         this.close.emit();
     }
@@ -21,7 +26,11 @@ export class DetailTripComponent {
         this.editFormClicked.emit();
     }
 
-    showTripMembers(){
-        //TODO: DESPLEGAR POP UP DE SHOW TRIP MEMBERS
+    toggleMembersList(){
+        this.showMembersList = !this.showMembersList;
+    }
+
+    closeMembersList(){
+        this.showMembersList = false;
     }
 }

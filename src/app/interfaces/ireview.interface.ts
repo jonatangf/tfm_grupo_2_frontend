@@ -10,4 +10,5 @@ export interface IReviewResponse {
     title: string;
     score: number;
     comment: string;
+    createdAt: string;
 }

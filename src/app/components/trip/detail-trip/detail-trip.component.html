@@ -21,7 +21,7 @@
                 <button 
                     type="button"
                     class="tripMembersButton"
-                    (click)="showTripMembers()">
+                    (click)="toggleMembersList()">
                     VER MIEMBROS ACEPTADOS
                 </button>
             </div>
@@ -51,5 +51,13 @@
             <p class="itinerary">{{trip.itinerary}}</p>
         </div>
     </main>
+
+    @if (showMembersList) {
+        <app-members-list 
+            [tripId]="trip.id" 
+            [trip]="trip"
+            (close)="closeMembersList()">
+        </app-members-list>
+    }
 
 </aside>
