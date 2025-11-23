@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-import { ITrip, ITripResponse, ITripFilters } from '../interfaces/itrip.interface';
+import { ITrip, ITripResponse, ITripFilters, TripsResponse } from '../interfaces/itrip.interface';
 import { SuccessResponse, CreateTripResponse } from '../types/api-responses'
 
 @Injectable({
@@ -13,7 +13,7 @@ export class TripsService {
 
     /*------------------------------ GET ------------------------------*/
     //Obtener todos los viajes (con filtros opcionales)
-    getAllTrips(filters? : ITripFilters): Promise<ITripResponse[]> {
+    async getAllTrips(filters? : ITripFilters): Promise<ITripResponse[]> {
         //Construye los parametros de la url
         let params = new HttpParams();
 
@@ -24,8 +24,9 @@ export class TripsService {
                     params = params.set(key, value.toString());
             })
         }
-        return lastValueFrom(this.httpClient.get<ITripResponse[]>
+        const result =  await lastValueFrom(this.httpClient.get<TripsResponse>
                             (`${this.baseUrl}/trips`, {params})); 
+        return result.data;
     }
     
     //Obtener un viaje por id
