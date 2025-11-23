@@ -15,6 +15,8 @@
 </nav>
 
 <!-- TODO: TENER EN CUENTA COMO SE CIERRA DESDE EL COMPONENTE DEL PERFIL -->
-<div class="profileSideBar" [class.open]="isProfileSidebarOpen" >
-    <!-- TODO: AQUI AÑADIR COMPONENTE DE SIDEBAR DE PERFIL -->
+<div class="profileSideBar" [class.open]="isProfileSidebarOpen">
+  <app-profile
+    (close)="toggleProfileSidebar()">
+  </app-profile>
 </div>

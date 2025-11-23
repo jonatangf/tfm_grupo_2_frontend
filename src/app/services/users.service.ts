@@ -62,18 +62,28 @@ export class UsersService {
 
   // Actualiza usuario
   updateUserById(user: IUser): Promise<string> {
-    return lastValueFrom(this.httpClient.put<string>(`${this.baseUrl}/users/${user.id}`, user));
+    const result =  lastValueFrom(this.httpClient.put<string>(`${this.baseUrl}/users/${user.id}`, user));
+    console.log(result)
+    return result;
   }
 
   /*------------------------------ GET ------------------------------*/
 
   //Encuentra un usuario por ID
-  getUserById(id: number): Promise<IUser> {
-    return lastValueFrom(this.httpClient.get<IUser>(`${this.baseUrl}/users/${id}`));
+  async getUserById(id: number): Promise<IUser> {
+    const result =  await lastValueFrom(this.httpClient.get<IUser>(`${this.baseUrl}/users/${id}`));
+    console.log(result)
+    return result;
   }
 
   //Encuentra valoracion media de un usuario por ID
   getUserScore(id: number): Promise<number> {
     return lastValueFrom(this.httpClient.get<number>(`${this.baseUrl}/users/${id}/score`));
+  }
+
+  async uploadUserAvatar(file: File): Promise<string> {
+  // Aquí iría la llamada real al servicio de subida
+  // Por ahora devolvemos una URL simulada
+  return Promise.resolve('https://fake-storage.com/avatar-placeholder.png');
   }
 }

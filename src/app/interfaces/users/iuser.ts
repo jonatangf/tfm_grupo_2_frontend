@@ -8,6 +8,7 @@ export interface IUser {
   photo?: string | null;
   birthdate?: Date | string | null;
   description?: string | null;
+  interests?: string[] | null;
   telephone?: string | null;
   avg_rating?: number | null;
   created_at: Date | string;
