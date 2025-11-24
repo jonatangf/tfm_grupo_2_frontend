@@ -12,7 +12,7 @@ export interface ITrip {
     accommodationsId: number;
     costPerPerson: number;
     minParticipants: number;
-    status: 'open' | 'closed' | 'completed' | 'cancelled';
+    status: 'open' | 'closed' | 'finished' | 'cancelled';
 }
 
 export interface ITripResponse{
@@ -30,7 +30,7 @@ export interface ITripResponse{
     accommodationsId: number;
     costPerPerson: number;
     minParticipants: number;
-    status: 'open' | 'closed' | 'completed' | 'cancelled';
+    status: 'open' | 'closed' | 'finished' | 'cancelled';
     createdAt: string;
     updatedAt: string;
 }

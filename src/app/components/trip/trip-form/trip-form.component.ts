@@ -25,22 +25,8 @@ export class TripFormComponent {
     countriesService = inject(CountriesService);
 
     tripForm: FormGroup;
-
-    //TODO: QUITAR PLACEHOLDERS
-    transports : ITransport[] = [
-        { id: 1, name: 'Avión' },
-        { id: 2, name: 'Tren' },
-        { id: 3, name: 'Autobús' },
-        { id: 4, name: 'Barco' },
-        { id: 5, name: 'Coche' },
-    ];
-
-    countries: ICountry[] =[
-    { id: 1, name: 'España' },
-    { id: 2, name: 'Francia' },
-    { id: 3, name: 'Italia' },
-    { id: 4, name: 'Alemania' },
-    { id: 5, name: 'Portugal' }];
+    transports : ITransport[] = [];
+    countries: ICountry[] =[];
 
 
     userService = inject(UsersService);
@@ -109,8 +95,8 @@ export class TripFormComponent {
             destinyImage: this.tripForm.value.destinyImg,
             itinerary: this.tripForm.value.itinerary,
             meansOfTransportsId: Number(this.tripForm.value.transport),
-            startDate: this.tripForm.value.startDate,
-            endDate: this.tripForm.value.endDate,
+            startDate: new Date(this.tripForm.value.startDate).toISOString(),
+            endDate: new Date(this.tripForm.value.endDate).toISOString(),
             costPerPerson: this.tripForm.value.cost,
             minParticipants: this.tripForm.value.minParticipants,
                     
@@ -130,8 +116,11 @@ export class TripFormComponent {
                }
             }
 
+            //TODO: EL UPDATE FUNCIONA PERO DEVUELVE SUCCESS:FALSE
             else if(this.formMode === 'edit' && this.trip?.id != null){
+
                 const response = await this.tripService.updateTrip(this.trip.id, tripData);
+            
                 if(response.success){
                     console.log('Solicitud de crear trip enviada');
                     this.closePopUp();

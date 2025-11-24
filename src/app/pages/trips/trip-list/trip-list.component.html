@@ -9,8 +9,8 @@
                 <!-- SELECT DE MIS VIAJES / VIAJES DISPONIBLES -->
                 <select 
                     class="tripTypeSelect"
-                    [(ngModel)]="mode"
-                    (change)="changeMode(mode)">
+                    [ngModel]="mode"
+                    (ngModelChange)="changeMode($event)">
                     <option value="available">Viajes disponibles</option>
                     <option value="mine">Mis viajes</option>
                 </select>
@@ -21,7 +21,7 @@
             <button 
                 type="button"
                 class="createTripButton"
-                (click)="createTripSidebar()">
+                (click)="createTripPopUp()">
                 CREAR VIAJE
             </button>
         }
@@ -90,15 +90,21 @@
     </section>
 
     <section class="tripsCards">
-        @for(trip of trips; track trip.id){
-            <app-trips-card 
-                [trip]="trip"
-                [mode]="mode"
-                (joinClicked)="onOpenPopUp(trip, 'join', null)"
-                (deleteClicked)="onOpenPopUp(trip, 'delete', null)"
-                (detailClicked)="onOpenPopUp(trip, 'detail', null)"
-                (editClicked)="onOpenPopUp(trip, 'form', 'edit')">
-            </app-trips-card>
+        @if(trips.length === 0){
+            <span>{{mode === 'mine' ? "NO TIENES VIAJES CREADOS" : "NO HAY VIAJES DISPONIBLES"}}</span>
+        }
+
+        @else {
+            @for(trip of trips; track trip.id){
+                <app-trips-card 
+                    [trip]="trip"
+                    [mode]="mode"
+                    (joinClicked)="onOpenPopUp(trip, 'join', null)"
+                    (deleteClicked)="onOpenPopUp(trip, 'delete', null)"
+                    (detailClicked)="onOpenPopUp(trip, 'detail', null)"
+                    (editClicked)="onOpenPopUp(trip, 'form', 'edit')">
+                </app-trips-card>
+            }
         }
     </section>
 
