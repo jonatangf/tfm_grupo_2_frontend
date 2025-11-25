@@ -41,3 +41,10 @@ export interface ITripFilters {
     endDate?: string;
     maxCost?: number | null;
 }
+
+
+export interface TripsResponse {
+  data: ITripResponse[];
+  limit: number;
+  offset: number;
+}

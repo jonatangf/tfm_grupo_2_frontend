@@ -68,3 +68,20 @@
   object-fit: cover;
   border: 1px solid #e0e0e0;
 }
+
+.profileSideBar {
+  position: fixed;
+  top: 0;
+  right: 0;          /* se engancha al lado derecho */
+  width: 350px;
+  height: 100%;
+  background: #fff;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.2);
+  transform: translateX(100%); /* oculto fuera de pantalla */
+  transition: transform 0.3s ease-in-out;
+  z-index: 1000;
+}
+
+.profileSideBar.open {
+  transform: translateX(0); /* visible */
+}

@@ -47,13 +47,13 @@ export class HomeComponent {
       //aqui me logado correctamente redirijo dashboard
       if (response.userId) {
         this.showWelcomeToast(response.username || 'Usuario');
-        this.router.navigate(['/profile']);
+        this.router.navigate(['/trips']);
       }
     } else if (this.state === 'login'){
       const response: any = await this.userService.login(this.loginReq);
       //aqui me logado correctamente redirijo dashboard
       if (response.userId) {
-        this.router.navigate(['/profile']);
+        this.router.navigate(['/trips']);
       }
     }
   }

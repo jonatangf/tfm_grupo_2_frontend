@@ -61,19 +61,36 @@ export class UsersService {
   /*------------------------------ PUT ------------------------------*/
 
   // Actualiza usuario
-  updateUserById(user: IUser): Promise<string> {
-    return lastValueFrom(this.httpClient.put<string>(`${this.baseUrl}/users/${user.id}`, user));
+  updateUserById(user: IUser): Promise<boolean> {
+    const result = lastValueFrom(
+      this.httpClient.put<boolean>(`${this.baseUrl}/users/${user.id}`, user)
+    );
+    console.log(result);
+    return result;
   }
 
   /*------------------------------ GET ------------------------------*/
 
   //Encuentra un usuario por ID
-  getUserById(id: number): Promise<IUser> {
-    return lastValueFrom(this.httpClient.get<IUser>(`${this.baseUrl}/users/${id}`));
+  async getUserById(id: number): Promise<IUser> {
+    const result = await lastValueFrom(this.httpClient.get<IUser>(`${this.baseUrl}/users/${id}`));
+    console.log(result);
+    return result;
   }
 
   //Encuentra valoracion media de un usuario por ID
   getUserScore(id: number): Promise<number> {
     return lastValueFrom(this.httpClient.get<number>(`${this.baseUrl}/users/${id}/score`));
   }
+
+  async uploadUserAvatar(id: number, file: File): Promise<string> {
+    const formData = new FormData();
+    formData.append('avatar', file);
+
+    console.log(`uploading image... to ${this.baseUrl}/users/${id}/avatar`)
+    return lastValueFrom(
+      this.httpClient.post<string>(`${this.baseUrl}/users/${id}/avatar`, formData)
+    );
+  }
+
 }

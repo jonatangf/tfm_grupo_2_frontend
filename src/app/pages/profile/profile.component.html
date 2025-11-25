@@ -1,2 +1,63 @@
-<p>profile works!</p>
+@if(user){
+<div class="userFormSidebar">
+  <div class="profileHeader">
+    <h2 class="profileTitle">Editar perfil</h2>
+    <div class="profileIcons">
+      <button class="iconButton" (click)="onCancel()">✕</button>
+      @if(!isEditing){
+      <button class="iconButton" (click)="toggleEdit()">✎</button>
+      }
+    </div>
+  </div>
+<!-- Avatar -->
+<div class="avatarContainer">
+  <div class="avatarWrapper" (click)="onAvatarClick(avatarInput)">
+  <img 
+    class="avatarImg" 
+    [src]="user.photo || 'assets/icons/default-avatar.png'"   
+    alt="Avatar de usuario"><!--DEFAULT FOTO ? user.photo : 'assets/icons/default-avatar.png'"-->
+</div>
+  <!-- input oculto para seleccionar archivo, escondemos lo típico de "Subir archivo" de este tipo de inputs -->
+  <input 
+    type="file" 
+    accept="image/*" 
+    #avatarInput 
+    class="hiddenFileInput" 
+    (change)="onAvatarSelected($event)">
+</div>
+  <form class="profileForm">
+    <!-- Puntuación (siempre readonly) -->
+    <div class="detailContainer">
+      <label class="detailLabel">PUNTUACIÓN</label>
+      <div class="ratingValue">{{ user.avg_rating }}</div>
+    </div>
+
+    <!-- Correo -->
+    <div class="detailContainer">
+      <label class="detailLabel">CORREO</label>
+      <input 
+        [(ngModel)]="editableUser.email" 
+        name="email"
+        [readonly]="!isEditing" />
+    </div>
+
+    <!-- Interés -->
+    <div class="detailContainer">
+      <label class="detailLabel">DESCRIPCIÓN</label>
+      <textarea 
+        [(ngModel)]="editableUser.description" 
+        name="description"
+        [readonly]="!isEditing">
+      </textarea>
+    </div>
+  </form>
+
+  <!-- Botón Editar Perfil -->
+   @if(showSaveButton){
+    <div class="profileActions">
+      <button type="button" (click)="onSave()">EDITAR PERFIL</button>
+    </div>
+   }
+</div>
+}
 
