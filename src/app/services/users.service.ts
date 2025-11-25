@@ -61,9 +61,11 @@ export class UsersService {
   /*------------------------------ PUT ------------------------------*/
 
   // Actualiza usuario
-  updateUserById(user: IUser): Promise<string> {
-    const result =  lastValueFrom(this.httpClient.put<string>(`${this.baseUrl}/users/${user.id}`, user));
-    console.log(result)
+  updateUserById(user: IUser): Promise<boolean> {
+    const result = lastValueFrom(
+      this.httpClient.put<boolean>(`${this.baseUrl}/users/${user.id}`, user)
+    );
+    console.log(result);
     return result;
   }
 
@@ -71,8 +73,8 @@ export class UsersService {
 
   //Encuentra un usuario por ID
   async getUserById(id: number): Promise<IUser> {
-    const result =  await lastValueFrom(this.httpClient.get<IUser>(`${this.baseUrl}/users/${id}`));
-    console.log(result)
+    const result = await lastValueFrom(this.httpClient.get<IUser>(`${this.baseUrl}/users/${id}`));
+    console.log(result);
     return result;
   }
 
@@ -81,9 +83,14 @@ export class UsersService {
     return lastValueFrom(this.httpClient.get<number>(`${this.baseUrl}/users/${id}/score`));
   }
 
-  async uploadUserAvatar(file: File): Promise<string> {
-  // Aquí iría la llamada real al servicio de subida
-  // Por ahora devolvemos una URL simulada
-  return Promise.resolve('https://fake-storage.com/avatar-placeholder.png');
+  async uploadUserAvatar(id: number, file: File): Promise<string> {
+    const formData = new FormData();
+    formData.append('avatar', file);
+
+    console.log(`uploading image... to ${this.baseUrl}/users/${id}/avatar`)
+    return lastValueFrom(
+      this.httpClient.post<string>(`${this.baseUrl}/users/${id}/avatar`, formData)
+    );
   }
+
 }

@@ -28,13 +28,13 @@
   <form class="profileForm">
     <!-- Puntuación (siempre readonly) -->
     <div class="detailContainer">
-      <label class="detailLabel">Puntuación</label>
+      <label class="detailLabel">PUNTUACIÓN</label>
       <div class="ratingValue">{{ user.avg_rating }}</div>
     </div>
 
     <!-- Correo -->
     <div class="detailContainer">
-      <label class="detailLabel">Correo</label>
+      <label class="detailLabel">CORREO</label>
       <input 
         [(ngModel)]="editableUser.email" 
         name="email"
@@ -43,9 +43,9 @@
 
     <!-- Interés -->
     <div class="detailContainer">
-      <label class="detailLabel">Interés</label>
+      <label class="detailLabel">DESCRIPCIÓN</label>
       <textarea 
-        [(ngModel)]="editableUser.interests" 
+        [(ngModel)]="editableUser.description" 
         name="description"
         [readonly]="!isEditing">
       </textarea>

@@ -1,13 +1,9 @@
-import {
-  Component,
-  EventEmitter,
-  inject,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { ISession } from '../../interfaces/users/isession';
 import { FormsModule } from '@angular/forms';
 import { UsersService } from '../../services/users.service';
 import { IUser } from '../../interfaces/users/iuser';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-profile',
@@ -19,6 +15,7 @@ import { IUser } from '../../interfaces/users/iuser';
 export class ProfileComponent {
   @Output() close = new EventEmitter<void>();
 
+  private snackBar = inject(MatSnackBar);
   userService = inject(UsersService);
   sesionData!: ISession;
   user!: IUser;
@@ -64,7 +61,7 @@ export class ProfileComponent {
       const file = input.files[0];
 
       // Subir imagen al servicio y obtener URL
-      const uploadedUrl = await this.userService.uploadUserAvatar(file);
+      const uploadedUrl = await this.userService.uploadUserAvatar(this.sesionData.userId, file);
 
       // Guardar la URL en editableUser
       this.editableUser.photo = uploadedUrl;
@@ -85,7 +82,7 @@ export class ProfileComponent {
 
       // - Refrescamos el user desde backend para tener datos consistentes
       await this.getUser();
-
+      this.showSuccessToast();
       this.close.emit();
     } catch (error) {
       // ❌ Si falla:
@@ -105,6 +102,13 @@ export class ProfileComponent {
     this.showSaveButton =
       this.isEditing &&
       (this.editableUser.email !== this.originalUser.email ||
-        this.editableUser.interests !== this.originalUser.interests);
+        this.editableUser.description !== this.originalUser.description);
+  }
+
+  private showSuccessToast() {
+    this.snackBar.open(`¡Perfil editado! 🙂`, 'Cerrar', {
+      duration: 4000,
+      panelClass: ['success-snackbar'],
+    });
   }
 }
