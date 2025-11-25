@@ -3,7 +3,7 @@ import { ITripResponse } from '../../../interfaces/itrip.interface';
 import { DatePipe } from '@angular/common';
 import { MembersListComponent } from '../../../components/trip/members-list/members-list.component';
 import { CommonModule } from '@angular/common';
-
+import { TripListMode } from '../../../types/trip-types';
 @Component({
   selector: 'app-detail-trip',
   imports: [DatePipe, MembersListComponent, CommonModule],
@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 export class DetailTripComponent {
     @Input() trip!: ITripResponse;
+    @Input() tripMode!: TripListMode;
     
     @Output() editFormClicked = new EventEmitter<void>();
     @Output() close = new EventEmitter<void>();

@@ -131,6 +131,7 @@
         <div class="detailTripContainer">
             <app-detail-trip
                 [trip]="selectedTrip"
+                [tripMode]="mode"
                 (editFormClicked)="onOpenPopUp(selectedTrip, 'form', 'edit')"
                 (close)="onClosePopUp()">
             </app-detail-trip>

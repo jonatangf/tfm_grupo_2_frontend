@@ -64,7 +64,6 @@ export class TripListComponent {
     if (this.sesionData?.userId && this.sesionData.userId !== -1) {
         this.searchTrips();
     } 
-
   }
 
   getSessionData() {
@@ -102,14 +101,13 @@ export class TripListComponent {
 
   async searchTrips() {
     try {
-      const tripsRes = await this.tripsService.getAllTrips(this.filters);
-        
-      if (this.mode === 'mine') {
-        this.trips = tripsRes.filter((trip) => trip.creatorId === this.sesionData?.userId);
+        const tripsRes = await this.tripsService.getAllTrips(this.filters);
+        if (this.mode === 'mine') {
+            this.trips = tripsRes.filter(trip => trip.creatorId === this.sesionData?.userId);
 
-      } else {
-        this.trips = tripsRes.filter(trip => trip.creatorId !== this.sesionData?.userId);
-      }
+        } else {
+            this.trips = tripsRes.filter(trip => trip.creatorId !== this.sesionData?.userId);
+        }
     } catch (error) {
         console.error('Error al cargar los viajes', error);
     }

@@ -9,31 +9,25 @@ import { TripsService } from '../../../services/trips.service';
   styleUrl: './delete-trip.component.css',
 })
 export class DeleteTripComponent {
-  tripService = inject(TripsService);
+    tripService = inject(TripsService);
 
-  @Input() trip!: ITripResponse;
-  @Output() close = new EventEmitter<void>();
+    @Input() trip!: ITripResponse;
+    @Output() close = new EventEmitter<void>();
 
-  closePopUp() {
-    this.close.emit();
-  }
+    closePopUp() {
+        this.close.emit();
+    }
 
-  rejectDelete() {
-    this.closePopUp();
-  }
+    rejectDelete() {
+        this.closePopUp();
+    }
 
   async acceptDelete() {
     try {
-      const response = await this.tripService.removeTrip(this.trip.id);
-
-      if (response.success) {
-        console.log('Viaje eliminado');
+        const response = await this.tripService.removeTrip(this.trip.id);
         this.closePopUp();
-      } else {
-        console.warn('La API a devuelto succes = false');
-      }
     } catch (error) {
-      console.error('Error al solicitar eliminar el viaje', error);
+        console.error('Error al solicitar eliminar el viaje', error);
     }
   }
 }

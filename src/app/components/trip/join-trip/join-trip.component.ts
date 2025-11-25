@@ -21,16 +21,36 @@ export class JoinTripComponent {
     @Output() close = new EventEmitter<void>();
 
     isOpen: boolean = false;
+    hasRequestPending: boolean = false;
+    isParticipant: boolean = false;
 
     async ngOnInit(){
         if(!this.trip.creatorId) return;
-            
-        try {
-            this.tripCreator = await this.userService.getUserById(this.trip.creatorId);
-        } catch (error) {
-            console.error('Error al cargar el creador del viaje', error)
-        }    
+        
+        this.tripCreator = await this.userService.getUserById(this.trip.creatorId); 
+
+        await this.checkUserParticipation();
     }
+
+    async checkUserParticipation(){
+        try {
+            const session = this.userService.getSession()
+            const currentUserId = session?.userId;
+            if(!currentUserId) return; 
+
+            //Obtener los miembros
+            const members = await this.participationService.getTripMembers(this.trip.id);
+            this.isParticipant = members.some(member => member.userId === currentUserId);
+
+            //TODO: Si no es miembro comprobar solicitudes pendientes
+            //if(!this.isParticipant){
+            //    const requests = await this.participationService.getJoinRequests(this.trip.id);
+            //    this.hasRequestPending = requests.some(req=> req.userId === currentUserId)
+            //}
+        } catch (error) {
+            console.error('Error al checkear la solicitud', error);
+        } 
+    }   
 
     closePopUp(){
         this.close.emit();
@@ -38,22 +58,14 @@ export class JoinTripComponent {
 
     //TODO: HAY QUE CHECKEAR SI LA REQUEST YA SE HA HECHO PREVIAMENTE
     async requetsJoin(){
-        if(!this.trip.creatorId) return;
+        if(!this.trip.creatorId || this.hasRequestPending || this.isParticipant) return;
             
         try {
             const response = await this.participationService.createTripRequest(this.trip.id);
-
-            if(response.success){
-                console.log('Solicitud enviada, id', response.requestId);
-                this.closePopUp();
-            } else{
-                console.warn('La API a devuelto succes = false');
-            }
-
+            this.hasRequestPending = true;
+            this.closePopUp();
         } catch (error) {
             console.error('Error al solicitar unirse al viaje', error);
         }
-
     }
-
 }

@@ -20,6 +20,9 @@
             @if(checkControl('title', 'pattern')){
                 <p class="text-danger">El título no pueden ser espacios</p>
             }
+            @if(checkControl('title', 'minLength')||checkControl('title', 'maxLenght')){
+                <p class="text-danger">El título tiene que ser entre 1-255 carcateres</p>
+            }
         </div>
 
         <!-- CONTROL DE DESCRIPCION VIAJE -->
@@ -37,7 +40,7 @@
         <!-- CONTROLES DE FECHAS VIAJE -->
         <div class="tripStartDateContainer">
             <label class="formLabel" for="startDate">Fecha de inicio de viaje</label>
-            <input class="formControl" id="startDate" type="date" formControlName="startDate">
+            <input class="formControl" id="startDate" type="date" formControlName="startDate" [min]="today">
             @if(checkControl('startDate', 'required')){
                 <p class="text-danger">La fecha de inicio es obligatoria</p>
             }
@@ -45,9 +48,12 @@
 
         <div class="tripEndDateContainer">
             <label class="formLabel" for="endDate">Fecha de fin de viaje</label>
-            <input class="formControl" id="endDate" type="date" formControlName="endDate">
+            <input class="formControl" id="endDate" type="date" formControlName="endDate" [min]="tripForm.get('starDate')?.value || today">
             @if(checkControl('endDate', 'required')){
                 <p class="text-danger">La fecha de fin es obligatoria</p>
+            }
+            @if(checkControl('endDate', 'dateRange')){
+                <p class="text-danger">La fecha de fin no puede ser anterior a la fecha de inicio</p>
             }
         </div>
 
@@ -100,6 +106,9 @@
             @if(checkControl('destiny', 'pattern')){
                 <p class="text-danger">El destino no pueden ser espacios</p>
             }
+            @if(checkControl('destiny', 'minLength')||checkControl('destiny', 'maxLenght')){
+                <p class="text-danger">El destino tiene que ser entre 1-150 carcateres</p>
+            }
         </div>
 
         <div class="tripDestinyImgContainer">
@@ -110,6 +119,9 @@
             }
             @if(checkControl('destinyImg', 'webImgValidator')){
             <p class="text-danger">{{tripForm.get('destinyImg')?.errors?.['webImgValidator']}}</p>
+            }
+            @if(checkControl('destinyImg', 'minLength')||checkControl('destinyImg', 'maxLenght')){
+                <p class="text-danger">La imagen tiene que ser menos de 500 carcateres</p>
             }
         </div>
 

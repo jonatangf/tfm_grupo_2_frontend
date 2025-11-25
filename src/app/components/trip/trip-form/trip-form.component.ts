@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
-import { FormGroup, FormControl, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
+import { FormGroup, FormControl, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { ITripResponse, ITrip } from '../../../interfaces/itrip.interface';
 import { TripFormMode } from '../../../types/trip-types';
 import { TripsService } from '../../../services/trips.service';
@@ -28,7 +28,6 @@ export class TripFormComponent {
     transports : ITransport[] = [];
     countries: ICountry[] =[];
 
-
     userService = inject(UsersService);
     sesionData: ISession | null = {
       userId: -1,
@@ -36,6 +35,10 @@ export class TripFormComponent {
       email: '',
       photo: '',
     }
+
+    //Coge solo la fecha del dia de hoy
+    today = new Date().toISOString().split('T')[0];
+
     async getSessionData() {
         this.sesionData = await this.userService.getSession();
     }
@@ -46,15 +49,15 @@ export class TripFormComponent {
 
     constructor(){
         this.tripForm = new FormGroup({
-            title: new FormControl('', [Validators.required, Validators.pattern(/^(?!\s*$).+/)]),
+            title: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(255), Validators.pattern(/^(?!\s*$).+/)]),
             description: new FormControl('', [Validators.required, Validators.pattern(/^(?!\s*$).+/)]),
-            startDate: new FormControl('', [Validators.required]),
-            endDate: new FormControl('', [Validators.required]),
+            startDate: new FormControl('', [Validators.required, this.dateRangeValidator]),
+            endDate: new FormControl('', [Validators.required, this.dateRangeValidator]),
             cost: new FormControl('', [Validators.required, Validators.min(0)]),
             minParticipants: new FormControl('', [Validators.required, Validators.min(1)]),
             country: new FormControl('', [Validators.required]),
-            destiny: new FormControl('', [Validators.required, Validators.pattern(/^(?!\s*$).+/)]),
-            destinyImg: new FormControl('', [Validators.required, this.webImgValidator]),
+            destiny: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(150), Validators.pattern(/^(?!\s*$).+/)]),
+            destinyImg: new FormControl('', [Validators.required, Validators.maxLength(500), this.webImgValidator]),
             transport: new FormControl('', [Validators.required]),
             itinerary: new FormControl('', [Validators.required, Validators.pattern(/^(?!\s*$).+/)]),
         }, []);
@@ -107,27 +110,14 @@ export class TripFormComponent {
 
         try {
             if(this.formMode === 'create') {
-               const response =  await this.tripService.createTrip(tripData);
-               if(response.success){
-                    console.log('Solicitud de crear trip enviada, id', response.tripId);
-                    this.closePopUp();
-               }else{
-                console.warn('La API a devuelto succes = false');
-               }
+                const response =  await this.tripService.createTrip(tripData);
+                
             }
-
-            //TODO: EL UPDATE FUNCIONA PERO DEVUELVE SUCCESS:FALSE
             else if(this.formMode === 'edit' && this.trip?.id != null){
-
                 const response = await this.tripService.updateTrip(this.trip.id, tripData);
-            
-                if(response.success){
-                    console.log('Solicitud de crear trip enviada');
-                    this.closePopUp();
-               }else{
-                console.warn('La API a devuelto succes = false');
-               }
             }
+
+            this.closePopUp();
             
         } catch (error) {
             console.error('Error al solicitar crear el viaje', error);
@@ -135,19 +125,11 @@ export class TripFormComponent {
     }
 
     async loadTransports(){
-        try {
-            this.transports = await this.transportsService.getTransports();
-        } catch (error) {
-            console.error('Error cargando transportes', error);
-        }
+        this.transports = await this.transportsService.getTransports();
     }
 
     async loadCountries(){
-        try {
-            this.countries = await this.countriesService.getCountries();
-        } catch (error) {
-            console.error('Error cargando paises', error);
-        }
+        this.countries = await this.countriesService.getCountries();
     }
 
     //Function to check errors in the controls
@@ -168,5 +150,17 @@ export class TripFormComponent {
     toInputDate(date: string | null | undefined): string {
         if (!date) return '';
         return new Date(date).toISOString().slice(0, 10);
+    }
+
+    dateRangeValidator(control: AbstractControl): ValidationErrors | null {
+        const form = control.parent;
+        if(!form) return null;
+
+        const start = form.get('startDate')?.value;
+        const end = form.get('endDate')?.value;
+
+        if(!start || !end) return null;
+        
+        return (new Date(end) < new Date(start)) ? {dateRange:true} : null;
     }
 }
