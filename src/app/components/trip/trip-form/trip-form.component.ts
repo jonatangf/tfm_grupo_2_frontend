@@ -9,6 +9,8 @@ import { CountriesService } from '../../../services/countries.service';
 import { ICountry } from '../../../interfaces/icountry.interface';
 import { UsersService } from '../../../services/users.service';
 import { ISession } from '../../../interfaces/users/isession';
+import { AccomodationsService } from '../../../services/accomodations.service';
+import { IAccomodation } from '../../../interfaces/iaccomodation.interface';
 @Component({
   selector: 'app-trip-form',
   imports: [ReactiveFormsModule],
@@ -20,15 +22,17 @@ export class TripFormComponent {
     @Input() formMode: TripFormMode = 'create';
     @Output() close = new EventEmitter<void>();
 
+    userService = inject(UsersService);
     tripService= inject(TripsService);
     transportsService = inject(TransportsService);
     countriesService = inject(CountriesService);
+    accomodationsService = inject(AccomodationsService);
 
     tripForm: FormGroup;
-    transports : ITransport[] = [];
-    countries: ICountry[] =[];
 
-    userService = inject(UsersService);
+    transports : ITransport[] = [];
+    countries: ICountry[] = [];
+    accomodations: IAccomodation[] = [];
     sesionData: ISession | null = {
       userId: -1,
       username: '',
@@ -39,8 +43,21 @@ export class TripFormComponent {
     //Coge solo la fecha del dia de hoy
     today = new Date().toISOString().split('T')[0];
 
+    //Load data for forms
     async getSessionData() {
         this.sesionData = await this.userService.getSession();
+    }
+
+    async loadTransports(){
+        this.transports = await this.transportsService.getTransports();
+    }
+
+    async loadCountries(){
+        this.countries = await this.countriesService.getCountries();
+    }
+
+    async loadAccomodations(){
+        this.accomodations = await this.accomodationsService.getAccomodations();
     }
 
     closePopUp(){
@@ -59,6 +76,7 @@ export class TripFormComponent {
             destiny: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(150), Validators.pattern(/^(?!\s*$).+/)]),
             destinyImg: new FormControl('', [Validators.required, Validators.maxLength(500), this.webImgValidator]),
             transport: new FormControl('', [Validators.required]),
+            accomodation: new FormControl('', [Validators.required]),
             itinerary: new FormControl('', [Validators.required, Validators.pattern(/^(?!\s*$).+/)]),
         }, []);
     }
@@ -67,6 +85,7 @@ export class TripFormComponent {
         this.loadTransports();
         this.loadCountries();
         this.getSessionData();
+        this.loadAccomodations();
         if(this.formMode ==='edit' && this.trip)
             this.fillFormDetails();
     }
@@ -83,6 +102,7 @@ export class TripFormComponent {
             destiny: this.trip?.destinyPlace,
             destinyImg: this.trip?.destinyImage,
             transport: this.trip?.meansOfTransportsId,
+            accomodation: this.trip?.accommodationsId,
             itinerary: this.trip?.itinerary,
         });
     }
@@ -93,18 +113,18 @@ export class TripFormComponent {
         const tripData: ITrip = {
             name: this.tripForm.value.title,
             description: this.tripForm.value.description,
-            destinyCountryId: Number(this.tripForm.value.country),
+            destinyCountryId: this.tripForm.value.country,
             destinyPlace: this.tripForm.value.destiny,
             destinyImage: this.tripForm.value.destinyImg,
             itinerary: this.tripForm.value.itinerary,
-            meansOfTransportsId: Number(this.tripForm.value.transport),
-            startDate: new Date(this.tripForm.value.startDate).toISOString(),
-            endDate: new Date(this.tripForm.value.endDate).toISOString(),
+            meansOfTransportsId: this.tripForm.value.transport,
+            accommodationsId: this.tripForm.value.accomodation,
+            startDate: this.tripForm.value.startDate,
+            endDate: this.tripForm.value.endDate,
             costPerPerson: this.tripForm.value.cost,
             minParticipants: this.tripForm.value.minParticipants,
                     
             creatorId: this.sesionData?.userId || -1,
-            accommodationsId: 1,
             status: this.formMode === 'create' ? 'open' : this.trip?.status || 'open'
         };
 
@@ -124,13 +144,6 @@ export class TripFormComponent {
         }
     }
 
-    async loadTransports(){
-        this.transports = await this.transportsService.getTransports();
-    }
-
-    async loadCountries(){
-        this.countries = await this.countriesService.getCountries();
-    }
 
     //Function to check errors in the controls
     checkControl(controlName: string, errorName: string): boolean | undefined {
@@ -147,11 +160,13 @@ export class TripFormComponent {
         return pattern.test(url) ? null : {'webImgValidator' : 'La URL debe ser una imagen alojada en internet'}
     }
 
+    //Conversion from ISO to String
     toInputDate(date: string | null | undefined): string {
         if (!date) return '';
         return new Date(date).toISOString().slice(0, 10);
     }
 
+    //Validacion para que no te dejen elegir fechas mas pequeñas que la actual y start < end
     dateRangeValidator(control: AbstractControl): ValidationErrors | null {
         const form = control.parent;
         if(!form) return null;

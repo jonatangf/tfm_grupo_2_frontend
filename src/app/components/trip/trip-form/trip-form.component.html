@@ -138,7 +138,22 @@
             @if(checkControl('transport', 'required')){
                 <p class="text-danger">El transporte es obligatorio</p>
             }
-        </div>       
+        </div>   
+        
+        <!-- CONTROL DE ACCOMODATIONS -->
+        <div class="tripAccomodationContainer">
+            <label class="formLabel" for="accomodation">Alojamiento</label>
+            
+            <select id="accomodation" class="formControl" formControlName="accomodation">
+                <option value="">Selecciona un alojamiento</option>
+                @for(accomo of accomodations; track accomo.id){
+                    <option [value]="accomo.id">{{accomo.name}}</option>
+                }
+            </select>
+            @if(checkControl('accomodation', 'required')){
+                <p class="text-danger">El alojamiento es obligatorio</p>
+            }
+        </div> 
 
         <!-- CONTROL DE ITINERARIO -->
         <div class="tripItineraryContainer">
