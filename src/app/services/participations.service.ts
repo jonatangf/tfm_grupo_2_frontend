@@ -31,11 +31,11 @@ export class ParticipationsService {
 
     //Aceptar solictud
     acceptTripRequest(tripId: number, requestId: number): Promise<SuccessResponse>{
-        return lastValueFrom(this.httpClient.post<SuccessResponse>(`${this.baseUrl}/trips/${tripId}/request/${requestId}/accept`,{}));        
+        return lastValueFrom(this.httpClient.post<SuccessResponse>(`${this.baseUrl}/trips/${tripId}/requests/${requestId}/accept`,{}));        
     }
 
     //Rechazar solictud
     rejectTripRequest(tripId: number, requestId: number): Promise<SuccessResponse>{
-        return lastValueFrom(this.httpClient.post<SuccessResponse>(`${this.baseUrl}/trips/${tripId}/request/${requestId}/reject`,{}));        
+        return lastValueFrom(this.httpClient.post<SuccessResponse>(`${this.baseUrl}/trips/${tripId}/requests/${requestId}/reject`,{}));        
     }
 }

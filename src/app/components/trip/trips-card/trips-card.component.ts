@@ -15,7 +15,7 @@ export class TripCardComponent {
     @Output() joinClicked = new EventEmitter<void>();
     @Output() deleteClicked = new EventEmitter<void>();
     @Output() detailClicked =  new EventEmitter<void>();
-    @Output() requestClicked = new EventEmitter<void>();
+    @Output() requestClicked = new EventEmitter<ITripResponse>();
     @Output() editClicked = new EventEmitter<void>();
     
     joinPopUp(){
@@ -36,6 +36,6 @@ export class TripCardComponent {
 
     //TODO: MIRAR COMO HAN HECHO ESTO PARA JUNTARLO
     showRequests(){
-        this.requestClicked.emit();
+        this.requestClicked.emit(this.trip);
     }
 }

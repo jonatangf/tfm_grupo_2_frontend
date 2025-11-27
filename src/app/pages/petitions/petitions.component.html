@@ -1,0 +1,43 @@
+<div class="container">
+  <h1 class="titulo">Solicitudes</h1>
+  <h3 class="subtitulo">
+    {{ trip.startDate | dateRange:trip.endDate }}
+  </h3>
+
+  @for (joinPetition of joinPetitions; track joinPetition.requestId) {
+    <div class="solicitud-card" [class.expanded]="isExpanded(joinPetition.requestId)">
+
+      <!-- Cabecera -->
+      <div class="solicitud-header">
+        <span>Solicitud realizada por {{ joinPetition.name }}</span>
+        <button class="toggle-btn" (click)="toggleSolicitud(joinPetition.requestId)">
+          @if (!isExpanded(joinPetition.requestId)) {
+            ▼
+          } @else {
+            ▲
+          }
+        </button>
+      </div>
+
+      <!-- Contenido desplegable -->
+      @if (isExpanded(joinPetition.requestId)) {
+        <div class="solicitud-body">
+          @if (joinPetition.status === 'pending') {
+            <button class="btn aceptar" 
+                    (click)="aceptarSolicitud(joinPetition.requestId, joinPetition.name)">
+              👍 ACEPTAR
+            </button>
+            <button class="btn rechazar" 
+                    (click)="rechazarSolicitud(joinPetition.requestId, joinPetition.name)">
+              👎 RECHAZAR
+            </button>
+          } @else if (joinPetition.status === 'accepted') {
+            <span class="estado aceptada">✅ Aceptada</span>
+          } @else if (joinPetition.status === 'rejected') {
+            <span class="estado rechazada">❌ Rechazada</span>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>

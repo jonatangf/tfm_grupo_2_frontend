@@ -155,3 +155,47 @@
   z-index: 9999;
 }
 
+/* Overlay oscuro para solicitudes */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Caja blanca centrada */
+.popup {
+  background-color: #ffffff;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  max-width: 600px;
+  width: 80%;
+}
+
+/* Botón de cerrar */
+.close-btn {
+  display: block;
+  margin: 20px auto 0 auto; /* centrado horizontal */
+  padding: 10px 20px;
+  background-color: #000;   /* negro */
+  color: #fff;              /* letras blancas */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+}
+
+.close-btn:hover {
+  background-color: #333;   /* gris oscuro al pasar el ratón */
+}
+
+
