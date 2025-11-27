@@ -179,4 +179,23 @@
   width: 80%;
 }
 
+/* Botón de cerrar */
+.close-btn {
+  display: block;
+  margin: 20px auto 0 auto; /* centrado horizontal */
+  padding: 10px 20px;
+  background-color: #000;   /* negro */
+  color: #fff;              /* letras blancas */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+}
+
+.close-btn:hover {
+  background-color: #333;   /* gris oscuro al pasar el ratón */
+}
+
 

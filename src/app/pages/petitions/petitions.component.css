@@ -63,3 +63,17 @@
   background-color: #f44336;
   color: white;
 }
+
+.estado {
+  font-weight: bold;
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+
+.aceptada {
+  color: #4caf50;
+}
+
+.rechazada {
+  color: #f44336;
+}
