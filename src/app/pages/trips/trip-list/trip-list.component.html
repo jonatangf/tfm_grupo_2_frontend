@@ -1,124 +1,172 @@
 <app-trips-header></app-trips-header>
 <div class="tripsPage">
-  <section class="tripsHeader">
-    <div class="selectTripsContainer">
-      <div class="tripsTitleGroup">
-        <h2>Viajes</h2>
+    <section class="tripsHeader">
 
-        <!-- SELECT DE MIS VIAJES / VIAJES DISPONIBLES -->
-        <select class="tripTypeSelect" [(ngModel)]="mode" (change)="changeMode(mode)">
-          <option value="available">Viajes disponibles</option>
-          <option value="mine">Mis viajes</option>
-        </select>
-      </div>
-    </div>
-    <!-- BOTON DE CREAR VIAJE -->
-    @if (mode === 'mine'){
-    <button type="button" class="createTripButton" (click)="createTripSidebar()">
-      CREAR VIAJE
-    </button>
+        <div class="selectTripsContainer">
+            <div class="tripsTitleGroup">
+                <h2>Viajes</h2>
+                
+                <!-- SELECT DE MIS VIAJES / VIAJES DISPONIBLES -->
+                <select 
+                    class="tripTypeSelect"
+                    [ngModel]="mode"
+                    (ngModelChange)="changeMode($event)">
+                    <option value="available">Viajes disponibles</option>
+                    <option value="mine">Mis viajes</option>
+                </select>
+            </div>
+        </div>
+        <!-- BOTON DE CREAR VIAJE -->
+        @if (mode === 'mine'){
+            <button 
+                type="button"
+                class="createTripButton"
+                (click)="createTripPopUp()">
+                CREAR VIAJE
+            </button>
+        }
+    </section>
+
+    <section class="tripsFilters">
+
+        <!-- Filtro destino -->
+        <input 
+            type="text"
+            class="filterInput"
+            placeholder="Destino"
+            [(ngModel)]="filters.destinyPlace">
+        
+        <!-- Filtro start date -->
+        <input 
+            type="date"
+            class="filterInput"
+            placeholder="Fecha Alta"
+            [(ngModel)]="filters.startDate">
+
+        <!-- Filtro end date -->
+        <input 
+            type="date"
+            class="filterInput"
+            placeholder="Fecha Baja"
+            [(ngModel)]="filters.endDate">
+
+        <!-- filtro para el budget -->
+        <div class="budgetContainer">
+            <label class="budgetLabel" for="budgetInput">Presupuesto</label>
+            <div class="budgetInputContainer">
+                <input 
+                    id="budgetInput"
+                    type="number"
+                    class="budgetInput"
+                    placeholder="Price"
+                    min="0"
+                    max="10000"
+                    [(ngModel)]="filters.maxCost"
+                    (ngModelChange)="onMaxCostChange($event)">
+                <span class="budgetCurrency">€</span>
+                <button type="button"
+                        class="clearBudgetButton"
+                        (click)="filters.maxCost = null">
+                    x
+                </button>
+            </div>
+        </div>
+
+        <!-- boton limpiar filtros -->
+        <button 
+            type="button"
+            class="clearFiltersButton"
+            (click)="clearFilters()">
+            LIMPIAR FILTROS
+        </button>
+
+        <!-- boton buscar viajes -->
+        <button
+            type="button"
+            class="searchButton"
+            (click)="searchTrips()">
+            BUSCAR
+        </button>
+    </section>
+
+    <section class="tripsCards">
+        @if(trips.length === 0){
+            <span>{{mode === 'mine' ? "NO TIENES VIAJES CREADOS" : "NO HAY VIAJES DISPONIBLES"}}</span>
+        }
+
+        @else {
+            @for(trip of trips; track trip.id){
+                <app-trips-card 
+                    [trip]="trip"
+                    [mode]="mode"
+                    (joinClicked)="onOpenPopUp(trip, 'join', null)"
+                    (deleteClicked)="onOpenPopUp(trip, 'delete', null)"
+                    (detailClicked)="onOpenPopUp(trip, 'detail', null)"
+                    (editClicked)="onOpenPopUp(trip, 'form', 'edit')"
+                    (requestClicked)="onOpenPopUp(trip, 'request', null)">
+                </app-trips-card>
+            }
+        }
+    </section>
+
+    <!-- PopUp Join -->
+    @if(selectedTrip && popUpType === 'join'){
+        <div class="joinTripContainer">
+            <app-join-trip
+                [trip]="selectedTrip"
+                (close)="onClosePopUp()">
+            </app-join-trip>
+        </div>
     }
-  </section>
 
-  <section class="tripsFilters">
-    <!-- Filtro destino -->
-    <input
-      type="text"
-      class="filterInput"
-      placeholder="Destino"
-      [(ngModel)]="filters.destinyPlace"
-    />
-
-    <!-- Filtro start date -->
-    <input
-      type="date"
-      class="filterInput"
-      placeholder="Fecha Alta"
-      [(ngModel)]="filters.startDate"
-    />
-
-    <!-- Filtro end date -->
-    <input type="date" class="filterInput" placeholder="Fecha Baja" [(ngModel)]="filters.endDate" />
-
-    <!-- filtro para el budget -->
-    <div class="budgetContainer">
-      <label class="budgetLabel" for="budgetInput">Presupuesto</label>
-      <div class="budgetInputContainer">
-        <input
-          id="budgetInput"
-          type="number"
-          class="budgetInput"
-          placeholder="Price"
-          min="0"
-          max="10000"
-          [(ngModel)]="filters.maxCost"
-          (ngModelChange)="onMaxCostChange($event)"
-        />
-        <span class="budgetCurrency">€</span>
-        <button type="button" class="clearBudgetButton" (click)="filters.maxCost = null">x</button>
-      </div>
-    </div>
-
-    <!-- boton limpiar filtros -->
-    <button type="button" class="clearFiltersButton" (click)="clearFilters()">
-      LIMPIAR FILTROS
-    </button>
-
-    <!-- boton buscar viajes -->
-    <button type="button" class="searchButton" (click)="searchTrips()">BUSCAR</button>
-  </section>
-
-  <section class="tripsCards">
-    @for(trip of trips; track trip.id){
-    <app-trips-card
-      [trip]="trip"
-      [mode]="mode"
-      (joinClicked)="onOpenPopUp(trip, 'join', null)"
-      (deleteClicked)="onOpenPopUp(trip, 'delete', null)"
-      (detailClicked)="onOpenPopUp(trip, 'detail', null)"
-      (editClicked)="onOpenPopUp(trip, 'form', 'edit')"
-      (requestClicked)="onOpenPopUp(trip, 'request', null)"
-    >
-    </app-trips-card>
+    @if(selectedTrip && popUpType === 'delete'){
+        <div class="deleteTripContainer">
+            <app-delete-trip
+                [trip]="selectedTrip"
+                (close)="onClosePopUp()">
+            </app-delete-trip>
+        </div>
     }
-  </section>
 
-  <!-- PopUp Join -->
-  @if(selectedTrip && popUpType === 'join'){
-  <div class="joinTripContainer">
-    <app-join-trip [trip]="selectedTrip" (close)="onClosePopUp()"> </app-join-trip>
-  </div>
-  } @if(selectedTrip && popUpType === 'delete'){
-  <div class="deleteTripContainer">
-    <app-delete-trip [trip]="selectedTrip" (close)="onClosePopUp()"> </app-delete-trip>
-  </div>
-  } @if(selectedTrip && popUpType === 'detail'){
-  <div class="detailTripContainer">
-    <app-detail-trip
-      [trip]="selectedTrip"
-      (editFormClicked)="onOpenPopUp(selectedTrip, 'form', 'edit')"
-      (close)="onClosePopUp()"
-    >
-    </app-detail-trip>
-  </div>
-  } @if(selectedTrip && popUpType === 'form' && tripFormMode === 'edit'){
-  <div class="formTripContainer">
-    <app-trip-form [trip]="selectedTrip" [formMode]="'edit'" (close)="onClosePopUp()">
-    </app-trip-form>
-  </div>
-  } @if(popUpType==='form'&& tripFormMode === 'create'){
-  <div class="formTripContainer">
-    <app-trip-form [trip]="null" [formMode]="'create'" (close)="onClosePopUp()"> </app-trip-form>
-  </div>
-  }
+    @if(selectedTrip && popUpType === 'detail'){
+        <div class="detailTripContainer">
+            <app-detail-trip
+                [trip]="selectedTrip"
+                [tripMode]="mode"
+                (editFormClicked)="onOpenPopUp(selectedTrip, 'form', 'edit')"
+                (close)="onClosePopUp()">
+            </app-detail-trip>
+        </div>
+    }
 
-  <!-- POPUPS REQUEST-->
-@if (popUpType === 'request' && selectedTrip) {
-  <div class="popup-overlay" (click)="onClosePopUp()">
-    <div class="popup" (click)="$event.stopPropagation()">
-      <app-petitions [trip]="selectedTrip"></app-petitions>
-      <button class="close-btn" (click)="onClosePopUp()">Cerrar</button>
-    </div>
-  </div>
-}
+    @if(selectedTrip && popUpType === 'form' && tripFormMode === 'edit'){
+        <div class="formTripContainer">
+            <app-trip-form
+                [trip]="selectedTrip" 
+                [formMode]="'edit'"
+                (close)="onClosePopUp()">
+            </app-trip-form>
+        </div>
+    }
+
+    @if(popUpType==='form'&& tripFormMode === 'create'){
+        <div class="formTripContainer">
+            <app-trip-form
+                [trip]="null"
+                [formMode]="'create'"
+                (close)="onClosePopUp()">
+            </app-trip-form>
+        </div>
+    }
+    
+    <!-- POPUPS REQUEST-->
+    @if (popUpType === 'request' && selectedTrip) {
+      <div class="popup-overlay" (click)="onClosePopUp()">
+        <div class="popup" (click)="$event.stopPropagation()">
+          <app-petitions [trip]="selectedTrip"></app-petitions>
+          <button class="close-btn" (click)="onClosePopUp()">Cerrar</button>
+        </div>
+      </div>
+    }
+
 </div>

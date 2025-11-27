@@ -2,12 +2,14 @@
     <div class="tripDetailHeader">
         <span class="tripDetailTittle"> DETALLE DEL VIAJE </span>
             <div class="tripDetailIcons">
-                <button 
-                    type="button"
-                    class="editTripButton"
-                    (click)="editTrip()">
-                        <i class="bi bi-pencil"></i>
-                </button>
+                @if(tripMode==='mine'){
+                    <button 
+                        type="button"
+                        class="editTripButton"
+                        (click)="editTrip()">
+                            <i class="bi bi-pencil"></i>
+                    </button>
+                }
 
                 <button
                     type="button"
@@ -16,15 +18,17 @@
                     <i class="bi bi-x-lg"></i>
                 </button>
             </div>
-
-            <div class="tripMembersContainer">
-                <button 
-                    type="button"
-                    class="tripMembersButton"
-                    (click)="toggleMembersList()">
-                    VER MIEMBROS ACEPTADOS
-                </button>
-            </div>
+            
+            @if(tripMode==='mine'){
+                <div class="tripMembersContainer">
+                    <button 
+                        type="button"
+                        class="tripMembersButton"
+                        (click)="toggleMembersList()">
+                        VER MIEMBROS ACEPTADOS
+                    </button>
+                </div>
+            }
     </div>
 
     <main class="tripDetails">
@@ -37,7 +41,6 @@
             <h3 class="detailLabel">DESCRIPCIÓN</h3>
             <p class="tripDescription">{{trip.description}}</p>
         </div>
-
         <div class="detailContainer">
             <h3 class="detailLabel">FECHAS DEL VIAJE</h3>
             <p class="tripDate">{{ trip.startDate | date:'d' }} al {{ trip.endDate | date:'d \'de\' MMMM' }}</p>
