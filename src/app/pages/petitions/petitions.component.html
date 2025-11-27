@@ -6,12 +6,12 @@
   <h3 class="subtitulo">{{ subtitulo }}</h3>
 
   <!-- Listado de solicitudes con @for -->
-  @for (solicitud of solicitudes; track solicitud.user.username) {
+  @for (joinPetition of joinPetitions; track joinPetition.requestId) {
     <div class="solicitud-card" [class.expanded]="solicitud.expanded">
 
       <!-- Cabecera -->
       <div class="solicitud-header">
-        <span>Solicitud realizada por {{ solicitud.user.username }}</span>
+        <span>Solicitud realizada por {{ joinPetition.name }}</span>
         <button class="toggle-btn" (click)="toggleSolicitud(solicitud)">
           @if (!solicitud.expanded) {
             ▼
@@ -24,8 +24,8 @@
       <!-- Contenido desplegable -->
       @if (solicitud.expanded) {
         <div class="solicitud-body">
-          <button class="btn aceptar">👍 ACEPTAR</button>
-          <button class="btn rechazar">👎 RECHAZAR</button>
+          <button class="btn aceptar" (click)="aceptarSolicitud(joinPetition.requestId)">👍 ACEPTAR</button>
+          <button class="btn rechazar" (click)="rechazarSolicitud($event)">👎 RECHAZAR</button>
         </div>
       }
     </div>
