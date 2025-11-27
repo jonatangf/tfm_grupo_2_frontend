@@ -1,0 +1,65 @@
+/* === Estilos de las solicitudes === */
+.container {
+  width: 80%;
+  margin: auto;
+  font-family: Arial, sans-serif;
+}
+
+.titulo {
+  text-align: center;
+  font-weight: bold;
+}
+
+.subtitulo {
+  text-align: center;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.solicitud-card {
+  background-color: #f0f0f0;
+  margin: 10px 0;
+  border-radius: 6px;
+  padding: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.solicitud-card.expanded {
+  background-color: #fff;
+}
+
+.solicitud-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.toggle-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.solicitud-body {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.aceptar {
+  background-color: #4caf50;
+  color: white;
+}
+
+.rechazar {
+  background-color: #f44336;
+  color: white;
+}

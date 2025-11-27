@@ -1,0 +1,33 @@
+<div class="container">
+  <!-- Título principal -->
+  <h1 class="titulo">Solicitudes</h1>
+
+  <!-- Subtítulo dinámico -->
+  <h3 class="subtitulo">{{ subtitulo }}</h3>
+
+  <!-- Listado de solicitudes con @for -->
+  @for (solicitud of solicitudes; track solicitud.user.username) {
+    <div class="solicitud-card" [class.expanded]="solicitud.expanded">
+
+      <!-- Cabecera -->
+      <div class="solicitud-header">
+        <span>Solicitud realizada por {{ solicitud.user.username }}</span>
+        <button class="toggle-btn" (click)="toggleSolicitud(solicitud)">
+          @if (!solicitud.expanded) {
+            ▼
+          } @else {
+            ▲
+          }
+        </button>
+      </div>
+
+      <!-- Contenido desplegable -->
+      @if (solicitud.expanded) {
+        <div class="solicitud-body">
+          <button class="btn aceptar">👍 ACEPTAR</button>
+          <button class="btn rechazar">👎 RECHAZAR</button>
+        </div>
+      }
+    </div>
+  }
+</div>
