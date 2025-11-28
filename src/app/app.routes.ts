@@ -10,7 +10,7 @@ export const routes: Routes = [
 
   // Rutas protegidas
   { path: 'profile', component: ProfileComponent, canActivate: [loginGuard] },
-  { path: 'trips', component: TripListComponent, canActivate: [loginGuard] },
+  { path: 'trips', component: TripListComponent},
 
   { path: '**', redirectTo: 'home' },
 ];

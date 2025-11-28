@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { UsersService } from '../../../services/users.service';
 import { ISession } from '../../../interfaces/users/isession';
 import { ProfileComponent } from "../../../pages/profile/profile.component";
@@ -11,24 +11,35 @@ import { ProfileComponent } from "../../../pages/profile/profile.component";
   styleUrl: './trips-header.component.css',
 })
 export class TripsHeaderComponent {
-  userService = inject(UsersService);
-  sesionData: ISession | null = {
-    userId: -1,
-    username: '',
-    email: '',
-    photo: '',
-  };
-  isProfileSidebarOpen: boolean = false;
 
-  ngOnInit(): void {
-    this.getSessionData();
-  }
+    router = inject(Router);
+    userService = inject(UsersService);
+    sesionData: ISession | null = {
+      userId: -1,
+      username: '',
+      email: '',
+      photo: '',
+    };
 
-  getSessionData() {
-    this.sesionData = this.userService.getSession();
-  }
+    isProfileSidebarOpen: boolean = false;
 
-  toggleProfileSidebar(): void {
-    this.isProfileSidebarOpen = !this.isProfileSidebarOpen;
-  }
+    ngOnInit(): void {
+        this.getSessionData();
+    }
+
+    getSessionData() {
+        this.sesionData = this.userService.getSession();
+    }
+
+    toggleProfileSidebar(): void {
+        this.isProfileSidebarOpen = !this.isProfileSidebarOpen;
+    }
+
+    // Si ya estamos en /trips, evitar que el router haga navegación y refrescar
+    goToTrips(event: Event) {
+        if (this.router.url === '/trips') {
+          event.preventDefault();
+          window.location.reload();
+        }
+    }
 }
