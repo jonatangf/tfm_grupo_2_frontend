@@ -34,21 +34,23 @@
             type="text"
             class="filterInput"
             placeholder="Destino"
-            [(ngModel)]="filters.destinyPlace">
+            [(ngModel)]="filters.destination">
         
         <!-- Filtro start date -->
         <input 
             type="date"
             class="filterInput"
             placeholder="Fecha Alta"
-            [(ngModel)]="filters.startDate">
+            [(ngModel)]="filters.startDate"
+            [min]="today">
 
         <!-- Filtro end date -->
         <input 
             type="date"
             class="filterInput"
             placeholder="Fecha Baja"
-            [(ngModel)]="filters.endDate">
+            [(ngModel)]="filters.endDate"
+            [min]="filters.startDate || today">
 
         <!-- filtro para el budget -->
         <div class="budgetContainer">
@@ -61,12 +63,12 @@
                     placeholder="Price"
                     min="0"
                     max="10000"
-                    [(ngModel)]="filters.maxCost"
+                    [(ngModel)]="filters.price"
                     (ngModelChange)="onMaxCostChange($event)">
                 <span class="budgetCurrency">€</span>
                 <button type="button"
                         class="clearBudgetButton"
-                        (click)="filters.maxCost = null">
+                        (click)="filters.price = null">
                     x
                 </button>
             </div>

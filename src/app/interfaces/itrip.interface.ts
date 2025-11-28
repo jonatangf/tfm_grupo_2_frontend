@@ -36,10 +36,10 @@ export interface ITripResponse{
 }
 
 export interface ITripFilters {
-    destinyPlace?: string;
+    destination?: string;
     startDate?: string;
     endDate?: string;
-    maxCost?: number | null;
+    price?: number | null;
 }
 
 

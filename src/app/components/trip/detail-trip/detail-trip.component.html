@@ -43,7 +43,7 @@
         </div>
         <div class="detailContainer">
             <h3 class="detailLabel">FECHAS DEL VIAJE</h3>
-            <p class="tripDate">{{ trip.startDate | date:'d' }} al {{ trip.endDate | date:'d \'de\' MMMM' }}</p>
+            <p class="tripDate">{{ trip.startDate | dateRange:trip.endDate }}</p>
         </div>
         <div class="detailContainer">
             <h3 class="detailLabel">COSTE POR PERSONA</h3>

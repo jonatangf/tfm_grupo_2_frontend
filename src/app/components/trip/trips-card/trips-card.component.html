@@ -11,8 +11,7 @@
             <div>
                 <h4 class="tripName">{{trip.name}}</h4>
                 <p class="tripDates">
-                    <!-- TODO: LOS MESES ESTAN EN INGLES -->
-                    {{ trip.startDate | date:'d' }} al {{ trip.endDate | date:'d \'de\' MMMM' }}
+                    {{ trip.startDate | dateRange:trip.endDate }}
                 </p>
             </div>
 

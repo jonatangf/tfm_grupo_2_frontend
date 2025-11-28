@@ -1,13 +1,12 @@
 import { Component, inject, Input, Output, EventEmitter } from '@angular/core';
 import { ITripResponse } from '../../../interfaces/itrip.interface';
-import { DatePipe } from '@angular/common';
 import { IUser } from '../../../interfaces/users/iuser';
 import { UsersService } from '../../../services/users.service';
 import { ParticipationsService } from '../../../services/participations.service';
-
+import { DateRangePipe } from '../../../utils/date-format.pipe';
 @Component({
   selector: 'app-join-trip',
-  imports: [DatePipe],
+  imports: [DateRangePipe],
   templateUrl: './join-trip.component.html',
   styleUrl: './join-trip.component.css',
 })

@@ -8,14 +8,12 @@
         <!-- TODO: CAMBIAR RUTA CUANDO ESTE HECHA LA PAGE DEL FORO -->
         <a [routerLink]="['/trips']" routerLinkActive="active">Foro</a> 
         
-        <!-- TODO: PONER FOTO BY DEFAULT -->
         <button class="avatarButton" type="button" (click)="toggleProfileSidebar()">
-            <img class="avatarImg" [src]="sesionData?.photo" alt="Avatar de usuario">
+            <img class="avatarImg" [src]="sesionData?.photo || 'assets/icons/default-avatar.png'" alt="Avatar de usuario">
         </button>
     </div>
 </nav>
 
-<!-- TODO: TENER EN CUENTA COMO SE CIERRA DESDE EL COMPONENTE DEL PERFIL -->
 <div class="profileSideBar" [class.open]="isProfileSidebarOpen">
   <app-profile
     (close)="toggleProfileSidebar()">

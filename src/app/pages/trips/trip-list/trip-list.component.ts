@@ -34,11 +34,13 @@ export class TripListComponent {
   };
 
   filters: ITripFilters = {
-    destinyPlace: '',
+    destination: '',
     startDate: '',
     endDate: '',
-    maxCost: null,
+    price: null,
   };
+
+  today = new Date().toISOString().split('T')[0];
 
   mode: TripListMode = 'available';
   tripFormMode: TripFormMode | null = null;
@@ -90,16 +92,16 @@ export class TripListComponent {
 
   onMaxCostChange(value: number) {
     if (value < 0) {
-      this.filters.maxCost = 0;
+      this.filters.price = 0;
     }
   }
 
   clearFilters() {
     this.filters = {
-      destinyPlace: '',
+      destination: '',
       startDate: '',
       endDate: '',
-      maxCost: null,
+      price: null,
     };
 
     this.searchTrips();

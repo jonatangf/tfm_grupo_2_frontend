@@ -28,7 +28,6 @@ export class TripsHeaderComponent {
     this.sesionData = this.userService.getSession();
   }
 
-  //TODO: Abrir Sidebar del perfil
   toggleProfileSidebar(): void {
     this.isProfileSidebarOpen = !this.isProfileSidebarOpen;
   }

@@ -19,8 +19,7 @@
         </div>
 
         <span class="joinDatesTag">
-            <!-- TODO: LOS MESES ESTAN EN INGLES -->
-            {{ trip.startDate | date:'d' }} al {{ trip.endDate | date:'d \'de\' MMMM' }}
+            {{ trip.startDate | dateRange:trip.endDate }}
         </span>
 
         <div class="joinPrice">{{trip.costPerPerson}}€</div>

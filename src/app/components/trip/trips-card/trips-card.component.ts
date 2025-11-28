@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { ITripResponse } from '../../../interfaces/itrip.interface';
-import { TripListMode, TripFormMode } from '../../../types/trip-types';
+import { TripListMode } from '../../../types/trip-types';
+import { DateRangePipe } from '../../../utils/date-format.pipe';
 @Component({
   selector: 'app-trips-card',
-  imports: [DatePipe],
+  imports: [DateRangePipe],
   templateUrl: './trips-card.component.html',
   styleUrl: './trips-card.component.css',
 })
@@ -33,8 +33,7 @@ export class TripCardComponent {
     deleteTrip(){
         this.deleteClicked.emit();
     }
-
-    //TODO: MIRAR COMO HAN HECHO ESTO PARA JUNTARLO
+    
     showRequests(){
         this.requestClicked.emit(this.trip);
     }
