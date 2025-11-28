@@ -31,21 +31,20 @@ export class JoinTripComponent {
         await this.checkUserParticipation();
     }
 
-    async checkUserParticipation(){
+    private async checkUserParticipation(){
         try {
-            const session = this.userService.getSession()
-            const currentUserId = session?.userId;
-            if(!currentUserId) return; 
+            const myRequests = await this.userService.getMyTripRequests();
+            const currentTripReq = myRequests.find(r => r.tripId === this.trip.id);
 
-            //Obtener los miembros del viaje
-            const members = await this.participationService.getTripMembers(this.trip.id);
-            this.isParticipant = members.some(member => member.userId === currentUserId);
-
-            //TODO: Si no es miembro comprobar solicitudes pendientes
-            if(!this.isParticipant){
-                //const requests = await this.participationService.getJoinRequests(this.trip.id);
-                //this.hasRequestPending = requests.some(req=> req.userId === currentUserId)
+            if(currentTripReq?.status === 'pending'){
+                this.hasRequestPending = true;
+            } else if(currentTripReq?.status === 'accepted'){
+                this.isParticipant = true;
+            } else if(currentTripReq?.status === 'rejected'){
+                this.hasRequestPending = false;
+                this.isParticipant = false;
             }
+
         } catch (error) {
             console.error('Error al checkear la solicitud', error);
         } 
@@ -55,11 +54,11 @@ export class JoinTripComponent {
         this.close.emit();
     }
 
-    async requetsJoin(){
+    async requestJoin(){
 
-        this.checkUserParticipation();
+        await this.checkUserParticipation();
 
-        if(!this.trip.creatorId || this.hasRequestPending || this.isParticipant) return;
+        if(!this.trip.creatorId || this.isParticipant ||this.hasRequestPending) return;
             
         try {
             const response = await this.participationService.createTripRequest(this.trip.id);

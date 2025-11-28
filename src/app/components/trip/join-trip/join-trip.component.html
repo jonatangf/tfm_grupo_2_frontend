@@ -29,7 +29,7 @@
         <button 
             type="button"
             class="joinRequest"
-            (click)="requetsJoin()"
+            (click)="requestJoin()"
             [disabled]="hasRequestPending || isParticipant">
             {{isParticipant ? 'PARTICIPANDO' : (hasRequestPending ? 'SOLICITUD ENVIADA' : 'SOLICITAR UNIRSE') }}
         </button>

@@ -5,6 +5,7 @@ import { IUser } from '../interfaces/users/iuser';
 import { ILoginResponse } from '../interfaces/ilogin-response';
 import { ILoginRequest } from '../interfaces/ilogin-request';
 import { ISession } from '../interfaces/users/isession';
+import { IMyTripRequest } from '../interfaces/iparticipation.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -91,6 +92,11 @@ export class UsersService {
     return lastValueFrom(
       this.httpClient.post<string>(`${this.baseUrl}/users/${id}/avatar`, formData)
     );
+  }
+
+  //Obtiene todas mis solicitudes a union de viajes
+  async getMyTripRequests(): Promise<IMyTripRequest[]> {
+    return  lastValueFrom(this.httpClient.get<IMyTripRequest[]>(`${this.baseUrl}/users/me/trip-requests`));
   }
 
 }

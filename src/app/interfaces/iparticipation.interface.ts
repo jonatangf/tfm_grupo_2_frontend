@@ -10,3 +10,14 @@ export interface ITripJoinRequestResponse {
     name: string;
     status: 'pending' | 'accepted' | 'rejected';
 }
+
+export interface IMyTripRequest{
+    tripId: number;
+    tripName: string;
+    destination: string;
+    destinyCountryId: number;
+    startDate: string;
+    endDate: string;
+    status: 'pending' | 'accepted' | 'rejected';
+    requestedAt: string;
+}
