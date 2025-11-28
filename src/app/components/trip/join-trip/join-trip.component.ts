@@ -37,15 +37,15 @@ export class JoinTripComponent {
             const currentUserId = session?.userId;
             if(!currentUserId) return; 
 
-            //Obtener los miembros
+            //Obtener los miembros del viaje
             const members = await this.participationService.getTripMembers(this.trip.id);
             this.isParticipant = members.some(member => member.userId === currentUserId);
 
             //TODO: Si no es miembro comprobar solicitudes pendientes
-            //if(!this.isParticipant){
-            //    const requests = await this.participationService.getJoinRequests(this.trip.id);
-            //    this.hasRequestPending = requests.some(req=> req.userId === currentUserId)
-            //}
+            if(!this.isParticipant){
+                //const requests = await this.participationService.getJoinRequests(this.trip.id);
+                //this.hasRequestPending = requests.some(req=> req.userId === currentUserId)
+            }
         } catch (error) {
             console.error('Error al checkear la solicitud', error);
         } 
@@ -55,8 +55,10 @@ export class JoinTripComponent {
         this.close.emit();
     }
 
-    //TODO: HAY QUE CHECKEAR SI LA REQUEST YA SE HA HECHO PREVIAMENTE
     async requetsJoin(){
+
+        this.checkUserParticipation();
+
         if(!this.trip.creatorId || this.hasRequestPending || this.isParticipant) return;
             
         try {
