@@ -1,6 +1,5 @@
 import { Component, inject, Input } from '@angular/core';
 import { ITripResponse } from '../../interfaces/itrip.interface';
-import { TripsService } from '../../services/trips.service';
 import { ParticipationsService } from '../../services/participations.service';
 import { ITripJoinRequestResponse } from '../../interfaces/iparticipation.interface';
 import { DateRangePipe } from '../../utils/date-format.pipe';

@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { UsersService } from '../../services/users.service';
 import { IUser } from '../../interfaces/users/iuser';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CountriesService } from '../../services/countries.service';
+import { ICountry } from '../../interfaces/icountry.interface';
 
 @Component({
   selector: 'app-profile',
@@ -17,8 +19,10 @@ export class ProfileComponent {
 
   private snackBar = inject(MatSnackBar);
   userService = inject(UsersService);
+  countriesService = inject(CountriesService);
   sesionData!: ISession;
   user!: IUser;
+  countries!: ICountry[];
 
   isEditing = false;
   editableUser: any;
@@ -28,6 +32,7 @@ export class ProfileComponent {
   async ngOnInit(): Promise<void> {
     this.getSessionData();
     await this.getUser();
+    this.loadCountries();
     // Clonamos el user para edición
     this.originalUser = { ...this.user };
     this.editableUser = { ...this.user };
@@ -39,6 +44,10 @@ export class ProfileComponent {
 
   async getUser() {
     this.user = await this.userService.getUserById(this.sesionData.userId);
+  }
+
+  async loadCountries(){
+     this.countries = await this.countriesService.getCountries();
   }
 
   toggleEdit() {
@@ -71,6 +80,7 @@ export class ProfileComponent {
 
   async onSave() {
     try {
+      console.log(this.editableUser);
       // Intentamos actualizar en backend
       await this.userService.updateUserById(this.editableUser);
 
