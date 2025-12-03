@@ -26,23 +26,16 @@
         <div class="members-grid" *ngIf="!loadingMembers && members.length > 0">
           <div class="member-card" *ngFor="let member of members" (click)="selectMember(member)">
             <div class="member-avatar">
-              <img
-                [src]="'https://via.placeholder.com/50'"
-                [alt]="getMemberFullName(member)"
-                onerror="this.src='https://via.placeholder.com/50'"
-              />
+              <i 
+                class="bi bi-person-circle" 
+                style="font-size: 2rem;">
+              </i>
             </div>
             <div class="member-info">
-              <h3 class="member-name">{{ getMemberFullName(member) }}</h3>
+              <h3 class="member-name">{{ getMemberFullName(member) }} </h3>
+              
               <p class="member-detail" *ngIf="member.email">{{ member.email }}</p>
             </div>
-            <button
-              class="view-icon"
-              (click)="selectMember(member); $event.stopPropagation()"
-              aria-label="Ver reseñas"
-            >
-              👁️
-            </button>
           </div>
         </div>
 
@@ -155,11 +148,10 @@
               <p class="review-body">{{ review.comment }}</p>
               <div class="review-footer">
                 <div class="reviewer-avatar">
-                  <img
-                    src="https://via.placeholder.com/30"
-                    [alt]="review.from"
-                    onerror="this.src='https://via.placeholder.com/30'"
-                  />
+                  <i 
+                    class="bi bi-person-circle" 
+                    style="font-size: 1.5rem;">
+                  </i>
                 </div>
                 <div class="reviewer-info">
                   <p class="reviewer-name">{{ review.from }}</p>
