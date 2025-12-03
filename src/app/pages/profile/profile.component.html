@@ -1,22 +1,30 @@
 @if(user){
 <div class="userFormSidebar">
   <div class="profileHeader">
-    <h2 class="profileTitle">Editar perfil</h2>
+    
+          @if(!isEditing){
+    <h2 class="profileTitle">PERFIL</h2>
+      }
+
+            @if(isEditing){
+    <h2 class="profileTitle">EDITAR PERFIL</h2>
+      }
+
+
     <div class="profileIcons">
-      <button class="iconButton" (click)="onCancel()">✕</button>
       @if(!isEditing){
       <button class="iconButton" (click)="toggleEdit()">✎</button>
       }
+      <button class="iconButton" (click)="onCancel()">✕</button>
     </div>
   </div>
 <!-- Avatar -->
 <div class="avatarContainer">
   <div class="avatarWrapper" (click)="onAvatarClick(avatarInput)">
-  <img 
-    class="avatarImg" 
-    [src]="user.photo || 'assets/icons/default-avatar.png'"   
-    alt="Avatar de usuario"><!--DEFAULT FOTO ? user.photo : 'assets/icons/default-avatar.png'"-->
-</div>
+    <i class="bi bi-person-circle avatarIcon"></i>
+  </div>
+
+
   <!-- input oculto para seleccionar archivo, escondemos lo típico de "Subir archivo" de este tipo de inputs -->
   <input 
     type="file" 
@@ -53,11 +61,19 @@
   </form>
 
   <!-- Botón Editar Perfil -->
-   @if(showSaveButton){
+   @if(isEditing){
     <div class="profileActions">
       <button type="button" (click)="onSave()">EDITAR PERFIL</button>
     </div>
    }
+
+
+   @if(!isEditing){
+    <div class="profileActions">
+      <button type="button" (click)="onLogout()" class="logout-button">CERRAR SESIÓN</button>
+    </div>
+   }
+
 </div>
 }
 

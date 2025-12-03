@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { UsersService } from '../../services/users.service';
 import { IUser } from '../../interfaces/users/iuser';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -16,6 +17,7 @@ export class ProfileComponent {
   @Output() close = new EventEmitter<void>();
 
   private snackBar = inject(MatSnackBar);
+  private router = inject(Router);
   userService = inject(UsersService);
   sesionData!: ISession;
   user!: IUser;
@@ -24,6 +26,7 @@ export class ProfileComponent {
   editableUser: any;
   originalUser: any;
   showSaveButton = false;
+  
 
   async ngOnInit(): Promise<void> {
     this.getSessionData();
@@ -110,5 +113,10 @@ export class ProfileComponent {
       duration: 4000,
       panelClass: ['success-snackbar'],
     });
+  }
+
+  onLogout() {
+    this.userService.logout();
+    this.router.navigate(['/home']);
   }
 }

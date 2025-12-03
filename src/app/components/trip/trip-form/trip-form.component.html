@@ -1,176 +1,124 @@
 <section class="tripForm">
-    <div class="titleContainer">
-        <h2 class="formTitle">{{formMode === 'edit' ? 'Editar' : 'Crear nuevo'}} Viaje</h2>
-        <button
-            type="button"
-            class="closeButton"
-            (click)="closePopUp()">
-            <i class="bi bi-x-lg"></i>
-        </button>
-    </div>
+  <!-- Header fijo -->
+  <div class="titleContainer">
+    <h2 class="formTitle">{{formMode === 'edit' ? 'EDITAR' : 'CREAR NUEVO'}} VIAJE</h2>
+    <button type="button" class="closeButton" (click)="closePopUp()">
+      <i class="bi bi-x-lg"></i>
+    </button>
+  </div>
+
+  <!-- Contenido scrollable -->
+  <div class="formContent">
     <form [formGroup]="tripForm" (ngSubmit)="submitForm()">
 
-        <!-- CONTROL DE TITULO DEL VIAJE -->
-        <div class="tripNameContainer">
-            <label class="formLabel" for="title">Título del viaje </label>
-            <input class="formControl" id="title" type="text" placeholder="Introduzca el titulo del viaje" formControlName="title">
-            @if(checkControl('title', 'required')){
-                <p class="text-danger">El título es obligatorio</p>
-            }
-            @if(checkControl('title', 'pattern')){
-                <p class="text-danger">El título no pueden ser espacios</p>
-            }
-            @if(checkControl('title', 'minLength')||checkControl('title', 'maxLenght')){
-                <p class="text-danger">El título tiene que ser entre 1-255 carcateres</p>
-            }
-        </div>
+      <!-- TÍTULO -->
+      <div class="tripNameContainer">
+        <label class="formLabel" for="title">Título del viaje</label>
+        <input class="formControl" id="title" type="text" placeholder="Introduzca el título del viaje" formControlName="title">
+        @if(checkControl('title', 'required')){ <p class="text-danger">El título es obligatorio</p> }
+        @if(checkControl('title', 'pattern')){ <p class="text-danger">El título no puede ser solo espacios</p> }
+        @if(checkControl('title', 'minLength')||checkControl('title', 'maxLenght')){ <p class="text-danger">El título debe tener entre 1-255 caracteres</p> }
+      </div>
 
-        <!-- CONTROL DE DESCRIPCION VIAJE -->
-        <div class="tripdescriptionContainer">
-            <label class="formLabel" for="description">Descripción</label>
-            <input class="formControl" id="description" type="text" placeholder="Introduzca la descripcion viaje" formControlName="description">
-            @if(checkControl('description', 'required')){
-                <p class="text-danger">La descripción es obligatoria</p>
-            }
-            @if(checkControl('description', 'pattern')){
-                <p class="text-danger">La descripción no pueden ser espacios</p>
-            }
-        </div>
+      <!-- DESCRIPCIÓN -->
+      <div class="tripdescriptionContainer">
+        <label class="formLabel" for="description">Descripción</label>
+        <input class="formControl" id="description" type="text" placeholder="Introduzca la descripción del viaje" formControlName="description">
+        @if(checkControl('description', 'required')){ <p class="text-danger">La descripción es obligatoria</p> }
+        @if(checkControl('description', 'pattern')){ <p class="text-danger">La descripción no puede ser solo espacios</p> }
+      </div>
 
-        <!-- CONTROLES DE FECHAS VIAJE -->
-        <div class="tripStartDateContainer">
-            <label class="formLabel" for="startDate">Fecha de inicio de viaje</label>
-            <input class="formControl" id="startDate" type="date" formControlName="startDate" [min]="today">
-            @if(checkControl('startDate', 'required')){
-                <p class="text-danger">La fecha de inicio es obligatoria</p>
-            }
-        </div>
+      <!-- FECHAS -->
+      <div class="tripStartDateContainer">
+        <label class="formLabel" for="startDate">Fecha de inicio de viaje</label>
+        <input class="formControl" id="startDate" type="date" formControlName="startDate" [min]="today">
+        @if(checkControl('startDate', 'required')){ <p class="text-danger">La fecha de inicio es obligatoria</p> }
+      </div>
 
-        <div class="tripEndDateContainer">
-            <label class="formLabel" for="endDate">Fecha de fin de viaje</label>
-            <input class="formControl" id="endDate" type="date" formControlName="endDate" [min]="tripForm.get('starDate')?.value || today">
-            @if(checkControl('endDate', 'required')){
-                <p class="text-danger">La fecha de fin es obligatoria</p>
-            }
-            @if(checkControl('endDate', 'dateRange')){
-                <p class="text-danger">La fecha de fin no puede ser anterior a la fecha de inicio</p>
-            }
-        </div>
+      <div class="tripEndDateContainer">
+        <label class="formLabel" for="endDate">Fecha de fin de viaje</label>
+        <input class="formControl" id="endDate" type="date" formControlName="endDate" [min]="tripForm.get('startDate')?.value || today">
+        @if(checkControl('endDate', 'required')){ <p class="text-danger">La fecha de fin es obligatoria</p> }
+        @if(checkControl('endDate', 'dateRange')){ <p class="text-danger">La fecha de fin no puede ser anterior a la fecha de inicio</p> }
+      </div>
 
-        <!-- CONTROL DE COSTE POR PERSONA -->
-        <div class="tripCostContainer">
-            <label class="formLabel" for="cost">Coste por persona (€)</label>
-            <input class="formControl" id="cost" type="number" formControlName="cost">
-            @if(checkControl('cost', 'required')){
-                <p class="text-danger">El coste por persona es obligatorio</p>
-            }
-            @if(checkControl('cost', 'min')){
-                <p class="text-danger">El coste no puede ser negativo</p>
-            }
-        </div>
+      <!-- COSTE -->
+      <div class="tripCostContainer">
+        <label class="formLabel" for="cost">Coste por persona (€)</label>
+        <input class="formControl" id="cost" type="number" formControlName="cost">
+        @if(checkControl('cost', 'required')){ <p class="text-danger">El coste por persona es obligatorio</p> }
+        @if(checkControl('cost', 'min')){ <p class="text-danger">El coste no puede ser negativo</p> }
+      </div>
 
-        <!-- CONTROL DE MINIMOS PARTICIPANTES -->
-        <div class="tripMinParticipantsContainer">
-            <label class="formLabel" for="minParticipants">Mínimo de participantes</label>
-            <input class="formControl" id="minParticipants" type="number"
-            formControlName="minParticipants">
-            @if(checkControl('minParticipants', 'required')){
-                <p class="text-danger">El número mínimo de participantes es obligatorio</p>
-            }
-            @if(checkControl('minParticipants', 'min')){
-                <p class="text-danger">Debe ser al menos 1 participante</p>
-            }
-        </div>
+      <!-- PARTICIPANTES -->
+      <div class="tripMinParticipantsContainer">
+        <label class="formLabel" for="minParticipants">Mínimo de participantes</label>
+        <input class="formControl" id="minParticipants" type="number" formControlName="minParticipants">
+        @if(checkControl('minParticipants', 'required')){ <p class="text-danger">El número mínimo de participantes es obligatorio</p> }
+        @if(checkControl('minParticipants', 'min')){ <p class="text-danger">Debe ser al menos 1 participante</p> }
+      </div>
 
-        <!-- CONTROL DE COUNTRY -->
-        <div class="tripCountryContainer">
-            <label class="formLabel" for="country">País</label>
-            <select id="country" class="formControl" formControlName="country">
-                <option value="">Selecciona un país</option>
-                @for(country of countries; track country.id){
-                    <option [value]="country.id">{{country.name}}</option>
-                }
-            </select>
-            @if(checkControl('country', 'required')){
-                <p class="text-danger">El país es obligatorio</p>
-            }
-        </div>
+      <!-- PAÍS -->
+      <div class="tripCountryContainer">
+        <label class="formLabel" for="country">País</label>
+        <select id="country" class="formControl" formControlName="country">
+          <option value="">Selecciona un país</option>
+          @for(country of countries; track country.id){ <option [value]="country.id">{{country.name}}</option> }
+        </select>
+        @if(checkControl('country', 'required')){ <p class="text-danger">El país es obligatorio</p> }
+      </div>
 
-        <!-- CONTROLES DE DESTINO -->
-        <div class="tripDestinyContainer">
-            <label class="formLabel" for="destiny">Destino</label>
-            <input class="formControl" id="destiny" type="text" formControlName="destiny">
-            @if(checkControl('destiny', 'required')){
-                <p class="text-danger">El destino es obligatorio</p>
-            }            
-            @if(checkControl('destiny', 'pattern')){
-                <p class="text-danger">El destino no pueden ser espacios</p>
-            }
-            @if(checkControl('destiny', 'minLength')||checkControl('destiny', 'maxLenght')){
-                <p class="text-danger">El destino tiene que ser entre 1-150 carcateres</p>
-            }
-        </div>
+      <!-- DESTINO -->
+      <div class="tripDestinyContainer">
+        <label class="formLabel" for="destiny">Destino</label>
+        <input class="formControl" id="destiny" type="text" formControlName="destiny">
+        @if(checkControl('destiny', 'required')){ <p class="text-danger">El destino es obligatorio</p> }
+        @if(checkControl('destiny', 'pattern')){ <p class="text-danger">El destino no puede ser solo espacios</p> }
+        @if(checkControl('destiny', 'minLength')||checkControl('destiny', 'maxLenght')){ <p class="text-danger">El destino debe tener entre 1-150 caracteres</p> }
+      </div>
 
-        <div class="tripDestinyImgContainer">
-            <label class="formLabel" for="destinyImg">URL imagen del destino</label>
-            <input class="formControl" id="destinyImg" type="url" formControlName="destinyImg">
-            @if(checkControl('destinyImg', 'required')){
-                <p class="text-danger">La imagen es obligatoria</p>
-            }
-            @if(checkControl('destinyImg', 'webImgValidator')){
-            <p class="text-danger">{{tripForm.get('destinyImg')?.errors?.['webImgValidator']}}</p>
-            }
-            @if(checkControl('destinyImg', 'minLength')||checkControl('destinyImg', 'maxLenght')){
-                <p class="text-danger">La imagen tiene que ser menos de 500 carcateres</p>
-            }
-        </div>
+      <!-- URL IMAGEN DESTINO -->
+      <div class="tripDestinyImgContainer">
+        <label class="formLabel" for="destinyImg">URL imagen del destino</label>
+        <input class="formControl" id="destinyImg" type="url" formControlName="destinyImg">
+        @if(checkControl('destinyImg', 'required')){ <p class="text-danger">La imagen es obligatoria</p> }
+        @if(checkControl('destinyImg', 'webImgValidator')){ <p class="text-danger">{{tripForm.get('destinyImg')?.errors?.['webImgValidator']}}</p> }
+        @if(checkControl('destinyImg', 'minLength')||checkControl('destinyImg', 'maxLenght')){ <p class="text-danger">La imagen debe tener menos de 500 caracteres</p> }
+      </div>
 
-        <!-- CONTROL DE TRANSPORTE -->
-        <div class="tripTransportContainer">
-            <label class="formLabel" for="transport">Transporte</label>
-            
-            <select id="transport" class="formControl" formControlName="transport">
-                <option value="">Selecciona un transporte</option>
-                @for(trans of transports; track trans.id){
-                    <option [value]="trans.id">{{trans.name}}</option>
-                }
-            </select>
-            @if(checkControl('transport', 'required')){
-                <p class="text-danger">El transporte es obligatorio</p>
-            }
-        </div>   
-        
-        <!-- CONTROL DE ACCOMODATIONS -->
-        <div class="tripAccomodationContainer">
-            <label class="formLabel" for="accomodation">Alojamiento</label>
-            
-            <select id="accomodation" class="formControl" formControlName="accomodation">
-                <option value="">Selecciona un alojamiento</option>
-                @for(accomo of accomodations; track accomo.id){
-                    <option [value]="accomo.id">{{accomo.name}}</option>
-                }
-            </select>
-            @if(checkControl('accomodation', 'required')){
-                <p class="text-danger">El alojamiento es obligatorio</p>
-            }
-        </div> 
+      <!-- TRANSPORTE -->
+      <div class="tripTransportContainer">
+        <label class="formLabel" for="transport">Transporte</label>
+        <select id="transport" class="formControl" formControlName="transport">
+          <option value="">Selecciona un transporte</option>
+          @for(trans of transports; track trans.id){ <option [value]="trans.id">{{trans.name}}</option> }
+        </select>
+        @if(checkControl('transport', 'required')){ <p class="text-danger">El transporte es obligatorio</p> }
+      </div>
 
-        <!-- CONTROL DE ITINERARIO -->
-        <div class="tripItineraryContainer">
-            <label class="formLabel" for="itinerary">Itinerario</label>
-            <input class="formControl" id="itinerary" type="text" formControlName="itinerary">
-            @if(checkControl('itinerary', 'required')){
-                <p class="text-danger">El itinerario es obligatorio</p>
-            }
-            @if(checkControl('itinerary', 'pattern')){
-                <p class="text-danger">El itinerario no pueden ser espacios</p>
-            }
-        </div>  
+      <!-- ALOJAMIENTO -->
+      <div class="tripAccomodationContainer">
+        <label class="formLabel" for="accomodation">Alojamiento</label>
+        <select id="accomodation" class="formControl" formControlName="accomodation">
+          <option value="">Selecciona un alojamiento</option>
+          @for(accomo of accomodations; track accomo.id){ <option [value]="accomo.id">{{accomo.name}}</option> }
+        </select>
+        @if(checkControl('accomodation', 'required')){ <p class="text-danger">El alojamiento es obligatorio</p> }
+      </div>
 
-        <div class="submitContainer">
-            <input type="submit" [value]="formMode === 'edit' ? 'EDITAR VIAJE' : 'CREAR VIAJE'" [disabled]="tripForm.invalid">
-        </div>
+      <!-- ITINERARIO -->
+      <div class="tripItineraryContainer">
+        <label class="formLabel" for="itinerary">Itinerario</label>
+        <input class="formControl" id="itinerary" type="text" formControlName="itinerary">
+        @if(checkControl('itinerary', 'required')){ <p class="text-danger">El itinerario es obligatorio</p> }
+        @if(checkControl('itinerary', 'pattern')){ <p class="text-danger">El itinerario no puede ser solo espacios</p> }
+      </div>
+
+      <!-- SUBMIT -->
+      <div class="submitContainer">
+        <input type="submit" [value]="formMode === 'edit' ? 'EDITAR' : 'CREAR'" [disabled]="tripForm.invalid">
+      </div>
 
     </form>
+  </div>
 </section>
-

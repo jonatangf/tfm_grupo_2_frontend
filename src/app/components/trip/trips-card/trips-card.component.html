@@ -5,7 +5,6 @@
             [src]="trip.destinyImage" 
             [alt]="trip.destinyPlace">
     </div>
-
     <div class="tripMain">
         <div class="tripHeader">
             <div>
@@ -26,12 +25,14 @@
                     type="button" 
                     class="joinButton"
                     (click)="joinPopUp()">
+                    <i class="bi bi-people"></i>
                     UNIRSE
                 </button>
                 <button
                     type="button" 
                     class="detailsButton"
                     (click)="viewDetails()">
+                    <i class="bi bi-eye"></i>
                     VER DETALLE
                 </button>
             } @if(mode === 'mine') {
@@ -39,26 +40,30 @@
                     type="button" 
                     class="editButton"
                     (click)="editTrip()">
+                    <i class="bi bi-pencil"></i>
                     EDITAR
                 </button>
                 <button
                     type="button" 
                     class="deleteButton"
                     (click)="deleteTrip()">
+                    <i class="bi bi-x-lg"></i>
                     ELIMINAR
                 </button>
                 <button
                     type="button" 
                     class="requestsButton"
                     (click)="showRequests()">
+                    <i class="bi bi-bell"></i>
                     SOLICITUDES
                 </button>
                 <button
                     type="button" 
                     class="detailsButton"
                     (click)="viewDetails()">
+                    <i class="bi bi-eye"></i>
                     VER DETALLE
-                </button>               
+                </button> 
             }
         </div>
     </div>

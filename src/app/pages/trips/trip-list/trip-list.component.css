@@ -1,201 +1,272 @@
+
 .tripsPage {
-  padding: 24px 80px;
+    padding: 0px 40px;
+    background-color: white;
+    width: 100%;            
 }
 
-/* Cabecera de la página: título + select + botón CREAR VIAJE */
+/* Header: mantén el diseño con left (título) y right (filtros) */
 .tripsHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end; 
+    gap: 20px;
+    width: 100%;
+    margin-bottom: 2%;
+    padding-bottom: 10px;
 }
 
-/* Columna con título + select  */
-.tripsTitleGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+/* izquierda (título + select) */
+.headerLeft {
+    display: flex;
+    align-items: flex-start;
 }
 
-.tripsTitleGroup h2 {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 500;
-}
-
-/* Select de tipo de viaje */
 .tripTypeSelect {
-  width: 160px;
-  padding: 6px 12px;
-  border-radius: 4px;
-  border: 1px solid #dddddd;
-  background-color: #ffffff;
-  font-size: 12px;
+    width: 180px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+
+    font-weight: 600;
+    background-color: white;
+    color: var(--color-pastel-orange);
+    cursor: pointer;
 }
 
-/* Botón CREAR VIAJE */
-.createTripButton {
-  padding: 6px 16px;
-  border-radius: 4px;
-  border: none;
-  background-color: #000000;
-  color: #ffffff;
-  font-size: 11px;
-  cursor: pointer;
+
+.filtersRight {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    margin-left: auto;
+    flex-wrap: nowrap; 
+    align-items: center;
 }
 
-/* Filtros */
 
-.tripsFilters {
-  display: flex;
-  align-items: flex-end; 
-  justify-content: flex-end;
-  gap: 12px;
-  margin: 24px 0;
+.filterContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 140px; 
+    max-width: 220px;
 }
 
-/* Input de filtros */
 
-.filterInput {
-  padding: 6px 16px;
-  border-radius: 999px;
-  border: 1px solid #dddddd;
-  font-size: 12px;
-  background-color: #ffffff;
-  outline: none;
+.filterInput, .budgetInput {
+    width: 100%; 
+    padding: 8px 15px;
+    border: 2px solid var(--color-pastel-orange);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    background-color: white;
 }
 
-/* Bloque Presupuesto */
-
-.budgetContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.budgetLabel {
-  font-size: 11px;
-  color: #555555;
-}
-
-.budgetInputContainer {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px solid #dddddd;
-  background-color: #ffffff;
-}
-
-.budgetInput {
-  border: none;
-  outline: none;
-  width: 70px;
-  font-size: 12px;
-}
-
-/* Quitar las flechas del input del number*/
-.budgetInput::-webkit-outer-spin-button,
-.budgetInput::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.budgetInput[type="number"] {
-  -moz-appearance: textfield;
-}
-
-.budgetCurrency {
-  font-size: 12px;
-  color: #555555;
-}
-
-.clearBudgetButton {
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-size: 12px;
-  padding: 0 4px;
-}
-
-/* Botones de acciones de filtros */
 
 .clearFiltersButton {
-  border: none;
-  background: transparent;
-  font-size: 11px;
-  cursor: pointer;
-  color: #555555;
-}
-
-.searchButton {
-  padding: 6px 16px;
-  border-radius: 4px;
-  border: none;
-  background-color: #000000;
-  color: #ffffff;
-  font-size: 11px;
-  cursor: pointer;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    height: 44px;
+    align-self: flex-end;
+    background-color: white;
+    border: none;
 }
 
 
-.joinTripContainer, .deleteTripContainer, .detailTripContainer, .formTripContainer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  
-  background: rgba(0, 0, 0, 0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  z-index: 9999;
+.createTripSlot {
+    width: 160px; 
+    min-width: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Overlay oscuro para solicitudes */
+.createTripButton {
+    margin-top: 10%;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--color-pastel-orange);
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(255, 183, 153, 0.4);
+    transition: background-color 0.3s, transform 0.2s;
+    height: 44px;
+    width: 100%; 
+    max-width: 140px;
+}
+
+.createTripButton:hover {
+    background-color: #fa966f;
+    transform: translateY(-2px);
+}
+
+
+.invisible {
+    visibility: hidden; 
+    pointer-events: none;
+}
+
+.tripsCards {
+    display: grid;
+    gap: 3%;
+    width: 100%;
+    max-height: 70vh;
+    overflow-y: scroll;   
+}
+
+
+.no-trips-message {
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+    margin-top: 15%;
+    font-size: 1rem;       
+    font-weight: 600;        
+    text-align: center;
+    border-radius: 12px;     
+
+}
+
+
+app-trips-card {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
+
+}
+
+app-trips-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px #f0a472;
+}
+
+
+/* ========================================================== */
+/* 6. ESTILOS DE POP-UPS (MODALES CENTRADOS) */
+/* ========================================================== */
+
+.joinTripContainer,
+.deleteTripContainer,
+.formTripContainer,
 .popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
 }
 
-/* Caja blanca centrada */
 .popup {
-  background-color: #ffffff;
-  padding: 24px;
-  border-radius: 8px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-  max-width: 600px;
-  width: 80%;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    width: 50%;
+    overflow-y: auto;
+    position: relative;
 }
 
-/* Botón de cerrar */
-.close-btn {
-  display: block;
-  margin: 20px auto 0 auto; /* centrado horizontal */
-  padding: 10px 20px;
-  background-color: #000;   /* negro */
-  color: #fff;              /* letras blancas */
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-  text-transform: uppercase;
-  transition: background-color 0.3s ease;
-}
-
-.close-btn:hover {
-  background-color: #333;   /* gris oscuro al pasar el ratón */
+app-join-trip,
+app-delete-trip,
+app-trip-form,
+app-petitions {
+    display: block;
 }
 
 
+.popup .close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #aaa;
+    cursor: pointer;
+    z-index: 2001;
+}
+
+.popup .close-btn:hover {
+    color: #555;
+}
+
+/* ========================================================== */
+/* 7. ESTILOS DE SIDEBAR (DETAIL TRIP - Derecha) */
+/* ========================================================== */
+
+.detailTripContainer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 2500;
+    display: flex;
+    justify-content: flex-end;
+    overflow: hidden;
+}
+
+app-detail-trip {
+    width: 100%;
+    max-width: 450px; 
+    height: 100%;
+    background-color: white;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-out; 
+    overflow-y: auto;
+}
+
+/* Responsive: Cuando no quepan los filtros */
+@media (max-width: 1100px) {
+    .filtersRight {
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: flex-end;
+    }
+}
+
+/* Responsive: Móvil */
+@media (max-width: 768px) {
+    .tripsHeader {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .filtersRight {
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .filterContainer {
+        width: 100%;
+    }
+
+    .createTripSlot, .clearFiltersButton {
+        width: 100%;
+    }
+    
+    .createTripButton {
+        max-width: none;
+        width: 100%;
+    }
+
+    .filterInput, .budgetInput {
+        width: 100%;
+    }
+
+    /* Ajuste para el Sidebar en móvil */
+    app-detail-trip {
+        max-width: 90%; 
+    }
+}

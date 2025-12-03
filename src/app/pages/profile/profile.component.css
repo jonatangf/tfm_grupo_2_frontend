@@ -1,127 +1,202 @@
-.userFormSidebar {
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100vh;
-  width: 320px;
-  background: #ffffff;
-  box-sizing: border-box;
-  padding: 16px 18px 28px;
-  display: flex;
-  flex-direction: column;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  z-index: 1000;
-}
+/* ========================================================== */
+/* ESTILOS DEL FORMULARIO DE PERFIL (userFormSidebar) */
+/* ========================================================== */
 
+.userFormSidebar {
+    padding: 30px 25px;
+    border-radius: 12px;
+    height: 100%;
+
+    box-sizing: border-box;
+    font-family: var(--primary-font);
+
+    display: flex;              
+    flex-direction: column;     
+}
+/* Encabezado (Título y botones de acción) */
 .profileHeader {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
 }
 
 .profileTitle {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
 }
 
+/* Iconos de editar y cancelar */
 .profileIcons {
-  display: flex;
-  gap: 8px;
+    display: flex;
+    gap: 10px;
 }
 
 .iconButton {
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-size: 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 5px;
+    color: #555;
+    transition: color 0.2s, transform 0.2s;
 }
 
-.detailContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-bottom: 16px;
+.iconButton:hover {
+    color: var(--color-pastel-orange);
+    transform: scale(1.1);
 }
 
-.detailLabel {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.profileForm input,
-.profileForm textarea {
-  font-size: 12px;
-  padding: 6px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.profileForm input[readonly],
-.profileForm textarea[readonly] {
-  background: #f9f9f9;
-  color: #666;
-}
-
-.profileActions {
-  margin-top: auto;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.profileActions button {
-  border: none;
-  background: black;
-  color: #fff;
-  padding: 6px 12px;
-  font-size: 12px;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.ratingContainer {
-  display: flex;
-  flex-direction: row;       /* label + valor en la misma línea */
-  justify-content: space-between;
-  align-items: center;
-}
-
-.ratingValue {
-  font-weight: 700;          /* negrita */
-  font-size: 14px;           /* un poco más grande */
-  text-align: center;
-  color: #333;
-}
+/* ========================================================== */
+/* Avatar y Controles de Archivo */
+/* ========================================================== */
 
 .avatarContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
 }
 
 .avatarWrapper {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  overflow: hidden;
-  cursor: pointer;
-  border: 2px solid #ddd;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    cursor: pointer;
+    border: 3px solid var(--color-pastel-orange);
+    transition: opacity 0.3s;
 }
 
-.avatarImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.avatarWrapper:hover {
+    opacity: 0.8;
+}
+
+.avatarIcon {
+    font-size: 5rem;
+    color: #aaa;
 }
 
 .hiddenFileInput {
-  display: none;
+    display: none;
 }
+
+/* ========================================================== */
+/* Formulario y Campos de Detalle */
+/* ========================================================== */
+
+.profileForm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.detailContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.detailLabel {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #777;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+}
+
+/* Estilo para inputs de texto (Correo) y textarea (Descripción) */
+.profileForm input, 
+.profileForm textarea {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #333;
+    background-color: #f0f0f0;
+    box-sizing: border-box;
+    transition: border-color 0.2s, background-color 0.2s;
+    resize: vertical;
+}
+
+/* Estado de solo lectura (cuando !isEditing) */
+.profileForm input[readonly], 
+.profileForm textarea[readonly] {
+    background-color: white;
+    border-color: var(--color-pastel-orange);
+    cursor: default;
+}
+
+/* Estado editable (cuando isEditing) */
+.profileForm input:not([readonly]):focus, 
+.profileForm textarea:not([readonly]):focus {
+    border-color: var(--color-pastel-orange);
+    outline: none;
+    box-shadow: 0 0 0 1px var(--color-pastel-orange);
+}
+
+/* Campo especial para la puntuación (readonly display) */
+.ratingValue {
+    padding: 10px 12px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-pastel-orange);
+    background-color: #fff8f5; 
+    text-align: center;
+}
+
+/* ========================================================== */
+/* Botón de Guardar */
+/* ========================================================== */
+
+/* Estilos existentes para el contenedor de acciones */
+.profileActions {
+    margin-top: auto;
+    text-align: center;
+}
+
+/* Estilos base para AMBOS botones (Editar Perfil y Cerrar Sesión) */
+.profileActions button {
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    
+    /* Estilos del botón Editar Perfil (Naranja) */
+    border: none;
+    background-color: var(--color-pastel-orange);
+    color: white;
+    box-shadow: 0 4px 6px rgba(255, 183, 153, 0.4);
+}
+
+.profileActions button:hover {
+    background-color: #fa966f; 
+    transform: translateY(-2px);
+}
+
+/* --- ESTILOS ESPECÍFICOS PARA CERRAR SESIÓN (Botón Blanco) --- */
+
+.profileActions .logout-button {
+    background-color: white; 
+    color: var(--color-pastel-orange);
+    border: none; 
+    box-shadow: none; 
+}
+
+.profileActions .logout-button:hover {
+
+    background-color: #f0f0f0; 
+    color: var(--color-pastel-orange); 
+    transform: translateY(-2px);
+}
+

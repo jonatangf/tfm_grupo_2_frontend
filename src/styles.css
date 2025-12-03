@@ -1,7 +1,132 @@
-/* You can add global styles to this file, and also import other style files */
-.error-snackbar {
-  background-color: #d32f2f; /* rojo */
-  color: #fff;
+/* Importar tipografía Poppins de Google Fonts si no está ya */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+/* Definición de la variable de color */
+:root {
+  --color-pastel-orange: #D88853; /* Naranja Pastel */
+  --color-shadow: rgba(216, 136, 83, 0.4); /* Sombra basada en el color principal */
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* 1. Estilos Base Globales para asegurar 100% de altura y aplicar la tipografía */
+:host, html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: block; 
+  /* Aplicación de la tipografía Poppins */
+  font-family: 'Poppins', sans-serif; 
+}
+
+/* 2. Estilos para Títulos */
+app-login-header, h1, h2, h3 {
+    font-weight: 700; 
+}
+
+/* 3. Contenedor principal con fondo blanco y Padding General */
+.login-container {
+  min-height: 100vh;
+  background-color: white; 
+  padding: 30px !important;
+}
+
+/* 4. Ajuste de altura para compensar el padding (30px arriba + 30px abajo = 60px) */
+.row.h-100 {
+  min-height: calc(100vh - 60px); 
+}
+
+/* 5. Estilos para la imagen */
+.image-col-bootstrap img {
+  height: calc(100vh - 60px); 
+  width: 100%; 
+  object-fit: cover;
+  border-radius: 10px; 
+}
+
+/* 6. Estilos para el wrapper de contenido (para limitar el ancho) */
+.content-wrapper {
+  max-width: 450px; 
+  width: 100%;
+}
+
+/* ========================================================== */
+/* 7. Estilos de Interfaz Mejorados (Inputs y Botones) */
+/* ========================================================== */
+
+/* Estilos de Botones (Clase genérica custom-btn para aplicar a todos) */
+.btn {
+    border-radius: 8px; 
+    padding: 10px 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+/* Botón Principal (Naranja Pastel) */
+.btn-primary.custom-btn {
+    background-color: var(--color-pastel-orange) !important;
+    border-color: var(--color-pastel-orange) !important;
+    color: white !important;
+    box-shadow: 0 4px 6px -1px var(--color-shadow); 
+}
+
+.btn-primary.custom-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 10px -3px var(--color-shadow); 
+    filter: brightness(1.05);
+}
+
+/* Botón Secundario (Outline Blanco) */
+.btn-outline-secondary.custom-btn {
+    color: var(--color-pastel-orange) !important;
+    border: 2px solid white !important;
+    background-color: transparent !important;
+}
+
+.btn-outline-secondary.custom-btn:hover {
+    background-color: var(--color-pastel-orange) !important;
+    color: white !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+
+
+/* Estilos de Inputs (Formulario) */
+.form-control {
+    border: 1px solid #ccc;
+    border-radius: 8px; 
+    padding: 10px 15px;
+    box-shadow: none; 
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Estilo de Focus del Input */
+.form-control:focus {
+    border-color: var(--color-pastel-orange);
+    box-shadow: 0 0 0 0.25rem var(--color-shadow);
+    outline: none;
+}
+
+
+/* 8. Estilos para el encabezado (Color del nombre de la App) */
+app-login-header h1,
+app-login-header h2,
+app-login-header span,
+app-login-header i,
+app-login-header svg {
+  color: var(--color-pastel-orange) !important;
+}
+
+
+app-login-header > div > * {
+    color: var(--color-pastel-orange) !important;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden; /* Evita scroll */
+    background-color: white;
+}
+
+
