@@ -6,13 +6,14 @@ import { ILoginResponse } from '../interfaces/ilogin-response';
 import { ILoginRequest } from '../interfaces/ilogin-request';
 import { ISession } from '../interfaces/users/isession';
 import { IMyTripRequest } from '../interfaces/iparticipation.interface';
+import { environment } from '../../environments/environments';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
   private httpClient = inject(HttpClient);
-  private baseUrl: string = 'http://localhost:3000/api';
+  private baseUrl: string = environment.apiUrl;
   private session: ISession | null = null;
   private userOnline!: IUser;
 

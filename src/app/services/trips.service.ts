@@ -3,13 +3,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { ITrip, ITripResponse, ITripFilters } from '../interfaces/itrip.interface';
 import { SuccessResponse, CreateTripResponse } from '../types/api-responses'
-
+import { environment } from '../../environments/environments';
 @Injectable({
     providedIn: 'root',
 })
 export class TripsService {
     private httpClient = inject(HttpClient);
-    private baseUrl: string = 'http://localhost:3000/api';
+    private baseUrl: string = environment.apiUrl;
 
     /*------------------------------ GET ------------------------------*/
     //Obtener todos los viajes (con filtros opcionales)
