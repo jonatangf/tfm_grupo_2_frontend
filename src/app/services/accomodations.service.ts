@@ -8,7 +8,7 @@ import { IAccomodation } from '../interfaces/iaccomodation.interface';
 })
 export class AccomodationsService {
     private httpClient = inject(HttpClient);
-    private baseUrl: string = 'http://localhost:3000/api';
+    private baseUrl: string = 'https://tfmgrupo2backend-production.up.railway.app/api';
 
     getAccomodations(): Promise<IAccomodation[]>{
         return lastValueFrom(this.httpClient.get<IAccomodation[]>

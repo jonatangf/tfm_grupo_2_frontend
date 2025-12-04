@@ -9,7 +9,7 @@ import { SuccessResponse } from '../types/api-responses';
 })
 export class CommentsService {
   private httpClient = inject(HttpClient);
-  private baseUrl: string = 'http://localhost:3000/api';
+  private baseUrl: string = 'https://tfmgrupo2backend-production.up.railway.app/api';
 
   /*------------------------------ GET ------------------------------*/
   // Obtener comentarios de un viaje

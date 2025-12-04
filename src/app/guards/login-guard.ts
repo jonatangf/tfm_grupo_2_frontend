@@ -3,10 +3,10 @@ import { CanActivateFn, Router } from '@angular/router';
 
 export const loginGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
-  
+
   let token = localStorage.getItem('token')||null;
 
-  if (!token) {
+  if (!token || token.trim() === '') {
     return router.parseUrl('/login');
   }
   return true;

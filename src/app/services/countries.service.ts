@@ -7,7 +7,7 @@ import { ICountry } from '../interfaces/icountry.interface';
 })
 export class CountriesService {
     private httpClient = inject(HttpClient);
-    private baseUrl: string = 'http://localhost:3000/api';
+    private baseUrl: string = 'https://tfmgrupo2backend-production.up.railway.app/api';
 
     getCountries(): Promise<ICountry[]>{
         return lastValueFrom(this.httpClient.get<ICountry[]>

@@ -8,7 +8,7 @@ import { SuccessResponse, CreateTripRequestResponse } from '../types/api-respons
 })
 export class ParticipationsService {
     private httpClient = inject(HttpClient);
-    private baseUrl: string = 'http://localhost:3000/api';
+    private baseUrl: string = 'https://tfmgrupo2backend-production.up.railway.app/api';
     
     /*------------------------------ GET ------------------------------*/
     //Obtener los miembros aceptados

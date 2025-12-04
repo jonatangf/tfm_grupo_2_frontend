@@ -7,7 +7,7 @@ import { ITransport } from '../interfaces/itransport.interface';
 })
 export class TransportsService {
     private httpClient = inject(HttpClient);
-    private baseUrl: string = 'http://localhost:3000/api';
+    private baseUrl: string = 'https://tfmgrupo2backend-production.up.railway.app/api';
 
     getTransports(): Promise<ITransport[]>{
         return lastValueFrom(this.httpClient.get<ITransport[]>

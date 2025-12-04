@@ -30,6 +30,12 @@ export class HomeComponent {
   buttonRegister: string = 'REGISTRARSE';
   buttonBack: string = 'VOLVER';
 
+  
+  ngOnInit(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+  }
+
   loadLogin(mode: 'log' | 'reg') {
     this.state = mode === 'log' ? 'login' : 'register';
     this.subtitle = mode === 'log' ? 'Iniciar sesión' : 'Registro de cuenta';
@@ -42,7 +48,6 @@ export class HomeComponent {
 
   async onLogin(data: any) {
     this.loginReq = data;
-    console.log(this.state)
     if (this.state === 'register'){
       const response: any = await this.userService.registerUser(this.loginReq);
       //aqui me logado correctamente redirijo dashboard

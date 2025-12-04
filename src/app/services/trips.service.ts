@@ -9,7 +9,7 @@ import { SuccessResponse, CreateTripResponse } from '../types/api-responses'
 })
 export class TripsService {
     private httpClient = inject(HttpClient);
-    private baseUrl: string = 'http://localhost:3000/api';
+    private baseUrl: string = 'https://tfmgrupo2backend-production.up.railway.app/api';
 
     /*------------------------------ GET ------------------------------*/
     //Obtener todos los viajes (con filtros opcionales)
