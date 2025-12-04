@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { UsersService } from '../../../services/users.service';
 import { ISession } from '../../../interfaces/users/isession';
@@ -10,9 +10,7 @@ import { ProfileComponent } from "../../../pages/profile/profile.component";
   templateUrl: './trips-header.component.html',
   styleUrl: './trips-header.component.css',
 })
-export class TripsHeaderComponent {
-
-    router = inject(Router);
+export class TripsHeaderComponent implements OnInit {
     userService = inject(UsersService);
     sesionData: ISession | null = {
       userId: -1,
@@ -20,9 +18,9 @@ export class TripsHeaderComponent {
       email: '',
       photo: '',
     };
-
     isProfileSidebarOpen: boolean = false;
 
+    router = inject(Router);
     ngOnInit(): void {
         this.getSessionData();
     }

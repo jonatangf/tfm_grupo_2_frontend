@@ -26,10 +26,11 @@
         <div class="members-grid" *ngIf="!loadingMembers && members.length > 0">
           <div class="member-card" *ngFor="let member of members" (click)="selectMember(member)">
             <div class="member-avatar">
-              <i 
-                class="bi bi-person-circle" 
-                style="font-size: 2rem;">
-              </i>
+              <img
+                [src]="getMemberAvatar(member)"
+                [alt]="getMemberFullName(member)"
+                onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=default'"
+              />
             </div>
             <div class="member-info">
               <h3 class="member-name">{{ getMemberFullName(member) }} </h3>
@@ -148,10 +149,11 @@
               <p class="review-body">{{ review.comment }}</p>
               <div class="review-footer">
                 <div class="reviewer-avatar">
-                  <i 
-                    class="bi bi-person-circle" 
-                    style="font-size: 1.5rem;">
-                  </i>
+                  <img
+                    [src]="getReviewAvatar(review)"
+                    [alt]="review.from"
+                    onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=default'"
+                  />
                 </div>
                 <div class="reviewer-info">
                   <p class="reviewer-name">{{ review.from }}</p>

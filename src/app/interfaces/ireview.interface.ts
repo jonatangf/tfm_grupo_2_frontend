@@ -11,4 +11,5 @@ export interface IReviewResponse {
     score: number;
     comment: string;
     createdAt: string;
+    avatar?: string;
 }

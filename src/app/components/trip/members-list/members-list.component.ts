@@ -6,6 +6,7 @@ import { ReviewsService } from '../../../services/reviews.service';
 import { ITripMember } from '../../../interfaces/iparticipation.interface';
 import { IReview, IReviewResponse } from '../../../interfaces/ireview.interface';
 import { ITripResponse } from '../../../interfaces/itrip.interface';
+import { UsersService } from '../../../services/users.service';
 
 @Component({
   selector: 'app-members-list',
@@ -17,6 +18,7 @@ import { ITripResponse } from '../../../interfaces/itrip.interface';
 export class MembersListComponent implements OnInit {
   private participationsService = inject(ParticipationsService);
   private reviewsService = inject(ReviewsService);
+  private usersService = inject(UsersService);
 
   @Input() tripId?: number;
   @Input() trip?: ITripResponse;
@@ -53,6 +55,7 @@ export class MembersListComponent implements OnInit {
     try {
       this.loadingMembers = true;
       this.members = await this.participationsService.getTripMembers(this.tripId);
+      await this.enrichMembersWithAvatars();
     } catch (error) {
       console.error('Error cargando miembros:', error);
       alert('Error al cargar los miembros del viaje');
@@ -60,6 +63,24 @@ export class MembersListComponent implements OnInit {
     } finally {
       this.loadingMembers = false;
     }
+  }
+
+  private async enrichMembersWithAvatars(): Promise<void> {
+    const promises = this.members.map(async (member) => {
+      // Si ya tiene avatar, no hacemos nada
+      if (member.avatar) return;
+      try {
+        const user = await this.usersService.getUserById(member.userId);
+        const avatar = (user as any).photo ?? (user as any).avatar ?? null;
+        if (avatar) {
+          member.avatar = avatar;
+        }
+      } catch (error) {
+        console.error('Error cargando avatar del miembro', member.userId, error);
+      }
+    });
+
+    await Promise.all(promises);
   }
 
   async selectMember(member: ITripMember): Promise<void> {
@@ -157,6 +178,28 @@ export class MembersListComponent implements OnInit {
 
   closeModal(): void {
     this.close.emit();
+  }
+
+  getMemberAvatar(member: ITripMember): string {
+    // Si el backend ya envía avatar para el miembro, úsalo
+    if (member.avatar) {
+      return member.avatar;
+    }
+    // Fallback actual: avatar generado por Dicebear
+    const seed = member.name;
+    return `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(String(seed))}`;
+  }
+
+  // TODO: en el futuro, poblar `avatar` en cada review desde el usuario (GET /users/:id)
+  // y usar directamente la URL real aquí en lugar del identicon de fallback.
+  getReviewAvatar(review: IReviewResponse): string {
+    // Si el backend envía avatar para el autor de la reseña, úsalo
+    if (review.avatar) {
+      return review.avatar;
+    }
+    // Fallback actual: avatar generado por Dicebear en base al nombre
+    const seed = review.from;
+    return `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(String(seed))}`;
   }
 
   getMemberFullName(member: ITripMember): string {
