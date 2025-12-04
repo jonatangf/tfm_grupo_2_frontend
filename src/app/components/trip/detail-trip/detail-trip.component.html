@@ -1,59 +1,63 @@
 <aside class="tripDetail">
-    <div class="tripDetailHeader">
-        <span class="tripDetailTittle"> DETALLE DEL VIAJE </span>
-            <div class="tripDetailIcons">
-                @if(tripMode==='mine'){
-                    <button 
-                        type="button"
-                        class="editTripButton"
-                        (click)="editTrip()">
-                            <i class="bi bi-pencil"></i>
-                    </button>
-                }
 
-                <button
-                    type="button"
-                    class="closeButton"
-                    (click)="closePopUp()">
-                    <i class="bi bi-x-lg"></i>
-                </button>
-            </div>
-            
-            @if(tripMode==='mine'){
-                <div class="tripMembersContainer">
-                    <button 
-                        type="button"
-                        class="tripMembersButton"
-                        (click)="toggleMembersList()">
-                        VER MIEMBROS ACEPTADOS
-                    </button>
-                </div>
-            }
+    <!-- Encabezado unificado -->
+    <div class="tripDetailHeader">
+        <h2 class="tripDetailTitle">DETALLE DEL VIAJE</h2>
+
+        <div class="tripDetailIcons">
+            <button
+                type="button"
+                class="iconButton"
+                (click)="closePopUp()">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
     </div>
 
-    <main class="tripDetails">
 
+            <!-- Botón de "ver miembros" SOLO si es dueño -->
+    @if(tripMode === 'mine'){
+    <div class="tripMembersContainer">
+        <button 
+            type="button"
+            class="tripMembersButton"
+            (click)="toggleMembersList()">
+            VER MIEMBROS ACEPTADOS
+        </button>
+    </div>
+    }
+
+    
+    <!-- Cuerpo del detalle -->
+    <main class="tripDetails">
         <div class="detailContainer">
-            <h3 class="detailLabel">TITULO</h3>
+            <h3 class="detailLabel">TÍTULO</h3>
             <p class="tripTitulo">{{trip.name}}</p>
         </div>
+
         <div class="detailContainer">
             <h3 class="detailLabel">DESCRIPCIÓN</h3>
-            <p class="tripDescription">{{trip.description}}</p>
+            <p>{{trip.description}}</p>
         </div>
+
         <div class="detailContainer">
             <h3 class="detailLabel">FECHAS DEL VIAJE</h3>
-            <p class="tripDate">{{ trip.startDate | dateRange:trip.endDate }}</p>
+            <p>{{ trip.startDate | dateRange:trip.endDate }}</p>
         </div>
+
         <div class="detailContainer">
             <h3 class="detailLabel">COSTE POR PERSONA</h3>
             <p class="tripCost">{{trip.costPerPerson}}€</p>
         </div>
+
         <div class="detailContainer">
             <h3 class="detailLabel">ITINERARIO</h3>
-            <p class="itinerary">{{trip.itinerary}}</p>
+            <p>{{trip.itinerary}}</p>
         </div>
+        
     </main>
+
+
 
     @if (showMembersList) {
         <app-members-list 

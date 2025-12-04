@@ -8,6 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-home',
+  standalone: true, // Asumo que usas standalone
   imports: [LoginComponent, LoginHeaderComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',

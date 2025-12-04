@@ -1,12 +1,21 @@
 @if(user){
 <div class="userFormSidebar">
   <div class="profileHeader">
-    <h2 class="profileTitle">Editar perfil</h2>
+    
+          @if(!isEditing){
+    <h2 class="profileTitle">PERFIL</h2>
+      }
+
+            @if(isEditing){
+    <h2 class="profileTitle">EDITAR PERFIL</h2>
+      }
+
+
     <div class="profileIcons">
-      <button class="iconButton" (click)="onCancel()">✕</button>
       @if(!isEditing){
       <button class="iconButton" (click)="toggleEdit()">✎</button>
       }
+      <button class="iconButton" (click)="onCancel()">✕</button>
     </div>
   </div>
   <!-- Avatar -->

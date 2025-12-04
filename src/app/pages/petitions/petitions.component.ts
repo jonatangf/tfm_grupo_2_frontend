@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input , EventEmitter, Output} from '@angular/core';
 import { ITripResponse } from '../../interfaces/itrip.interface';
 import { ParticipationsService } from '../../services/participations.service';
 import { ITripJoinRequestResponse } from '../../interfaces/iparticipation.interface';
@@ -13,6 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class PetitionsComponent {
   @Input() trip!: ITripResponse;
+  @Output() close = new EventEmitter<void>();
 
   private participationService = inject(ParticipationsService);
   private snackBar = inject(MatSnackBar);
@@ -27,6 +28,10 @@ export class PetitionsComponent {
   async ngOnInit() {
     this.subtitulo = `${this.trip.destinyPlace} | ${this.trip.endDate}`;
     this.joinPetitions = await this.participationService.getJoinRequests(this.trip.id);
+  }
+
+  onCancel() {
+    this.close.emit();
   }
 
   // Métodos de control

@@ -2,6 +2,7 @@ export interface ITripMember {
     userId: number;
     name: string;
     email: string;
+    avatar: string;
 }
 
 export interface ITripJoinRequestResponse {

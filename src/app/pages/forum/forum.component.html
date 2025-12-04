@@ -1,0 +1,225 @@
+<app-trips-header></app-trips-header>
+
+<div class="forum-container">
+  <div class="forum-header">
+    <button class="back-button" (click)="goBack()" aria-label="Volver">
+      ← Volver
+    </button>
+    <div class="header-content">
+      <h1 class="forum-title">Foro del Viaje</h1>
+      @if (trip) {
+        <p class="forum-subtitle">{{ trip.name }} - {{ trip.destinyPlace }}</p>
+      }
+    </div>
+  </div>
+
+  <!-- Selector de viaje si no hay tripId -->
+  @if (!tripId) {
+    <section class="trip-selector-section">
+      <h2 class="section-title">Selecciona un viaje</h2>
+      <div class="loading" *ngIf="loadingTrips">
+        <p>Cargando viajes...</p>
+      </div>
+      <div class="trips-grid" *ngIf="!loadingTrips && trips.length > 0">
+        <div class="trip-card" *ngFor="let trip of trips" (click)="selectTrip(trip)">
+          <h3 class="trip-card-title">{{ trip.name }}</h3>
+          <p class="trip-card-place">{{ trip.destinyPlace }}</p>
+        </div>
+      </div>
+      <div class="empty-state" *ngIf="!loadingTrips && trips.length === 0">
+        <p>No hay viajes disponibles.</p>
+      </div>
+    </section>
+  }
+
+  <!-- Contenido del foro -->
+  @if (tripId) {
+  <div class="forum-content">
+    <!-- Lista de comentarios -->
+    <section class="comments-section">
+      <div class="comments-header">
+        <h2 class="section-title">Comentarios</h2>
+        <button class="btn-create-comment" (click)="openCreateCommentPopup()">
+          CREAR COMENTARIO
+        </button>
+      </div>
+
+      <div class="loading" *ngIf="loadingComments">
+        <p>Cargando comentarios...</p>
+      </div>
+
+      <div class="comments-list" *ngIf="!loadingComments && comments.length > 0">
+        <article class="comment-card" *ngFor="let comment of comments">
+          <div class="comment-header">
+            <div class="comment-author">
+              <div class="author-avatar">
+                <img
+                  [src]="getUserAvatar(comment.user)"
+                  [alt]="comment.user"
+                  (error)="onAvatarError($event)"
+                />
+              </div>
+              <div class="author-info">
+                <h3 class="author-name">{{ comment.user }}</h3>
+                <p class="comment-date" *ngIf="comment.createdAt">
+                  {{ formatDate(comment.createdAt) }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="comment-body">
+            <h4 class="comment-title" *ngIf="comment.title">{{ comment.title }}</h4>
+            <p class="comment-message">{{ comment.message }}</p>
+          </div>
+
+          <!-- Respuestas -->
+          <div class="replies-section" *ngIf="comment.replies && comment.replies.length > 0">
+            <div class="replies-list">
+              <div class="reply-card" *ngFor="let reply of comment.replies">
+                <div class="reply-header">
+                  <div class="reply-author">
+                    <div class="author-avatar small">
+                  <img
+                    [src]="getUserAvatar(reply.user)"
+                    [alt]="reply.user"
+                    (error)="onAvatarError($event)"
+                  />
+                    </div>
+                    <div class="author-info">
+                      <h4 class="author-name">{{ reply.user }}</h4>
+                      <p class="reply-date" *ngIf="reply.createdAt">
+                        {{ formatDate(reply.createdAt) }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <p class="reply-message">{{ reply.message }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botón de respuesta -->
+          <div class="reply-form-container">
+            <button
+              class="btn-reply"
+              (click)="openReplyPopup(comment.commentId)"
+            >
+              RESPONDER
+            </button>
+          </div>
+        </article>
+      </div>
+
+      <div class="empty-state" *ngIf="!loadingComments && comments.length === 0">
+        <p>No hay comentarios aún. ¡Sé el primero en comentar!</p>
+        <button class="btn-create-comment" (click)="openCreateCommentPopup()">
+          CREAR COMENTARIO
+        </button>
+      </div>
+    </section>
+  </div>
+  }
+
+  <!-- Popup para crear comentario -->
+  @if (showCreateCommentPopup) {
+    <div class="modal-overlay" (click)="closeCreateCommentPopup()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h2 class="modal-title">CREAR COMENTARIO</h2>
+          <button class="close-btn" (click)="closeCreateCommentPopup()" aria-label="Cerrar">
+            ×
+          </button>
+        </div>
+        <form class="comment-form" (ngSubmit)="createComment()">
+          <div class="form-group">
+            <label for="comment-title" class="form-label">Título (opcional)</label>
+            <input
+              type="text"
+              id="comment-title"
+              class="form-input"
+              [(ngModel)]="newComment.title"
+              name="title"
+              placeholder="Título del comentario"
+            />
+          </div>
+          <div class="form-group">
+            <label for="comment-message" class="form-label">Descripción *</label>
+            <textarea
+              id="comment-message"
+              class="form-textarea"
+              [(ngModel)]="newComment.message"
+              name="message"
+              placeholder="Escribe tu comentario aquí..."
+              rows="6"
+              required
+            ></textarea>
+          </div>
+          <div class="form-actions">
+            <button
+              type="button"
+              class="btn-cancel"
+              (click)="closeCreateCommentPopup()"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="btn-submit"
+              [disabled]="creatingComment || !newComment.message.trim()"
+            >
+              {{ creatingComment ? 'Publicando...' : 'CREAR' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+
+  <!-- Popup para responder comentario -->
+  @for (comment of comments; track comment.commentId) {
+    @if (showReplyPopup[comment.commentId]) {
+      <div class="modal-overlay" (click)="closeReplyPopup(comment.commentId)">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h2 class="modal-title">RESPONDER COMENTARIO</h2>
+            <button class="close-btn" (click)="closeReplyPopup(comment.commentId)" aria-label="Cerrar">
+              ×
+            </button>
+          </div>
+          <form class="comment-form" (ngSubmit)="replyToComment(comment.commentId)">
+            <div class="form-group">
+              <label for="reply-message" class="form-label">Descripción *</label>
+              <textarea
+                id="reply-message"
+                class="form-textarea"
+                [(ngModel)]="replyForms[comment.commentId].message"
+                name="reply-message"
+                placeholder="Escribe tu respuesta..."
+                rows="6"
+                required
+              ></textarea>
+            </div>
+            <div class="form-actions">
+              <button
+                type="button"
+                class="btn-cancel"
+                (click)="closeReplyPopup(comment.commentId)"
+              >
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                class="btn-submit"
+                [disabled]="replyingToComment === comment.commentId || !(replyForms[comment.commentId]?.message || '').trim()"
+              >
+                {{ replyingToComment === comment.commentId ? 'Enviando...' : 'RESPONDER' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    }
+  }
+</div>
+
