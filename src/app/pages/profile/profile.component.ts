@@ -1,12 +1,8 @@
-
-// profile.component.ts
 import {
   Component,
   EventEmitter,
   Output,
   OnInit,
-  DoCheck,
-  OnDestroy,
   inject,
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -19,20 +15,20 @@ import { UsersService } from '../../services/users.service';
 import { CountriesService } from '../../services/countries.service';
 import { InterestsService } from '../../services/interests.service';
 
-// 🔧 Ajusta estas rutas a las de tu proyecto
 import { ISession } from '../../interfaces/users/isession';
 import { IUser } from '../../interfaces/users/iuser';
 import { ICountry } from '../../interfaces/icountry.interface';
 import { IInterest } from '../../interfaces/iInterest.interface';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, MatChipsModule],
+  imports: [FormsModule, ReactiveFormsModule, MatChipsModule, DatePipe],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
 })
-export class ProfileComponent implements OnInit,  OnDestroy {
+export class ProfileComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
 
   private snackBar = inject(MatSnackBar);
@@ -48,36 +44,22 @@ export class ProfileComponent implements OnInit,  OnDestroy {
   allInterests!: IInterest[];
   userInterest!: IInterest[];
 
+  userCountry: string = "";
   isEditing = false;
   dataReady = false;
+  showAllInterests = false;
+  showSaveButton = false; 
+  truncatedDescription = '';
+  showExpandLink = false;
+  fullDescriptionVisible = false;
+  private interestMap = new Map<number, IInterest>();
 
   // Estado editable vs original (mismo shape normalizado)
   editableUser: any = { interests: [] as number[] };
   originalUser: any = { interests: [] as number[] };
 
-  showSaveButton = false;
-
   // Chips: control reactivo (string[] porque MatChips trabaja con strings)
   interestsCtrl = new FormControl<string[]>({ value: [], disabled: true }, { nonNullable: true })
-
-  // Demo: listado de intereses (si no los cargas de API)
-  /*allInterests: { id: number; name: string }[] = [
-    { id: 1, name: 'Viajes' },
-    { id: 2, name: 'Gastronomía' },
-    { id: 3, name: 'Deporte' },
-    { id: 4, name: 'Tecnología' },
-    { id: 5, name: 'Arte' },
-    { id: 6, name: 'Música' },
-  ];*/
-
-  // Fallback si el usuario no trae intereses
-  /*userInterest: { id: number; name: string }[] = [
-    { id: 1, name: 'Viajes' },
-    { id: 3, name: 'Deporte' },
-    { id: 6, name: 'Música' },
-  ];*/
-
-  private subs: { unsubscribe: () => void }[] = [];
 
 
 async ngOnInit(): Promise<void> {
@@ -87,6 +69,9 @@ async ngOnInit(): Promise<void> {
   await this.loadInterests();
   await this.loadUserInterests();
 
+  
+  // Construye el mapa para búsquedas rápidas
+  (this.allInterests ?? []).forEach(i => this.interestMap.set(i.id, i));
   // Inicializa modelos a partir de user + userInterest
   const interestsFromUser =
     Array.isArray(this.user?.interests) && this.user.interests.length
@@ -101,15 +86,21 @@ async ngOnInit(): Promise<void> {
     birthdate: this.user.birthdate ?? null,
     telephone: this.user.telephone ?? '',
     interests: interestsFromUser,
-    photo: this.user.photo ?? null,
+    avatar: this.user.avatar ?? null,
   };
-
-  console.log(this.originalUser)
 
   this.editableUser = { ...this.originalUser };
 
-  // Chips
-  const selectedIdsStr = (this.originalUser.interests as number[]).map((id) => id.toString());
+  //truncado descripcion
+  this.updateDescriptionView();
+
+  //pais user
+  const country = this.countries.find(c => c.id === this.editableUser.countries_id);
+  this.userCountry = country?.name ?? 'La Tierra';
+
+
+  // Inicializa chips (string[])
+  const selectedIdsStr = interestsFromUser.map(id => id.toString());
   this.interestsCtrl.setValue(selectedIdsStr, { emitEvent: false });
 
   // Habilita/deshabilita según edición
@@ -118,39 +109,22 @@ async ngOnInit(): Promise<void> {
   } else {
     this.interestsCtrl.disable({ emitEvent: false });
   }
-
-  // Suscripción (opcional, solo UI)
-  const sub = this.interestsCtrl.valueChanges.subscribe(() => {
-    // no necesitamos marcar cambios si el botón guardar siempre aparece en edición
-  });
-  this.subs.push(sub);
-
   this.dataReady = true;
 }
-
-
-  ngOnDestroy(): void {
-    this.subs.forEach((s) => s.unsubscribe?.());
-  }
 
   // ========= CARGA DE DATOS =========
   getSessionData() {
     this.sesionData = this.userService.getSession()!;
   }
-
   async getUser() {
     this.user = await this.userService.getUserById(this.sesionData.userId);
-    console.log(this.user)
   }
-
   async loadCountries() {
     this.countries = await this.countriesService.getCountries();
   }
-
   async loadInterests() {
     this.allInterests = await this.interestsService.getInterests();
   }
-
   async loadUserInterests(){
     this.userInterest = await this.userService.getInterests(this.sesionData.userId);
   }
@@ -158,7 +132,6 @@ async ngOnInit(): Promise<void> {
   // ========= UI / EDICIÓN =========
   toggleEdit() {
     this.isEditing = !this.isEditing;
-
     if (this.isEditing) {
       // Entra en edición: habilita chips
       this.interestsCtrl.enable({ emitEvent: false });
@@ -175,10 +148,6 @@ async ngOnInit(): Promise<void> {
 
       this.showSaveButton = false;
     }
-  }
-
-  onCancel() {
-    this.close.emit();
   }
 
   // ========= AVATAR =========
@@ -208,7 +177,6 @@ async ngOnInit(): Promise<void> {
       const interestsIds: number[] = (this.interestsCtrl.value ?? []).map((id) =>
         parseInt(id, 10)
       );
-
       const payload = {
         ...this.editableUser,
         interests: interestsIds, // number[]
@@ -216,13 +184,12 @@ async ngOnInit(): Promise<void> {
 
       await this.userService.updateUserById(payload);
 
-
-      // Sal de edición y deshabilita chips
+      // Sale de edición y deshabilita chips
       this.isEditing = false;
       this.interestsCtrl.disable({ emitEvent: false });
       this.showSaveButton = false;
 
-      // (Opcional) Recarga user del servidor si necesitas datos calculados
+      // Recarga user del servidor 
       await this.getUser();
 
       this.showSuccessToast();
@@ -254,31 +221,66 @@ async ngOnInit(): Promise<void> {
     if (this.isEditing) return;
     this.isEditing = true;
     this.interestsCtrl.enable({ emitEvent: false });
+    this.showAllInterests = false; // comienza colapsado
     this.showSaveButton = false;
   }
 
   // Cancelar edición (círculo con barra): restaura todo
   cancelEdit(): void {
     if (!this.isEditing) return;
-
     // Restaura editable al original
     this.editableUser = { ...this.originalUser };
-
     // Re-sincroniza chips
     const origIdsStr = (this.originalUser?.interests ?? []).map((id: number) => id.toString());
     this.interestsCtrl.setValue(origIdsStr, { emitEvent: false });
     this.interestsCtrl.disable({ emitEvent: false });
-
     // Limpia estado
     this.isEditing = false;
+    this.showAllInterests = false;
     this.showSaveButton = false;
-
     // Feedback
     this.snackBar.open('Edición cancelada', 'Cerrar', {
       duration: 2000,
       panelClass: ['info-snackbar'],
     });
   }
+
+
+onCloseClick(): void {
+  // Si cerramos desde modo edición, confirmamacion de descarte
+  if (this.isEditing) {
+    const confirmClose = window.confirm('Hay cambios sin guardar. ¿Quieres cerrar igualmente?');
+    if (!confirmClose) return;
+    this.cancelEdit();
+  }
+  // Emite el cierre
+  this.close.emit();
+}
+
+  /** Intereses seleccionados (como objetos) para mostrar SOLO los del usuario */
+  get selectedInterests(): IInterest[] {
+    const ids = (this.interestsCtrl.value ?? []).map(v => parseInt(v, 10));
+    return ids
+      .map(id => this.interestMap.get(id))
+      .filter((x): x is IInterest => !!x);
+  }
+
+
+updateDescriptionView() {
+  const desc = this.editableUser.description || '';
+  if (desc.length > 30 && !this.fullDescriptionVisible) {
+    this.truncatedDescription = desc.slice(0, 30);
+    this.showExpandLink = true;
+  } else {
+    this.truncatedDescription = desc;
+    this.showExpandLink = false;
+  }
+}
+
+toggleDescription() {
+  this.fullDescriptionVisible = !this.fullDescriptionVisible;
+  this.updateDescriptionView();
+}
 
   // ========= HELPERS =========
   private showSuccessToast() {

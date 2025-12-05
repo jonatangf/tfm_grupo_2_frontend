@@ -7,6 +7,7 @@ import { ILoginRequest } from '../interfaces/ilogin-request';
 import { ISession } from '../interfaces/users/isession';
 import { IMyTripRequest } from '../interfaces/iparticipation.interface';
 import { environment } from '../../environments/environments';
+import { IInterest } from '../interfaces/iInterest.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,7 @@ import { environment } from '../../environments/environments';
 export class UsersService {
   private httpClient = inject(HttpClient);
   private baseUrl: string = environment.apiUrl;
+  private publicBaseUrl: string = environment.publicUrl;
   private session: ISession | null = null;
   private userOnline!: IUser;
 
@@ -29,8 +31,8 @@ export class UsersService {
     this.userOnline = await this.getUserById(response.userId);
 
     // Destructuring para construir ISession
-    const { id: userId, username, email, photo } = this.userOnline;
-    this.session = { userId, username, email, photo };
+    const { id: userId, username, email, avatar } = this.userOnline;
+    this.session = { userId, username, email, "photo": avatar };
     // Persistencia del session
     localStorage.setItem('session', JSON.stringify(this.session));
     return this.session;
@@ -75,6 +77,12 @@ export class UsersService {
   //Encuentra un usuario por ID
   async getUserById(id: number): Promise<IUser> {
     const result = await lastValueFrom(this.httpClient.get<IUser>(`${this.baseUrl}/users/${id}`));
+
+    // El avatar esta en la ruta relativa del back
+    if (result.avatar && result.avatar.startsWith('/')) {
+      result.avatar = `${this.publicBaseUrl}${result?.avatar}`;
+    }
+
     return result;
   }
 
@@ -83,21 +91,22 @@ export class UsersService {
     return lastValueFrom(this.httpClient.get<number>(`${this.baseUrl}/users/${id}/score`));
   }
 
-  getInterests(userId:number): Promise<IInterest[]> {
-    return lastValueFrom(this.httpClient.get<IInterest[]>(`${this.baseUrl}/interests/user/${userId}`));
+  getInterests(userId: number): Promise<IInterest[]> {
+    return lastValueFrom(
+      this.httpClient.get<IInterest[]>(`${this.baseUrl}/interests/user/${userId}`)
+    );
   }
 
   async uploadUserAvatar(id: number, file: File): Promise<string> {
     const formData = new FormData();
     formData.append('avatar', file);
-    return lastValueFrom(
-      this.httpClient.put<string>(`${this.baseUrl}/users/me/avatar`, formData)
-    );
+    return lastValueFrom(this.httpClient.put<string>(`${this.baseUrl}/users/me/avatar`, formData));
   }
 
   //Obtiene todas mis solicitudes a union de viajes
   async getMyTripRequests(): Promise<IMyTripRequest[]> {
-    return  lastValueFrom(this.httpClient.get<IMyTripRequest[]>(`${this.baseUrl}/users/me/trip-requests`));
+    return lastValueFrom(
+      this.httpClient.get<IMyTripRequest[]>(`${this.baseUrl}/users/me/trip-requests`)
+    );
   }
-
 }

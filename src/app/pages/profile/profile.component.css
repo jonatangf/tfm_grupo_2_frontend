@@ -16,6 +16,41 @@
 }
 
 /* ========================================================== */
+/* ANGULAR MATERIAL CHIPS DE INTERESES */
+/* ========================================================== */
+
+.toggleChipsBtn {
+    margin-left: 8px;
+    background: none;
+    border: none;
+    color: var(--color-pastel-orange);
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0;
+}
+
+.selectedChips {
+    display: block;
+}
+.selectedChips .selectedChip {
+    background: #fff8f5;
+    color: var(--color-pastel-orange);
+    border: 1px solid #ffe0d1;
+}
+.selectedChips.empty .emptyHint {
+    color: #999;
+    font-size: 0.9rem;
+}
+
+.allInterestsPanel {
+    margin-top: 8px;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background: #fff;
+}
+
+/* ========================================================== */
 /* CABECERA FIJA (Título, iconos y puntuación) */
 /* ========================================================== */
 .stickyHeader {
@@ -135,7 +170,9 @@
     display: none;
 }
 
-/* Formulario */
+/* ========================================================== */
+/* FORMULARIO */
+/* ========================================================== */
 .profileForm {
     display: flex;
     flex-direction: column;
@@ -148,6 +185,7 @@
     gap: 5px;
 }
 
+/* Inputs y selects SOLO en edición */
 .profileForm input,
 .profileForm textarea,
 .profileForm select {
@@ -156,23 +194,32 @@
     border-radius: 8px;
     font-size: 0.95rem;
     color: #333;
-    background-color: #f0f0f0;
+    background-color: white; /* antes: #f0f0f0 */
     transition: border-color 0.2s, background-color 0.2s;
     resize: vertical;
 }
 
-.profileForm input[readonly],
-.profileForm textarea[readonly] {
-    background-color: white;
-    border-color: var(--color-pastel-orange);
-    cursor: default;
-}
-
-.profileForm input:not([readonly]):focus,
-.profileForm textarea:not([readonly]):focus {
+.profileForm input:focus,
+.profileForm textarea:focus,
+.profileForm select:focus {
     border-color: var(--color-pastel-orange);
     outline: none;
     box-shadow: 0 0 0 1px var(--color-pastel-orange);
+}
+
+/* Texto plano en modo no edición */
+.readonlyText {
+    font-size: 0.95rem;
+    color: #333;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee; /* opcional */
+}
+
+.expandLink {
+    color: var(--color-pastel-orange);
+    cursor: pointer;
+    font-weight: 600;
+    margin-left: 4px;
 }
 
 /* ========================================================== */
@@ -187,7 +234,7 @@
     padding: 15px 25px;
     box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.04);
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
 }
 
 .stickyFooter button {
@@ -206,16 +253,4 @@
 .stickyFooter button:hover {
     background-color: #fa966f;
     transform: translateY(-2px);
-}
-
-/* Chips */
-.chip-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.chip-item[selected] {
-    background-color: #e3f2fd;
-    color: #1976d2;
 }
