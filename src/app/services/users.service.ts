@@ -84,14 +84,14 @@ export class UsersService {
   }
 
   getInterests(userId:number): Promise<IInterest[]> {
-    return lastValueFrom(this.httpClient.get<IInterest[]>(`${this.baseUrl}/users/${userId}/interests`));
+    return lastValueFrom(this.httpClient.get<IInterest[]>(`${this.baseUrl}/interests/user/${userId}`));
   }
 
   async uploadUserAvatar(id: number, file: File): Promise<string> {
     const formData = new FormData();
     formData.append('avatar', file);
     return lastValueFrom(
-      this.httpClient.post<string>(`${this.baseUrl}/users/${id}/avatar`, formData)
+      this.httpClient.put<string>(`${this.baseUrl}/users/me/avatar`, formData)
     );
   }
 

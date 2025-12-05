@@ -1,140 +1,136 @@
-@if (user) {
+
+@if (user && dataReady) {
   <div class="userFormSidebar">
+    <!-- CABECERA fija: título + iconos + puntuación -->
+    <div class="stickyHeader">
+      <div class="profileHeader">
+        <h2 class="profileTitle">Editar perfil</h2>
 
-
-  <div class="profileHeader">
-    <h2 class="profileTitle">Editar perfil</h2>
-
-    <div class="profileIcons">
-      <!-- Lápiz: SIEMPRE visible -->
-            @if (!isEditing) {
-      <button
-        class="iconButton"
-        type="button"
-        (click)="enterEdit()"
-        aria-label="Editar"
-        title="Editar"
-        [disabled]="isEditing"  
-      >
-        <i class="bi bi-pencil"></i>
-      </button>
-    }
-
-      <!-- Cancelar: SOLO visible en edición -->
-      @if (isEditing) {
-        <button
-          class="iconButton"
-          type="button"
-          (click)="cancelEdit()"
-          aria-label="Cancelar edición"
-          title="Cancelar edición"
-        >
-          <i class="bi bi-slash-circle"></i>
-        </button>
-      }
-    </div>
-
-
-    </div>
-
-    <!-- Avatar -->
-    <div class="avatarContainer">
-      <div class="avatarWrapper" (click)="onAvatarClick(avatarInput)">
-        <img
-          class="avatarImg"
-          [src]="user.photo || 'assets/icons/default-avatar.png'"
-          alt="Avatar de usuario"
+        <div class="profileIcons">
+          @if (!isEditing) {
+            <button
+              class="iconButton"
+              type="button"
+              (click)="enterEdit()"
+              aria-label="Editar"
+              title="Editar"
+              [disabled]="isEditing"
+            >
+              <i class="bi bi-pencil"></i>
+            </button>
+          }
+          @if (isEditing) {
+            <button
+              class="iconButton"
+              type="button"
+              (click)="cancelEdit()"
+              aria-label="Cancelar edición"
+              title="Cancelar edición"
+            >
+              <i class="bi bi-slash-circle"></i>
+            </button>
+          }
+        </div>
+      </div>
+      <!-- Avatar -->
+      <div class="avatarContainer">
+        <div class="avatarWrapper" (click)="onAvatarClick(avatarInput)">
+          <img
+            class="avatarImg"
+            [src]="(isEditing ? editableUser?.photo : user.photo) || 'assets/icons/default-avatar.png'"
+            alt="Avatar de usuario"
+          />
+        </div>
+        <input
+          type="file"
+          accept="image/*"
+          #avatarInput
+          class="hiddenFileInput"
+          (change)="onAvatarSelected($event)"
         />
       </div>
-      <input
-        type="file"
-        accept="image/*"
-        #avatarInput
-        class="hiddenFileInput"
-        (change)="onAvatarSelected($event)"
-      />
-    </div>
-
-    <form class="profileForm">
       <!-- Puntuación -->
       <div class="detailContainer ratingContainer">
         <label class="detailLabel">PUNTUACIÓN</label>
         <div class="ratingValue">{{ user.avg_rating }}</div>
       </div>
+    </div>
 
-      <!-- Correo -->
-      <div class="detailContainer">
-        <label class="detailLabel">CORREO</label>
-        <input [(ngModel)]="editableUser.email" name="email" [readonly]="!isEditing" />
-      </div>
+    <!-- CONTENIDO scrollable: avatar + formulario -->
+    <div class="scrollContent">
 
-      <!-- Descripción -->
-      <div class="detailContainer">
-        <label class="detailLabel">DESCRIPCIÓN</label>
-        <textarea
-          [(ngModel)]="editableUser.description"
-          name="description"
-          [readonly]="!isEditing"
-        ></textarea>
-      </div>
+      <form class="profileForm">
+        <!-- Correo -->
+        <div class="detailContainer">
+          <label class="detailLabel">CORREO</label>
+          <input [(ngModel)]="editableUser.email" name="email" [readonly]="!isEditing" />
+        </div>
 
-      <!-- País -->
-      <div class="detailContainer">
-        <label class="detailLabel">PAÍS</label>
-        <select
-          [(ngModel)]="editableUser.countries_id"
-          name="countries_id"
-          [disabled]="!isEditing"
-          class="detailInput"
-        >
-          <option value>Selecciona un país</option>
-          @for (country of countries; track country.id) {
-            <option [value]="country.id">{{ country.name }}</option>
-          }
-        </select>
-      </div>
+        <!-- Descripción -->
+        <div class="detailContainer">
+          <label class="detailLabel">DESCRIPCIÓN</label>
+          <textarea
+            [(ngModel)]="editableUser.description"
+            name="description"
+            [readonly]="!isEditing"
+          ></textarea>
+        </div>
 
-      <!-- Fecha de nacimiento -->
-      <div class="detailContainer">
-        <label class="detailLabel">FECHA DE NACIMIENTO</label>
-        <input
-          type="date"
-          [(ngModel)]="editableUser.birthdate"
-          name="birthdate"
-          [readonly]="!isEditing"
-        />
-      </div>
+        <!-- País -->
+        <div class="detailContainer">
+          <label class="detailLabel">PAÍS</label>
+          <select
+            [(ngModel)]="editableUser.countries_id"
+            name="countries_id"
+            [disabled]="!isEditing"
+            class="detailInput"
+          >
+            <option value>Selecciona un país</option>
+            @for (country of countries; track country.id) {
+              <option [value]="country.id">{{ country.name }}</option>
+            }
+          </select>
+        </div>
 
-      <!-- Teléfono -->
-      <div class="detailContainer">
-        <label class="detailLabel">TELÉFONO</label>
-        <input
-          type="tel"
-          [(ngModel)]="editableUser.telephone"
-          name="telephone"
-          [readonly]="!isEditing"
-        />
-      </div>
+        <!-- Fecha de nacimiento -->
+        <div class="detailContainer">
+          <label class="detailLabel">FECHA DE NACIMIENTO</label>
+          <input
+            type="date"
+            [(ngModel)]="editableUser.birthdate"
+            name="birthdate"
+            [readonly]="!isEditing"
+          />
+        </div>
 
-      <!-- Intereses (chips con FormControl) -->
-      <div class="detailContainer">
-        <label class="detailLabel">INTERESES</label>
+        <!-- Teléfono -->
+        <div class="detailContainer">
+          <label class="detailLabel">TELÉFONO</label>
+          <input
+            type="tel"
+            [(ngModel)]="editableUser.telephone"
+            name="telephone"
+            [readonly]="!isEditing"
+          />
+        </div>
 
-        <mat-chip-listbox
-          multiple
-          [formControl]="interestsCtrl"
-        >
-          @for (interest of allInterests; track interest.id) {
-            <mat-chip-option [value]="interest.id.toString()">
-              {{ interest.name }}
-            </mat-chip-option>
-          }
-        </mat-chip-listbox>
-      </div>
-    </form>
+        <!-- Intereses -->
+        <div class="detailContainer">
+          <label class="detailLabel">INTERESES</label>
+          <mat-chip-listbox multiple [formControl]="interestsCtrl">
+            @for (interest of allInterests; track interest.id) {
+              <mat-chip-option [value]="interest.id.toString()">
+                {{ interest.name }}
+              </mat-chip-option>
+            }
+          </mat-chip-listbox>
+        </div>
+      </form>
+    </div>
 
+    <!-- ACCIONES fijas abajo -->
     @if (isEditing) {
-      <div class="profileActions">
+      <div class="stickyFooter">
         <button type="button" (click)="onSave()">EDITAR PERFIL</button>
       </div>
     }

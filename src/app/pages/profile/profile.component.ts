@@ -32,7 +32,7 @@ import { IInterest } from '../../interfaces/iInterest.interface';
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
 })
-export class ProfileComponent implements OnInit, DoCheck, OnDestroy {
+export class ProfileComponent implements OnInit,  OnDestroy {
   @Output() close = new EventEmitter<void>();
 
   private snackBar = inject(MatSnackBar);
@@ -79,58 +79,55 @@ export class ProfileComponent implements OnInit, DoCheck, OnDestroy {
 
   private subs: { unsubscribe: () => void }[] = [];
 
-  async ngOnInit(): Promise<void> {
-    this.getSessionData();
-    await this.getUser();
-    await this.loadCountries();
-    console.log(this.countries)
-    await this.loadInterests();
-    console.log(this.allInterests)
-    await this.loadUserInterests();
-    console.log(this.userInterest)
-    // Si tienes API de interests, podrías hacer:
-    // this.interests = await this.interestsService.getInterests();
 
-    
-  // ...setValue inicial
-  // NO pongas [disabled] en el template; controla aquí:
+async ngOnInit(): Promise<void> {
+  this.getSessionData();
+  await this.getUser();
+  await this.loadCountries();
+  await this.loadInterests();
+  await this.loadUserInterests();
+
+  // Inicializa modelos a partir de user + userInterest
+  const interestsFromUser =
+    Array.isArray(this.user?.interests) && this.user.interests.length
+      ? this.user.interests.map((i: any) => (typeof i === 'object' ? Number(i.id) : Number(i)))
+      : (this.userInterest ?? []).map(i => Number(i.id));
+
+  this.originalUser = {
+    id: this.user.id,
+    email: this.user.email ?? '',
+    description: this.user.description ?? '',
+    countries_id: this.user.countries_id ?? null,
+    birthdate: this.user.birthdate ?? null,
+    telephone: this.user.telephone ?? '',
+    interests: interestsFromUser,
+    photo: this.user.photo ?? null,
+  };
+
+  console.log(this.originalUser)
+
+  this.editableUser = { ...this.originalUser };
+
+  // Chips
+  const selectedIdsStr = (this.originalUser.interests as number[]).map((id) => id.toString());
+  this.interestsCtrl.setValue(selectedIdsStr, { emitEvent: false });
+
+  // Habilita/deshabilita según edición
   if (this.isEditing) {
     this.interestsCtrl.enable({ emitEvent: false });
   } else {
     this.interestsCtrl.disable({ emitEvent: false });
   }
 
-    // Normaliza ambos modelos a mismo shape
-    const base = this.normalizeUser(this.user);
+  // Suscripción (opcional, solo UI)
+  const sub = this.interestsCtrl.valueChanges.subscribe(() => {
+    // no necesitamos marcar cambios si el botón guardar siempre aparece en edición
+  });
+  this.subs.push(sub);
 
-    this.originalUser = { ...base };
-    this.editableUser = { ...base };
+  this.dataReady = true;
+}
 
-    // Preselecciona chips a string[]
-    const selectedIdsStr = (this.originalUser.interests as number[]).map((id) =>
-      id.toString()
-    );
-
-    // Set inicial sin emitir eventos
-    Promise.resolve().then(() => {
-      this.interestsCtrl.setValue(selectedIdsStr, { emitEvent: false });
-      // Asegura que NO responden si no estás en edición
-      this.interestsCtrl.disable({ emitEvent: false });
-    });
-
-    // Suscripción para marcar cambios solo en edición
-    const sub = this.interestsCtrl.valueChanges.subscribe(() => {
-      // NgDoCheck hará la comparación robusta; aquí, si quieres, puedes “forzar” re-evaluación.
-      // Solo marcamos la intención de cambio cuando se está editando.
-      if (this.isEditing) {
-        // No ponemos showSaveButton = true a ciegas: dejamos que ngDoCheck decida.
-        // Pero este evento ya desencadena detección en la vista.
-      }
-    });
-    this.subs.push(sub);
-
-    this.dataReady = true;
-  }
 
   ngOnDestroy(): void {
     this.subs.forEach((s) => s.unsubscribe?.());
@@ -143,6 +140,7 @@ export class ProfileComponent implements OnInit, DoCheck, OnDestroy {
 
   async getUser() {
     this.user = await this.userService.getUserById(this.sesionData.userId);
+    console.log(this.user)
   }
 
   async loadCountries() {
@@ -218,11 +216,6 @@ export class ProfileComponent implements OnInit, DoCheck, OnDestroy {
 
       await this.userService.updateUserById(payload);
 
-      // Mantén el shape normalizado en originalUser
-      this.originalUser = {
-        ...this.originalUser,
-        ...this.normalizeUser(payload),
-      };
 
       // Sal de edición y deshabilita chips
       this.isEditing = false;
@@ -255,54 +248,7 @@ export class ProfileComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   // ========= DETECCIÓN DE CAMBIOS =========
-  ngDoCheck() {
-    if (!this.dataReady) {
-      this.showSaveButton = false;
-      return;
-    }
 
-    const emailChanged =
-      this.normStr(this.editableUser.email) !==
-      this.normStr(this.originalUser.email);
-
-    const descriptionChanged =
-      this.normStr(this.editableUser.description) !==
-      this.normStr(this.originalUser.description);
-
-    const countryChanged =
-      this.normNumOrNull(this.editableUser.countries_id) !==
-      this.normNumOrNull(this.originalUser.countries_id);
-
-    const birthdateChanged =
-      this.normDateStr(this.editableUser.birthdate) !==
-      this.normDateStr(this.originalUser.birthdate);
-
-    const phoneChanged =
-      this.normStr(this.editableUser.telephone) !==
-      this.normStr(this.originalUser.telephone);
-
-    // Intereses: compara number[] (original) vs string[] (control)
-    const interestsCurrent: string[] = this.interestsCtrl.value ?? [];
-    const interestsOriginal: number[] = Array.isArray(this.originalUser.interests)
-      ? this.originalUser.interests
-      : [];
-
-    const interestsChanged = !this.arraysEqualAsNumbers(
-      interestsCurrent,
-      interestsOriginal
-    );
-
-    this.showSaveButton =
-      this.isEditing &&
-      (emailChanged ||
-        descriptionChanged ||
-        countryChanged ||
-        birthdateChanged ||
-        phoneChanged ||
-        interestsChanged);
-  }
-
-  
   // Entrar en edición (lápiz)
   enterEdit(): void {
     if (this.isEditing) return;
@@ -340,65 +286,5 @@ export class ProfileComponent implements OnInit, DoCheck, OnDestroy {
       duration: 4000,
       panelClass: ['success-snackbar'],
     });
-  }
-
-  // Normalizadores consistentes
-  private normStr(s?: string | null): string {
-    return (s ?? '').toString().trim();
-  }
-
-  private normNumOrNull(n?: number | string | null): number | null {
-    if (n === undefined || n === null || n === '') return null;
-    const num = Number(n);
-    return Number.isNaN(num) ? null : num;
-  }
-
-  private normDateStr(d?: string | Date | null): string | null {
-    if (!d) return null;
-    if (typeof d === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d)) return d; // ya normalizada
-    const dt = new Date(d);
-    const yyyy = dt.getFullYear();
-    const mm = String(dt.getMonth() + 1).padStart(2, '0');
-    const dd = String(dt.getDate()).padStart(2, '0');
-    return `${yyyy}-${mm}-${dd}`;
-  }
-
-  private toInterestIds(arr: any[] | undefined | null): number[] {
-    return (arr ?? [])
-      .map((i: any) => (typeof i === 'object' ? Number(i.id) : Number(i)))
-      .filter((n) => !Number.isNaN(n));
-  }
-
-  private normalizeUser(u: any) {
-    // Devuelve el shape homogenizado para original/editable
-    const interestsNorm =
-      this.toInterestIds(u?.interests) || this.userInterest.map((i) => i.id);
-    return {
-      id: u?.id,
-      email: this.normStr(u?.email),
-      description: this.normStr(u?.description),
-      countries_id: this.normNumOrNull(u?.countries_id), // null si no hay
-      birthdate: this.normDateStr(u?.birthdate), // 'YYYY-MM-DD' o null
-      telephone: this.normStr(u?.telephone),
-      interests: interestsNorm, // number[]
-      photo: u?.photo ?? null,
-    };
-  }
-
-  arraysEqualAsNumbers(a: string[] | number[], b: number[]): boolean {
-    const toNum = (x: any) => Number(x);
-    const an = (a ?? [])
-      .map(toNum)
-      .filter((n) => !Number.isNaN(n))
-      .sort((x, y) => x - y);
-    const bn = (b ?? [])
-      .map(toNum)
-      .filter((n) => !Number.isNaN(n))
-      .sort((x, y) => x - y);
-    if (an.length !== bn.length) return false;
-    for (let i = 0; i < an.length; i++) {
-      if (an[i] !== bn[i]) return false;
-    }
-    return true;
   }
 }
