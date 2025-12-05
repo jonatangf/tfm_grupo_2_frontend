@@ -3,12 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { IReview, IReviewResponse } from '../interfaces/ireview.interface';
 import { lastValueFrom } from 'rxjs';
 import { SuccessResponse } from '../types/api-responses'
+import { environment } from '../../environments/environments';
 @Injectable({
   providedIn: 'root',
 })
 export class ReviewsService {
     private httpClient = inject(HttpClient);
-    private baseUrl: string = 'https://tfmgrupo2backend-production.up.railway.app/api';
+    private baseUrl: string = environment.apiUrl;
 
     /*------------------------------ GET ------------------------------*/
     //Obtener las valoraciones recibidas por un usuario

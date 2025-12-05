@@ -3,12 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { ITripMember, ITripJoinRequestResponse } from '../interfaces/iparticipation.interface';
 import { SuccessResponse, CreateTripRequestResponse } from '../types/api-responses'
+import { environment } from '../../environments/environments';
 @Injectable({
   providedIn: 'root',
 })
 export class ParticipationsService {
     private httpClient = inject(HttpClient);
-    private baseUrl: string = 'https://tfmgrupo2backend-production.up.railway.app/api';
+    private baseUrl: string = environment.apiUrl;
     
     /*------------------------------ GET ------------------------------*/
     //Obtener los miembros aceptados

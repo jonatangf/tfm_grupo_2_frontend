@@ -4,9 +4,11 @@ import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const snackbar = inject(MatSnackBar) as MatSnackBar;;
+  const router = inject(Router);
 
   // Añadir token si existe
   const token = localStorage.getItem('token');
@@ -22,6 +24,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         message = error.error.message; // mensaje del backend
       } else if (error.status === 0) {
         message = 'No hay conexión con el servidor';
+      } else if(error.status === 404){
+        message ='Recurso no encontrado';
+        router.navigate(['/404']);
       } else {
         message = `Error ${error.status}: ${error.statusText}`;
       }

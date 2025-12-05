@@ -1,0 +1,11 @@
+<div class="notFoundContainer">
+    <h1 class="NotFoundTitle">404</h1>
+    <h2 class="NotFoudSubtitle">Página no encontrada</h2>
+    <p class="notFoundMessage">Lo sentimos, la página que buscas no existe.</p>
+
+    @if(isLoggedIn()){
+        <a routerLink="/trips" class="notFoundButton">Ir a viajes</a>
+    } @else {
+        <a routerLink="/home" class="notFoundButton">Inicio</a>
+    }
+</div>
