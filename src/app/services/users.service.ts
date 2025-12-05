@@ -6,6 +6,7 @@ import { ILoginResponse } from '../interfaces/ilogin-response';
 import { ILoginRequest } from '../interfaces/ilogin-request';
 import { ISession } from '../interfaces/users/isession';
 import { IMyTripRequest } from '../interfaces/iparticipation.interface';
+import { IInterest } from '../interfaces/iInterest.interface';
 import { environment } from '../../environments/environments';
 
 @Injectable({
