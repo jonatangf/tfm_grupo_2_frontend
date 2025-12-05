@@ -9,14 +9,10 @@ import { SuccessResponse } from '../types/api-responses';
 })
 export class InterestsService {
   private httpClient = inject(HttpClient);
-  private baseUrl: string = 'http://localhost:3000/api';
+  private baseUrl: string = 'https://tfmgrupo2backend-production.up.railway.app/api';
 
   getInterests(): Promise<IInterest[]> {
     return lastValueFrom(this.httpClient.get<IInterest[]>(`${this.baseUrl}/interests`));
-  }
-
-  getInterestsByUser(userId:number): Promise<IInterest[]> {
-    return lastValueFrom(this.httpClient.get<IInterest[]>(`${this.baseUrl}/interests/${userId}`));
   }
 
   postInterestsByUser(userId:number): Promise<SuccessResponse> {
