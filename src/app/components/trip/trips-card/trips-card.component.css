@@ -1,0 +1,179 @@
+/* ========================================================== */
+/* 1. TARJETA PRINCIPAL Y ESTRUCTURA */
+/* ========================================================== */
+.tripCard {
+      display: flex; 
+    flex-direction: row; 
+    align-items: stretch;
+    border-radius: 16px;
+    background-color: white;
+     border: rgb(204, 204, 204) solid 0.1px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease-in-out;
+    min-height: 150px; 
+       font-family: var(--primary-font);
+}
+
+.tripCard:hover {
+    box-shadow: 0 4px 16px rgba(255, 183, 153, 0.15);
+}
+
+
+.tripImageContainer {
+  
+    width: 17%; 
+    min-width: 15%; 
+    height: 15%; 
+    overflow: hidden;
+    align-self: center;
+}
+
+.tripImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+/* ========================================================== */
+/* 2. CONTENIDO Y TIPOGRAFÍA */
+/* ========================================================== */
+.tripMain {
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; 
+    justify-content: space-between; 
+}
+
+.tripHeader {
+    display: flex;
+    justify-content: space-between; 
+    align-items: flex-start;
+    margin-bottom: 8px; 
+    flex-wrap: wrap;
+}
+
+.tripName {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #333; 
+    margin: 0;
+    line-height: 1.2;
+}
+
+.tripDates {
+    font-size: 0.85rem;
+    color: #6c757d; 
+    font-weight: 500;
+    margin-top: 3px;
+}
+
+.tripPrice {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #333; 
+    margin-left: 15px;
+    padding: 0;
+    white-space: nowrap; 
+}
+
+/* ========================================================== */
+/* 3. BOTONES DE ACCIÓN (Estilo Enlace de Texto para Desktop) */
+/* ========================================================== */
+.tripButtons {
+    display: flex;
+    flex-direction: row; 
+    flex-wrap: wrap; 
+    gap: 0; 
+    margin-top: 5px;
+}
+
+/* Estilo Enlace de Texto Sencillo */
+.tripButtons button {
+    background-color: transparent; 
+    border: none; 
+    padding: 0; 
+    margin-right: 15px; 
+    position: relative;
+    
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--color-pastel-orange); 
+    
+    cursor: pointer;
+    transition: color 0.2s ease;
+    text-align: left;
+    white-space: nowrap;
+}
+
+/* Separador sutil entre botones */
+.tripButtons button:not(:last-child)::after {
+    position: absolute;
+    right: -10px; 
+    color: #cccccc; 
+    font-weight: 400;
+}
+
+/* Hover */
+.tripButtons button:hover {
+    color: #9e9b99; 
+    transform: none;
+    box-shadow: none;
+}
+
+/* ========================================================== */
+/* 4. RESPONSIVE (Móvil) - Vuelve a la tarjeta vertical y botones */
+/* ========================================================== */
+@media (max-width: 768px) {
+    .tripCard {
+        flex-direction: column;
+        min-height: initial;
+    }
+    
+    .tripImageContainer {
+    
+        width: 100%;
+        height: 0;
+        padding-bottom: 100%; 
+        min-width: initial;
+        align-self: stretch;
+        position: relative;
+    }
+
+    .tripImage {
+        position: absolute;
+        top: 0;
+        left: 0;
+       
+    }
+
+
+    .tripButtons {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .tripButtons button {
+        background-color: white;
+        color: var(--color-pastel-orange);
+        border: 2px solid var(--color-pastel-orange);
+        padding: 8px 12px;
+        text-align: center;
+        margin-right: 0;
+        
+        position: static;
+        font-size: 0.9rem;
+    }
+    
+    .tripButtons button:not(:last-child)::after {
+        content: none;
+    }
+
+    .tripButtons button:hover {
+        background-color: var(--color-pastel-orange);
+        color: white;
+    }
+}

@@ -1,0 +1,21 @@
+/* Estilos para alinear el título a la izquierda y el ícono a la derecha */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.header-left h1 {
+    color: var(--color-pastel-orange);
+}
+
+.header-right {
+    padding-left: 30%; 
+}
+
+.header-right .icon {
+    height: 30px; 
+    width: 30px;
+    filter: sepia(100%) saturate(300%) hue-rotate(-20deg) brightness(100%) contrast(90%); 
+}

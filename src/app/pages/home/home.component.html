@@ -1,0 +1,61 @@
+<div class="container-fluid login-container">
+  <div class="row h-100">
+
+    <div class="col-lg-6 d-none d-lg-flex image-col justify-content-center align-items-center">
+      <img
+        src="/assets/images/home-image.png"
+        alt="TravelTogether Image"
+        class="img-fluid centered-image"
+      />
+    </div>
+
+    <div class="col-12 col-lg-6 d-flex align-items-center justify-content-center content-col p-4 p-md-5">
+      
+      <div class="content-wrapper"> 
+
+        <div class="header-with-back">
+            @if (state !== 'initial') {
+                <button class="btn-back" (click)="goBack()">
+                    <i class="bi bi-arrow-left"></i> 
+                </button>
+            }
+            <app-login-header></app-login-header>
+        </div>
+        <h2 class="mb-4" [innerHTML]="subtitle"></h2>
+
+        @switch (state) {
+          @case ('initial') {
+            <p class="text-muted text-justify">
+Conecta con personas con las mismas ganas de explorar el mundo, ofreciendo una plataforma web para organizar viajes en grupo.
+Aquí podrás compartir gastos, experiencias y aventuras, creando una comunidad colaborativa donde planificar juntos cada detalle del viaje sea fácil y divertido.
+Descubre nuevos destinos, conoce compañeros de ruta y haz que cada viaje sea una experiencia compartida.
+            </p>
+
+            <div class="spacer my-5"></div>
+
+            <div class="actions d-grid gap-3 d-sm-flex justify-content-center">
+              <button class="btn btn-primary btn-lg custom-btn" (click)="loadLogin('log')">{{ buttonLogin }}</button>
+              <button class="btn btn-outline-secondary btn-lg custom-btn" (click)="loadLogin('reg')">{{ buttonRegister }}</button>
+            </div>
+          }
+
+          @case ('login') {
+            <app-login [register]="false" (submitted)="onLogin($event)" #loginChild></app-login>
+
+            <div class="actions d-flex justify-content-center gap-3 mt-4">
+              <button class="btn btn-primary custom-btn" (click)="loginChild.submitUser()">{{ buttonLogin }}</button>
+            </div>
+          }
+
+          @case ('register') {
+            <app-login [register]="true" (submitted)="onLogin($event)" #loginChild></app-login>
+
+            <div class="actions d-flex justify-content-center gap-3 mt-4">
+              <button class="btn btn-primary custom-btn" (click)="loginChild.submitUser()">{{ buttonRegister }}</button>
+            </div>
+          }
+        }
+      </div>
+    </div>
+  </div>
+</div>

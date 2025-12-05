@@ -1,0 +1,77 @@
+<div class="container">
+    
+    <div class="modal-header">
+        <div class="header-title-group">
+            <h1 class="titulo">Solicitudes</h1>
+            <h3 class="subtitulo">
+                {{ trip.startDate | dateRange:trip.endDate }}
+            </h3>
+        </div>
+        
+        <button 
+            type="button" 
+            class="close-btn" 
+            (click)="onCancel()" 
+            aria-label="Cerrar">
+            ✕
+        </button>
+    </div>
+
+    <div class="solicitudes-fixed-height">
+        
+        @for (joinPetition of joinPetitions; track joinPetition.requestId) {
+            
+            <div class="solicitud-card" [class.expanded]="isExpanded(joinPetition.requestId)">
+
+                <div class="solicitud-header"  (click)="joinPetition.status === 'pending' && toggleSolicitud(joinPetition.requestId)">
+                    <span>Solicitud realizada por  <strong>{{ joinPetition.name }}</strong></span>
+                    
+                    <button type="button" class="toggle-btn" aria-expanded="{{ isExpanded(joinPetition.requestId) }}">
+
+                    @if (joinPetition.status === 'pending') {
+                            @if (!isExpanded(joinPetition.requestId)) {
+                                                    ▼
+                                                } @else {
+                                                    ▲
+                                                }
+                        } @else if (joinPetition.status === 'accepted') {
+                            <span class="estado aceptada"> <i class="bi bi-check-lg"></i> Aceptada</span>
+                        } @else if (joinPetition.status === 'rejected') {
+                            <span class="estado rechazada"><i class="bi bi-x-lg"></i> Rechazada</span>
+                        }
+
+                  
+                    </button>
+                </div>
+
+                @if (isExpanded(joinPetition.requestId)) {
+                    <div class="solicitud-body">
+                        
+                        @if (joinPetition.status === 'pending') {
+                            <button 
+                                type="button"
+                                class="btn aceptar" 
+                                (click)="aceptarSolicitud(joinPetition.requestId, joinPetition.name)">
+                                <i class="bi bi-check-lg"></i> ACEPTAR
+                            </button>
+                            <button 
+                                type="button"
+                                class="btn rechazar" 
+                                (click)="rechazarSolicitud(joinPetition.requestId, joinPetition.name)">
+                                <i class="bi bi-x-lg"></i> RECHAZAR
+                            </button>
+                        }
+                    </div>
+                }
+            </div>
+            
+        } 
+        
+        @empty { 
+             <div class="solicitudes-empty-message">
+                <p>No hay solicitudes pendientes para este viaje.</p>
+            </div>
+        }
+        
+    </div>
+</div>

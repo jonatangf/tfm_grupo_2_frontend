@@ -1,0 +1,31 @@
+/* Estilos para el contenedor de cada campo del formulario */
+.formField {
+    margin-bottom: 1.5rem; 
+}
+
+/* Estilos para las etiquetas */
+.formField label {
+    display: block; 
+    margin-bottom: 0.5rem; 
+    font-weight: 600;
+    color: #495057; 
+    text-align: left; 
+}
+
+/* Estilo para el estado de error (is-invalid) */
+.form-control.is-invalid {
+    border-color: #dc3545; 
+    padding-right: calc(1.5em + 0.75rem);
+    background-image: none; 
+}
+
+/* Estilo para el mensaje de feedback (error) */
+.invalid-feedback {
+    display: block; 
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: #dc3545; 
+    text-align: left;
+}
+

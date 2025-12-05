@@ -1,0 +1,511 @@
+.forum-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.forum-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.back-button:hover {
+  background-color: #f5f5f5;
+}
+
+.header-content {
+  flex: 1;
+}
+
+.forum-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 4px 0;
+}
+
+.forum-subtitle {
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+}
+
+.forum-content {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Secciones */
+.comments-section {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comments-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 20px 0;
+}
+
+/* Formularios */
+.comment-form,
+.reply-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #424242;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-textarea.small {
+  min-height: 60px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-submit {
+  background-color: #424242;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background-color: #212121;
+}
+
+.btn-submit:disabled {
+  background-color: #9e9e9e;
+  cursor: not-allowed;
+}
+
+.btn-submit.small {
+  padding: 6px 16px;
+  font-size: 12px;
+}
+
+/* Comentarios */
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.comment-card {
+  background: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  transition: box-shadow 0.2s;
+}
+
+.comment-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.comment-header {
+  margin-bottom: 12px;
+}
+
+.comment-author,
+.reply-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.author-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #f5f5f5;
+}
+
+.author-avatar.small {
+  width: 32px;
+  height: 32px;
+}
+
+.author-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.author-info {
+  flex: 1;
+}
+
+.author-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 2px 0;
+}
+
+.comment-date,
+.reply-date {
+  font-size: 12px;
+  color: #999;
+  margin: 0;
+}
+
+.comment-body {
+  margin-bottom: 16px;
+}
+
+.comment-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 8px 0;
+}
+
+.comment-message {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+/* Respuestas */
+.replies-section {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.replies-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.reply-card {
+  background: #ffffff;
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  padding: 12px 16px;
+}
+
+.reply-header {
+  margin-bottom: 8px;
+}
+
+.reply-message {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.5;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+/* Formulario de respuesta */
+.reply-form-container {
+  margin-top: 12px;
+}
+
+.btn-reply {
+  background-color: #424242;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-reply:hover {
+  background-color: #212121;
+}
+
+.btn-create-comment {
+  background-color: #424242;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-create-comment:hover {
+  background-color: #212121;
+}
+
+.btn-cancel {
+  background: #f5f5f5;
+  color: #333;
+  border: 1px solid #ddd;
+  padding: 6px 16px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-cancel:hover {
+  background-color: #e0e0e0;
+}
+
+/* Estados */
+.loading,
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+}
+
+.loading p,
+.empty-state p {
+  margin: 0;
+  font-size: 16px;
+}
+
+/* Selector de viaje */
+.trip-selector-section {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.trips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.trip-card {
+  background: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.trip-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-color: #ccc;
+  transform: translateY(-2px);
+}
+
+.trip-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 8px 0;
+}
+
+.trip-card-place {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+/* Modal/Popup Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-content {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 0;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.modal-header .modal-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.modal-header .close-btn {
+  background: none;
+  border: none;
+  font-size: 32px;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  line-height: 1;
+}
+
+.modal-header .close-btn:hover {
+  background-color: #f5f5f5;
+}
+
+.modal-content .comment-form {
+  padding: 24px;
+}
+
+.modal-content .form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.modal-content .btn-cancel {
+  background: #f5f5f5;
+  color: #333;
+  border: 1px solid #ddd;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.modal-content .btn-cancel:hover {
+  background-color: #e0e0e0;
+}
+
+.empty-state .btn-create-comment {
+  margin-top: 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .forum-container {
+    padding: 16px;
+  }
+
+  .forum-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .comments-section {
+    padding: 16px;
+  }
+
+  .comments-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .trips-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-content {
+    margin: 10px;
+    max-width: calc(100% - 20px);
+  }
+}
+

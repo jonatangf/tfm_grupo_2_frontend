@@ -1,0 +1,142 @@
+/* Usamos las variables de color definidas en src/styles.css */
+
+.mainHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px; 
+    background-color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border: none;
+}
+
+/* Sección del logo */
+.logo {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.logoIcon {
+    width: 32px; 
+    height: 32px;
+    margin-right: 10px;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+}
+
+.logoText {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-pastel-orange);
+    letter-spacing: -0.5px;
+}
+
+/* Sección de navegación (enlaces y avatar) */
+.navigation {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+/* Estilo de los enlaces de navegación */
+.navigation a {
+    text-decoration: none;
+    color: #495057;
+    font-weight: 500;
+    padding: 5px 0;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.navigation a:hover {
+    color: var(--color-pastel-orange); 
+}
+
+/* Indicador de enlace activo */
+.navigation a.active {
+    color: var(--color-pastel-orange);
+    font-weight: 600;
+}
+
+/* Línea inferior para el enlace activo */
+.navigation a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--color-pastel-orange);
+    border-radius: 2px;
+}
+
+/* Estilo del botón del avatar */
+.avatarButton {
+    background: none;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    padding: 0;
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    margin-left: 10px;
+}
+
+.avatarButton:hover {
+    border-color: var(--color-pastel-orange);
+    box-shadow: 0 0 0 3px rgba(216, 136, 83, 0.2); 
+}
+
+.avatarImg {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
+/* ========================================================== */
+/* Estilos para el Sidebar de Perfil */
+/* ========================================================== */
+
+.profileSideBar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 20%; 
+    background-color: white;
+    box-shadow: -4px 0 10px rgba(0, 0, 0, 0.15);
+    transform: translateX(100%); 
+    transition: transform 0.3s ease-in-out;
+    z-index: 1001;
+}
+
+.profileSideBar.open {
+    transform: translateX(0);
+}
+
+/* Estilos para dispositivos pequeños (mobile) */
+@media (max-width: 768px) {
+    .mainHeader {
+        padding: 10px 15px; 
+    }
+
+    .logoText {
+        font-size: 1.3rem;
+    }
+
+    .navigation {
+        gap: 15px;
+    }
+    
+    .navigation a {
+        display: none;
+    }
+
+    .avatarImg {
+        width: 35px;
+        height: 35px;
+    }
+}

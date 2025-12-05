@@ -1,0 +1,59 @@
+<form [formGroup]="userForm" (ngSubmit)="submitUser()">
+    @if(register){
+        <div class="formField">
+            <label for="username">NOMBRE *</label>
+            <input 
+                type="text" 
+                name="username" 
+                id="username" 
+                placeholder="Introduce tu nombre" 
+                formControlName="username"
+                class="form-control"
+                [class.is-invalid]="checkControl('username', 'required') || checkControl('username', 'minlength')"
+            >
+            @if(checkControl('username', 'required')){
+                <div class="invalid-feedback">El nombre es obligatorio.</div>
+            }
+            @if(checkControl('username', 'minlength')){
+                <div class="invalid-feedback">El nombre debe tener al menos 3 caracteres.</div>
+            }
+        </div>
+    }
+    <div class="formField">
+        <label for="email">EMAIL *</label>
+        <input 
+            type="email" 
+            name="email" 
+            id="email" 
+            placeholder="Introduce tu email" 
+            formControlName="email"
+            class="form-control"
+            [class.is-invalid]="checkControl('email', 'required') || checkControl('email', 'email')"
+        >
+        @if(checkControl('email', 'required')){
+            <div class="invalid-feedback">El email es obligatorio.</div>
+        }
+        @if(checkControl('email', 'email')){
+            <div class="invalid-feedback">Introduce un email válido.</div>
+        }
+    </div>
+
+    <div class="formField">
+        <label for="password">CONTRASEÑA *</label>
+        <input 
+            type="password" 
+            name="password" 
+            id="password" 
+            placeholder="Introduce tu contraseña" 
+            formControlName="password"
+            class="form-control"
+            [class.is-invalid]="checkControl('password', 'required') || checkControl('password', 'minlength')"
+        >
+        @if(checkControl('password', 'required')){
+            <div class="invalid-feedback">La contraseña es obligatoria.</div>
+        }
+        @if(checkControl('password', 'minlength')){
+            <div class="invalid-feedback">La contraseña debe tener al menos 6 caracteres.</div>
+        }
+    </div>
+</form>

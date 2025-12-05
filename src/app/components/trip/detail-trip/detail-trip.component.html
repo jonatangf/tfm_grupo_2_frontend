@@ -1,0 +1,70 @@
+<aside class="tripDetail">
+
+    <!-- Encabezado unificado -->
+    <div class="tripDetailHeader">
+        <h2 class="tripDetailTitle">DETALLE DEL VIAJE</h2>
+
+        <div class="tripDetailIcons">
+            <button
+                type="button"
+                class="iconButton"
+                (click)="closePopUp()">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+    </div>
+
+
+            <!-- Botón de "ver miembros" SOLO si es dueño -->
+    @if(tripMode === 'mine'){
+    <div class="tripMembersContainer">
+        <button 
+            type="button"
+            class="tripMembersButton"
+            (click)="toggleMembersList()">
+            VER MIEMBROS ACEPTADOS
+        </button>
+    </div>
+    }
+
+    
+    <!-- Cuerpo del detalle -->
+    <main class="tripDetails">
+        <div class="detailContainer">
+            <h3 class="detailLabel">TÍTULO</h3>
+            <p class="tripTitulo">{{trip.name}}</p>
+        </div>
+
+        <div class="detailContainer">
+            <h3 class="detailLabel">DESCRIPCIÓN</h3>
+            <p>{{trip.description}}</p>
+        </div>
+
+        <div class="detailContainer">
+            <h3 class="detailLabel">FECHAS DEL VIAJE</h3>
+            <p>{{ trip.startDate | dateRange:trip.endDate }}</p>
+        </div>
+
+        <div class="detailContainer">
+            <h3 class="detailLabel">COSTE POR PERSONA</h3>
+            <p class="tripCost">{{trip.costPerPerson}}€</p>
+        </div>
+
+        <div class="detailContainer">
+            <h3 class="detailLabel">ITINERARIO</h3>
+            <p>{{trip.itinerary}}</p>
+        </div>
+        
+    </main>
+
+
+
+    @if (showMembersList) {
+        <app-members-list 
+            [tripId]="trip.id" 
+            [trip]="trip"
+            (close)="closeMembersList()">
+        </app-members-list>
+    }
+
+</aside>

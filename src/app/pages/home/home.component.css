@@ -1,0 +1,109 @@
+/* Definición de la variable de color y tipografía */
+:root {
+  --color-pastel-orange: #ffb799; 
+  --primary-font: 'Poppins', sans-serif; 
+}
+
+/* 1. ESTILOS BASE Y CONTROL DE SCROLL (CLAVE) */
+:host, html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: block;
+  font-family: var(--primary-font); 
+  overflow-x: hidden; 
+}
+
+/* 2. CONTENEDOR PRINCIPAL (Fondo Blanco y Altura Total) */
+.login-container {
+  min-height: 100vh;
+  background-color: white; 
+  overflow-y: hidden; 
+  padding: 30px !important; 
+}
+
+/* 3. AJUSTE DE ALTURA DEL ROW (Compensa el padding de 60px total) */
+.login-container .row {
+    height: 100%; 
+    max-height: calc(100vh - 60px); 
+}
+
+/* 4. ESTILOS PARA LA IMAGEN EN DESKTOP (AJUSTADO) */
+.image-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.centered-image {
+    object-fit: contain; 
+    
+    max-height: 95%; 
+    max-width: 80%; 
+    width: auto; 
+    height: auto;
+    
+    border-radius: 10px;
+}
+
+/* 5. ESTILOS DEL CONTENIDO (Centrado) */
+.content-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-wrapper {
+    max-width: 480px;
+    width: 100%;
+    text-align: left; 
+}
+
+/* 6. ESTILOS DE ENCABEZADO Y TEXTO (Mantenidos) */
+.text-pastel-orange {
+  color: var(--color-pastel-orange) !important;
+  font-weight: 600; 
+}
+
+app-login-header {
+    color: var(--color-pastel-orange) !important;
+}
+
+.header-with-back {
+    display: flex;
+    align-items: center; 
+    gap: 10px;
+    margin-bottom: 20px; 
+}
+
+.btn-back {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 1.5rem; 
+    color: var(--color-pastel-orange) !important;
+    transition: color 0.2s;
+}
+
+.btn-back:hover {
+    opacity: 0.8;
+}
+
+.btn-primary.custom-btn {
+    background-color: var(--color-pastel-orange) !important;
+    border-color: var(--color-pastel-orange) !important;
+}
+
+.btn-outline-secondary.custom-btn {
+    color: var(--color-pastel-orange) !important;
+    border: 2px solid var(--color-pastel-orange) !important; 
+    background-color: transparent !important;
+}
+
+.btn-outline-secondary.custom-btn:hover {
+    background-color: var(--color-pastel-orange) !important;
+    color: white !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}

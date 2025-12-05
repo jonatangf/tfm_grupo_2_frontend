@@ -1,0 +1,107 @@
+/* ========================================================== */
+/* ESTILOS DEL POPUP DE ELIMINACIÓN (deletePopUp) */
+/* ========================================================== */
+
+.deletePopUp {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); 
+    text-align: center;
+    position: relative;
+    font-family: var(--primary-font);
+}
+
+/* Título */
+.deleteTitle {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-pastel-orange); 
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+/* Mensaje de confirmación */
+.deleteMessage {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+/* Botón de cerrar (la X) */
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #aaa;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 5px;
+    transition: color 0.2s;
+}
+
+.closeButton:hover {
+    color: #333;
+}
+
+/* Contenedor de los botones de acción */
+.deleteActions {
+    display: flex;
+    justify-content: space-around; 
+    gap: 15px;
+}
+
+/* Estilo base para todos los botones de acción */
+.deleteActions button {
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    width: 50%; 
+}
+
+/* Botón RECHAZAR (Estilo secundario/cancelar) */
+.rejectButton {
+    background-color: rgb(255, 255, 255);
+    color: #0e0d0d; 
+    border: none;
+}
+
+.rejectButton:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-1px);
+    
+}
+
+/* Botón ACEPTAR (Estilo primario/peligro) */
+.acceptButton {
+    background-color: var(--color-pastel-orange); 
+    color: white;
+    border: none;
+    box-shadow: 0 4px 6px rgba(231, 76, 60, 0.3);
+}
+
+.acceptButton:hover {
+    background-color: #c0392b; 
+    transform: translateY(-2px);
+}
+
+/* Responsividad simple */
+@media (max-width: 450px) {
+    .deletePopUp {
+        padding: 20px;
+    }
+    .deleteTitle {
+        font-size: 1.5rem;
+    }
+    .deleteActions {
+        flex-direction: column;
+    }
+    .deleteActions button {
+        width: 100%; 
+    }
+}

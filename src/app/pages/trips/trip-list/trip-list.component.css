@@ -1,0 +1,272 @@
+
+.tripsPage {
+    padding: 0px 40px;
+    background-color: white;
+    width: 100%;            
+}
+
+/* Header: mantén el diseño con left (título) y right (filtros) */
+.tripsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end; 
+    gap: 20px;
+    width: 100%;
+    margin-bottom: 2%;
+    padding-bottom: 10px;
+}
+
+/* izquierda (título + select) */
+.headerLeft {
+    display: flex;
+    align-items: flex-start;
+}
+
+.tripTypeSelect {
+    width: 180px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+
+    font-weight: 600;
+    background-color: white;
+    color: var(--color-pastel-orange);
+    cursor: pointer;
+}
+
+
+.filtersRight {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    margin-left: auto;
+    flex-wrap: nowrap; 
+    align-items: center;
+}
+
+
+.filterContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 140px; 
+    max-width: 220px;
+}
+
+
+.filterInput, .budgetInput {
+    width: 100%; 
+    padding: 8px 15px;
+    border: 2px solid var(--color-pastel-orange);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    background-color: white;
+}
+
+
+.clearFiltersButton {
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    height: 44px;
+    align-self: flex-end;
+    background-color: white;
+    border: none;
+}
+
+
+.createTripSlot {
+    width: 160px; 
+    min-width: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.createTripButton {
+    margin-top: 10%;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--color-pastel-orange);
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(255, 183, 153, 0.4);
+    transition: background-color 0.3s, transform 0.2s;
+    height: 44px;
+    width: 100%; 
+    max-width: 140px;
+}
+
+.createTripButton:hover {
+    background-color: #fa966f;
+    transform: translateY(-2px);
+}
+
+
+.invisible {
+    visibility: hidden; 
+    pointer-events: none;
+}
+
+.tripsCards {
+    display: grid;
+    gap: 3%;
+    width: 100%;
+    max-height: 70vh;
+    overflow-y: scroll;   
+}
+
+
+.no-trips-message {
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+    margin-top: 15%;
+    font-size: 1rem;       
+    font-weight: 600;        
+    text-align: center;
+    border-radius: 12px;     
+
+}
+
+
+app-trips-card {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
+
+}
+
+app-trips-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px #f0a472;
+}
+
+
+/* ========================================================== */
+/* 6. ESTILOS DE POP-UPS (MODALES CENTRADOS) */
+/* ========================================================== */
+
+.joinTripContainer,
+.deleteTripContainer,
+.formTripContainer,
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+
+.popup {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    width: 50%;
+    overflow-y: auto;
+    position: relative;
+}
+
+app-join-trip,
+app-delete-trip,
+app-trip-form,
+app-petitions {
+    display: block;
+}
+
+
+.popup .close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #aaa;
+    cursor: pointer;
+    z-index: 2001;
+}
+
+.popup .close-btn:hover {
+    color: #555;
+}
+
+/* ========================================================== */
+/* 7. ESTILOS DE SIDEBAR (DETAIL TRIP - Derecha) */
+/* ========================================================== */
+
+.detailTripContainer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 2500;
+    display: flex;
+    justify-content: flex-end;
+    overflow: hidden;
+}
+
+app-detail-trip {
+    width: 100%;
+    max-width: 450px; 
+    height: 100%;
+    background-color: white;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-out; 
+    overflow-y: auto;
+}
+
+/* Responsive: Cuando no quepan los filtros */
+@media (max-width: 1100px) {
+    .filtersRight {
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: flex-end;
+    }
+}
+
+/* Responsive: Móvil */
+@media (max-width: 768px) {
+    .tripsHeader {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .filtersRight {
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .filterContainer {
+        width: 100%;
+    }
+
+    .createTripSlot, .clearFiltersButton {
+        width: 100%;
+    }
+    
+    .createTripButton {
+        max-width: none;
+        width: 100%;
+    }
+
+    .filterInput, .budgetInput {
+        width: 100%;
+    }
+
+    /* Ajuste para el Sidebar en móvil */
+    app-detail-trip {
+        max-width: 90%; 
+    }
+}
