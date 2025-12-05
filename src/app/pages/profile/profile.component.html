@@ -1,142 +1,211 @@
-@if (user) {
-  <div class="userFormSidebar">
 
+@if (user && dataReady) {
+<div class="userFormSidebar">
+  <!-- CABECERA fija: título + iconos + puntuación -->
+  <div class="stickyHeader">
+    <div class="profileHeader">
+      <h2 class="profileTitle">Editar perfil</h2>
 
-  <div class="profileHeader">
-    <h2 class="profileTitle">Editar perfil</h2>
-
-    <div class="profileIcons">
-      <!-- Lápiz: SIEMPRE visible -->
-            @if (!isEditing) {
-      <button
-        class="iconButton"
-        type="button"
-        (click)="enterEdit()"
-        aria-label="Editar"
-        title="Editar"
-        [disabled]="isEditing"  
-      >
-        <i class="bi bi-pencil"></i>
-      </button>
-    }
-
-      <!-- Cancelar: SOLO visible en edición -->
-      @if (isEditing) {
+      <div class="profileIcons">
+        @if (!isEditing) {
+        <button
+          class="iconButton"
+          type="button"
+          (click)="enterEdit()"
+          aria-label="Editar"
+          title="Editar"
+          [disabled]="isEditing">
+          <i class="bi bi-pencil"></i>
+        </button>
+        }
+        @if (isEditing) {
         <button
           class="iconButton"
           type="button"
           (click)="cancelEdit()"
           aria-label="Cancelar edición"
-          title="Cancelar edición"
-        >
+          title="Cancelar edición">
           <i class="bi bi-slash-circle"></i>
         </button>
-      }
+        }
+        <button
+          class="iconButton closeButton"
+          type="button"
+          (click)="onCloseClick()"
+          aria-label="Cerrar panel"
+          title="Cerrar">
+          <i class="bi bi-x-lg"></i>
+        </button>
+
+      </div>
     </div>
-
-
-    </div>
-
     <!-- Avatar -->
     <div class="avatarContainer">
       <div class="avatarWrapper" (click)="onAvatarClick(avatarInput)">
         <img
           class="avatarImg"
-          [src]="user.photo || 'assets/icons/default-avatar.png'"
-          alt="Avatar de usuario"
-        />
+          [src]="(isEditing ? editableUser?.photo : user.avatar) || 'assets/icons/default-avatar.png'"
+          alt="Avatar de usuario" />
       </div>
       <input
         type="file"
         accept="image/*"
         #avatarInput
         class="hiddenFileInput"
-        (change)="onAvatarSelected($event)"
-      />
+        (change)="onAvatarSelected($event)" />
     </div>
+    <!-- Puntuación -->
+    <div class="detailContainer ratingContainer">
+      <label class="detailLabel">PUNTUACIÓN</label>
+      <div class="ratingValue">{{ user.avg_rating }}</div>
+    </div>
+  </div>
+
+  <!-- CONTENIDO scrollable: avatar + formulario -->
+  <div class="scrollContent">
 
     <form class="profileForm">
-      <!-- Puntuación -->
-      <div class="detailContainer ratingContainer">
-        <label class="detailLabel">PUNTUACIÓN</label>
-        <div class="ratingValue">{{ user.avg_rating }}</div>
-      </div>
-
       <!-- Correo -->
       <div class="detailContainer">
         <label class="detailLabel">CORREO</label>
-        <input [(ngModel)]="editableUser.email" name="email" [readonly]="!isEditing" />
+
+        @if (!isEditing) {
+        <div class="readonlyText">{{ editableUser.email || 'Sin correo' }}</div>
+        } @else {
+        <input [(ngModel)]="editableUser.email" name="email" />
+        }
       </div>
 
       <!-- Descripción -->
       <div class="detailContainer">
         <label class="detailLabel">DESCRIPCIÓN</label>
-        <textarea
-          [(ngModel)]="editableUser.description"
-          name="description"
-          [readonly]="!isEditing"
-        ></textarea>
+        @if (!isEditing) {
+        <div class="readonlyText">
+          {{ truncatedDescription }}
+          @if (showExpandLink) {
+          <span class="expandLink" (click)="toggleDescription()">...</span>
+          }
+        </div>
+        } @else {
+        <textarea [(ngModel)]="editableUser.description"
+          name="description"></textarea>
+        }
       </div>
 
       <!-- País -->
       <div class="detailContainer">
         <label class="detailLabel">PAÍS</label>
+        @if (!isEditing) {
+        <div class="readonlyText">{{ userCountry}}</div>
+        } @else {
         <select
           [(ngModel)]="editableUser.countries_id"
           name="countries_id"
           [disabled]="!isEditing"
-          class="detailInput"
-        >
+          class="detailInput">
           <option value>Selecciona un país</option>
           @for (country of countries; track country.id) {
-            <option [value]="country.id">{{ country.name }}</option>
+          <option [value]="country.id">{{ country.name }}</option>
           }
         </select>
+        }
+
       </div>
 
       <!-- Fecha de nacimiento -->
       <div class="detailContainer">
         <label class="detailLabel">FECHA DE NACIMIENTO</label>
+
+        @if (!isEditing) {
+        <div class="readonlyText">
+          {{ editableUser.birthdate ? (editableUser.birthdate | date:'d MMMM y')
+          : 'Siempre Joven' }}
+        </div>
+
+        } @else {
         <input
           type="date"
           [(ngModel)]="editableUser.birthdate"
           name="birthdate"
-          [readonly]="!isEditing"
-        />
+          [readonly]="!isEditing" />
+        }
+
       </div>
 
       <!-- Teléfono -->
       <div class="detailContainer">
         <label class="detailLabel">TELÉFONO</label>
+        @if (!isEditing) {
+        <div class="readonlyText">{{ editableUser.telephone || 'Privado'
+          }}</div>
+        } @else {
         <input
           type="tel"
           [(ngModel)]="editableUser.telephone"
           name="telephone"
-          [readonly]="!isEditing"
-        />
+          [readonly]="!isEditing" />
+        }
+
       </div>
 
-      <!-- Intereses (chips con FormControl) -->
+      <!-- Intereses -->
       <div class="detailContainer">
-        <label class="detailLabel">INTERESES</label>
+        <label class="detailLabel">
+          INTERESES
+          @if (isEditing) {
+          <button
+            type="button"
+            class="toggleChipsBtn"
+            (click)="showAllInterests = !showAllInterests"
+            [attr.aria-expanded]="showAllInterests"
+            [attr.aria-controls]="'allInterestsPanel'"
+            title="{{ showAllInterests ? 'Ocultar todos' : 'Ver todos' }}">
+            {{ showAllInterests ? '− Ocultar' : '+ Ver todos' }}
+          </button>
+          }
+        </label>
 
-        <mat-chip-listbox
-          multiple
-          [formControl]="interestsCtrl"
-        >
-          @for (interest of allInterests; track interest.id) {
+        <!-- Vista comprimida: SOLO los intereses del usuario -->
+        <div class="selectedChips"
+          [class.empty]="selectedInterests.length === 0">
+          @if (selectedInterests.length > 0) {
+          <mat-chip-listbox>
+            @for (it of selectedInterests; track it.id) {
+            <mat-chip disabled selected class="selectedChip">
+              {{ it.name }}
+            </mat-chip>
+            }
+          </mat-chip-listbox>
+          } @else {
+          <div class="emptyHint">
+            Sin intereses seleccionados
+            @if (isEditing) { — pulsa “+ Ver todos” para añadir }
+          </div>
+          }
+        </div>
+
+        <!-- Panel expandible: TODOS los intereses (solo en edición) -->
+        @if (isEditing && showAllInterests) {
+        <div id="allInterestsPanel" class="allInterestsPanel">
+          <mat-chip-listbox multiple [formControl]="interestsCtrl">
+            @for (interest of allInterests; track interest.id) {
             <mat-chip-option [value]="interest.id.toString()">
               {{ interest.name }}
             </mat-chip-option>
-          }
-        </mat-chip-listbox>
+            }
+          </mat-chip-listbox>
+        </div>
+        }
       </div>
-    </form>
 
-    @if (isEditing) {
-      <div class="profileActions">
-        <button type="button" (click)="onSave()">EDITAR PERFIL</button>
-      </div>
-    }
+    </form>
   </div>
+
+  <!-- ACCIONES fijas abajo -->
+  @if (isEditing) {
+  <div class="stickyFooter">
+    <button type="button" (click)="onSave()">EDITAR PERFIL</button>
+  </div>
+  }
+</div>
 }

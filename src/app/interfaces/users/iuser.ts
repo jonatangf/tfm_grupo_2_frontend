@@ -5,7 +5,7 @@ export interface IUser {
   email: string;
   password: string;
   countries_id?: number | null;
-  photo?: string | null;
+  avatar?: string | null;
   birthdate?: Date | string | null;
   description?: string | null;
   interests?: string[] | null;

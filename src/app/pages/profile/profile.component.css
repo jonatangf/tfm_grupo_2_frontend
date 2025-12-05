@@ -1,32 +1,73 @@
+
 /* ========================================================== */
 /* ESTILOS DEL FORMULARIO DE PERFIL (userFormSidebar) */
 /* ========================================================== */
 
 .userFormSidebar {
-    padding: 30px 25px;
-    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
     height: 100%;
-
+    max-height: 90vh; /* o 100vh si es modal full-screen */
     box-sizing: border-box;
     font-family: var(--primary-font);
-
-    display: flex;              
-    flex-direction: column; 
-    
-  max-height: 90vh;          /* o 100vh si es un modal full-screen */
-  box-sizing: border-box;
-    overflow: hidden auto; /* permite scroll vertical si lo necesita el contenedor */
+    background-color: #fff;
+    border-radius: 12px;
+    overflow: hidden; /* el scroll va en scrollContent */
 }
-/* Encabezado (Título y botones de acción) */
+
+/* ========================================================== */
+/* ANGULAR MATERIAL CHIPS DE INTERESES */
+/* ========================================================== */
+
+.toggleChipsBtn {
+    margin-left: 8px;
+    background: none;
+    border: none;
+    color: var(--color-pastel-orange);
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0;
+}
+
+.selectedChips {
+    display: block;
+}
+.selectedChips .selectedChip {
+    background: #fff8f5;
+    color: var(--color-pastel-orange);
+    border: 1px solid #ffe0d1;
+}
+.selectedChips.empty .emptyHint {
+    color: #999;
+    font-size: 0.9rem;
+}
+
+.allInterestsPanel {
+    margin-top: 8px;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background: #fff;
+}
+
+/* ========================================================== */
+/* CABECERA FIJA (Título, iconos y puntuación) */
+/* ========================================================== */
+.stickyHeader {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #fff;
+    padding: 20px 25px;
+    border-bottom: 1px solid #eee;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
 .profileHeader {
     display: flex;
-    
-  flex: 0 0 auto;
-  padding-bottom: 10px;
-
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 }
 
 .profileTitle {
@@ -36,7 +77,6 @@
     margin: 0;
 }
 
-/* Iconos de editar y cancelar */
 .profileIcons {
     display: flex;
     gap: 10px;
@@ -57,10 +97,42 @@
     transform: scale(1.1);
 }
 
-/* ========================================================== */
-/* Avatar y Controles de Archivo */
-/* ========================================================== */
+/* Puntuación */
+.ratingContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
+.detailLabel {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #777;
+    text-transform: uppercase;
+}
+
+.ratingValue {
+    padding: 10px 12px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-pastel-orange);
+    background-color: #fff8f5;
+    text-align: center;
+}
+
+/* ========================================================== */
+/* CONTENIDO SCROLLABLE */
+/* ========================================================== */
+.scrollContent {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 25px;
+    padding-bottom: 90px; /* espacio para el footer fijo */
+}
+
+/* Avatar */
 .avatarContainer {
     display: flex;
     flex-direction: column;
@@ -82,23 +154,16 @@
     transition: opacity 0.3s;
 }
 
-
 .avatarImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;      /* recorta y rellena el círculo */
-  object-position: center;/* centra el recorte */
-  display: block;         /* evita espacios por inline */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
 }
-
 
 .avatarWrapper:hover {
     opacity: 0.8;
-}
-
-.avatarIcon {
-    font-size: 5rem;
-    color: #aaa;
 }
 
 .hiddenFileInput {
@@ -106,9 +171,8 @@
 }
 
 /* ========================================================== */
-/* Formulario y Campos de Detalle */
+/* FORMULARIO */
 /* ========================================================== */
-
 .profileForm {
     display: flex;
     flex-direction: column;
@@ -121,110 +185,72 @@
     gap: 5px;
 }
 
-.detailLabel {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #777;
-    margin-bottom: 3px;
-    text-transform: uppercase;
-}
-
-/* Estilo para inputs de texto (Correo) y textarea (Descripción) */
-.profileForm input, 
-.profileForm textarea {
+/* Inputs y selects SOLO en edición */
+.profileForm input,
+.profileForm textarea,
+.profileForm select {
     padding: 10px 12px;
     border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 0.95rem;
     color: #333;
-    background-color: #f0f0f0;
-    box-sizing: border-box;
+    background-color: white; /* antes: #f0f0f0 */
     transition: border-color 0.2s, background-color 0.2s;
     resize: vertical;
 }
 
-/* Estado de solo lectura (cuando !isEditing) */
-.profileForm input[readonly], 
-.profileForm textarea[readonly] {
-    background-color: white;
-    border-color: var(--color-pastel-orange);
-    cursor: default;
-}
-
-/* Estado editable (cuando isEditing) */
-.profileForm input:not([readonly]):focus, 
-.profileForm textarea:not([readonly]):focus {
+.profileForm input:focus,
+.profileForm textarea:focus,
+.profileForm select:focus {
     border-color: var(--color-pastel-orange);
     outline: none;
     box-shadow: 0 0 0 1px var(--color-pastel-orange);
 }
 
-/* Campo especial para la puntuación (readonly display) */
-.ratingValue {
-    padding: 10px 12px;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 700;
+/* Texto plano en modo no edición */
+.readonlyText {
+    font-size: 0.95rem;
+    color: #333;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee; /* opcional */
+}
+
+.expandLink {
     color: var(--color-pastel-orange);
-    background-color: #fff8f5; 
-    text-align: center;
+    cursor: pointer;
+    font-weight: 600;
+    margin-left: 4px;
 }
 
 /* ========================================================== */
-/* Botón de Guardar */
+/* FOOTER FIJO (Botón Editar Perfil) */
 /* ========================================================== */
-
-/* Estilos existentes para el contenedor de acciones */
-.profileActions {
-    margin-top: auto;
-    text-align: center;
+.stickyFooter {
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+    background-color: #fff;
+    border-top: 1px solid #eee;
+    padding: 15px 25px;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.04);
+    display: flex;
+    justify-content: center;
 }
 
-/* Estilos base para AMBOS botones (Editar Perfil y Cerrar Sesión) */
-.profileActions button {
-    width: 100%;
+.stickyFooter button {
+    min-width: 180px;
     padding: 12px 20px;
     border-radius: 8px;
     font-weight: 700;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    
-    /* Estilos del botón Editar Perfil (Naranja) */
     border: none;
     background-color: var(--color-pastel-orange);
     color: white;
     box-shadow: 0 4px 6px rgba(255, 183, 153, 0.4);
+    transition: background-color 0.3s, transform 0.2s;
 }
 
-.profileActions button:hover {
-    background-color: #fa966f; 
+.stickyFooter button:hover {
+    background-color: #fa966f;
     transform: translateY(-2px);
-}
-
-/* --- ESTILOS ESPECÍFICOS PARA CERRAR SESIÓN (Botón Blanco) --- */
-
-.profileActions .logout-button {
-    background-color: white; 
-    color: var(--color-pastel-orange);
-    border: none; 
-    box-shadow: none; 
-}
-
-.profileActions .logout-button:hover {
-
-    background-color: #f0f0f0; 
-    color: var(--color-pastel-orange); 
-    transform: translateY(-2px);
-}
-
-
-.chip-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.chip-item[selected] {
-  background-color: #e3f2fd; /* azul clarito */
-  color: #1976d2;
 }
