@@ -86,8 +86,12 @@ export class TripFormComponent {
         this.loadCountries();
         this.getSessionData();
         this.loadAccomodations();
+
         if(this.formMode ==='edit' && this.trip)
             this.fillFormDetails();
+            if(!this.canEdit()){
+                this.tripForm.disable();
+        }
     }
 
     fillFormDetails(){
@@ -177,5 +181,23 @@ export class TripFormComponent {
         if(!start || !end) return null;
         
         return (new Date(end) < new Date(start)) ? {dateRange:true} : null;
+    }
+
+    
+    canEdit(): boolean{
+        return this.trip?.status === 'open' || this.trip?.status === 'closed';
+    }
+
+    getStatusMessage(): string {
+        switch(this.trip?.status){
+            case 'cancelled':
+                return 'Este viaje esta cancelado y no se puede editar';
+
+            case 'finished':
+                return 'Este viaje esta finalizado y no se puede editar';
+
+            default:
+                return '';
+        }
     }
 }

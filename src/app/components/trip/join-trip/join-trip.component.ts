@@ -48,7 +48,7 @@ export class JoinTripComponent {
         } catch (error) {
             console.error('Error al checkear la solicitud', error);
         } 
-    }   
+    }
 
     closePopUp(){
         this.close.emit();
@@ -66,6 +66,26 @@ export class JoinTripComponent {
             this.closePopUp();
         } catch (error) {
             console.error('Error al solicitar unirse al viaje', error);
+        }
+    }
+
+    canJoin(): boolean{
+        return this.trip.status === 'open';
+    }
+
+    getStatusMessage(): string {
+        switch(this.trip?.status){
+            case 'cancelled':
+                return 'VIAJE CANCELADO';
+
+            case 'finished':
+                return 'VIAJE FINALIZADO';
+
+            case 'closed':
+                return 'VIAJE CERRADO';
+
+            default:
+                return '';
         }
     }
 }

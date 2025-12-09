@@ -9,6 +9,11 @@
 
   <!-- Contenido scrollable -->
   <div class="formContent">
+
+    @if (formMode === 'edit' && !canEdit()) {
+        <div class="text-danger">{{getStatusMessage()}}</div>
+    }
+    
     <form [formGroup]="tripForm" (ngSubmit)="submitForm()">
 
       <!-- TÍTULO -->
@@ -116,7 +121,7 @@
 
       <!-- SUBMIT -->
       <div class="submitContainer">
-        <input type="submit" [value]="formMode === 'edit' ? 'EDITAR' : 'CREAR'" [disabled]="tripForm.invalid">
+        <input type="submit" [value]="formMode === 'edit' ? 'EDITAR' : 'CREAR'" [disabled]="tripForm.invalid || !canEdit()">
       </div>
 
     </form>

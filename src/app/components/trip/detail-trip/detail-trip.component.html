@@ -15,7 +15,7 @@
     </div>
 
 
-            <!-- Botón de "ver miembros" SOLO si es dueño -->
+    <!-- Botón de "ver miembros" SOLO si es dueño -->
     @if(tripMode === 'mine'){
     <div class="tripMembersContainer">
         <button 
@@ -38,6 +38,21 @@
         <div class="detailContainer">
             <h3 class="detailLabel">DESCRIPCIÓN</h3>
             <p>{{trip.description}}</p>
+        </div>
+
+        <div class="detailContainer">
+            <h3 class="detailLabel">PAIS</h3>
+            <p>{{countries[trip.destinyCountryId].name}}</p>
+        </div>
+
+        <div class="detailContainer">
+            <h3 class="detailLabel">TRANSPORTE</h3>
+            <p>{{transports[trip.meansOfTransportsId].name}}</p>
+        </div>
+
+        <div class="detailContainer">
+            <h3 class="detailLabel">ALOJAMIENTO</h3>
+            <p>{{accomodations[trip.accommodationsId].name}}</p>
         </div>
 
         <div class="detailContainer">
