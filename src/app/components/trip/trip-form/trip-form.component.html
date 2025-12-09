@@ -121,7 +121,7 @@
 
       <!-- SUBMIT -->
       <div class="submitContainer">
-        <input type="submit" [value]="formMode === 'edit' ? 'EDITAR' : 'CREAR'" [disabled]="tripForm.invalid || !canEdit()">
+        <input type="submit" [value]="formMode === 'edit' ? 'EDITAR' : 'CREAR'" [disabled]="tripForm.invalid || (formMode === 'edit' && !canEdit())">
       </div>
 
     </form>

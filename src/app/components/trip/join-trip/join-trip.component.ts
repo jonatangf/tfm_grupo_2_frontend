@@ -4,6 +4,7 @@ import { IUser } from '../../../interfaces/users/iuser';
 import { UsersService } from '../../../services/users.service';
 import { ParticipationsService } from '../../../services/participations.service';
 import { DateRangePipe } from '../../../utils/date-format.pipe';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-join-trip',
   imports: [DateRangePipe],
@@ -13,6 +14,8 @@ import { DateRangePipe } from '../../../utils/date-format.pipe';
 export class JoinTripComponent {
     userService = inject(UsersService);
     tripCreator: IUser | null = null;
+
+    private snackBar = inject(MatSnackBar);
     
     participationService = inject(ParticipationsService);
 
@@ -64,6 +67,7 @@ export class JoinTripComponent {
             const response = await this.participationService.createTripRequest(this.trip.id);
             this.hasRequestPending = true;
             this.closePopUp();
+            this.showJoinToast();
         } catch (error) {
             console.error('Error al solicitar unirse al viaje', error);
         }
@@ -87,5 +91,12 @@ export class JoinTripComponent {
             default:
                 return '';
         }
+    }
+
+    private showJoinToast() {
+      this.snackBar.open(`¡Solicitud enviada!`, 'Cerrar', {
+      duration: 4000,
+      panelClass: ['success-snackbar'],
+    });
     }
 }

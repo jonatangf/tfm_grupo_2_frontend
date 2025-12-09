@@ -11,6 +11,8 @@ import { UsersService } from '../../../services/users.service';
 import { ISession } from '../../../interfaces/users/isession';
 import { AccomodationsService } from '../../../services/accomodations.service';
 import { IAccomodation } from '../../../interfaces/iaccomodation.interface';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-trip-form',
   imports: [ReactiveFormsModule],
@@ -42,6 +44,8 @@ export class TripFormComponent {
 
     //Coge solo la fecha del dia de hoy
     today = new Date().toISOString().split('T')[0];
+    
+    private snackBar = inject(MatSnackBar);
 
     //Load data for forms
     async getSessionData() {
@@ -87,9 +91,9 @@ export class TripFormComponent {
         this.getSessionData();
         this.loadAccomodations();
 
-        if(this.formMode ==='edit' && this.trip)
+        if(this.formMode ==='edit' && this.trip){
             this.fillFormDetails();
-            if(!this.canEdit()){
+            if(!this.canEdit())
                 this.tripForm.disable();
         }
     }
@@ -135,10 +139,12 @@ export class TripFormComponent {
         try {
             if(this.formMode === 'create') {
                 const response =  await this.tripService.createTrip(tripData);
+                this.showEditCreateToast('creado');
                 
             }
             else if(this.formMode === 'edit' && this.trip?.id != null){
                 const response = await this.tripService.updateTrip(this.trip.id, tripData);
+                this.showEditCreateToast('editado');
             }
 
             this.closePopUp();
@@ -199,5 +205,12 @@ export class TripFormComponent {
             default:
                 return '';
         }
+    }
+
+    private showEditCreateToast(mode: string) {
+      this.snackBar.open(`¡Viaje ${mode} correctamente!`, 'Cerrar', {
+      duration: 4000,
+      panelClass: ['success-snackbar'],
+    });
     }
 }
