@@ -83,7 +83,7 @@ async ngOnInit(): Promise<void> {
     email: this.user.email ?? '',
     description: this.user.description ?? '',
     countries_id: this.user.countries_id ?? null,
-    birthdate: this.user.birthdate ?? null,
+    birthdate: this.toDateInputFormat(this.user.birthdate) ?? null,
     telephone: this.user.telephone ?? '',
     interests: interestsFromUser,
     avatar: this.user.avatar ?? null,
@@ -223,6 +223,7 @@ async ngOnInit(): Promise<void> {
     this.interestsCtrl.enable({ emitEvent: false });
     this.showAllInterests = false; // comienza colapsado
     this.showSaveButton = false;
+    this.editableUser.birthdate = this.toDateInputFormat(this.editableUser.birthdate);
   }
 
   // Cancelar edición (círculo con barra): restaura todo
@@ -289,4 +290,15 @@ toggleDescription() {
       panelClass: ['success-snackbar'],
     });
   }
+
+  // Conversion de fecha
+  private toDateInputFormat(value: any): string | null {
+  if (!value) return null;
+
+  const d = new Date(value);
+  if (isNaN(d.getTime())) return null; // si la fecha no es válida, evitar errores
+
+  return d.toISOString().split('T')[0]; // "YYYY-MM-DD"
+}
+
 }
