@@ -118,7 +118,7 @@
 
         @if (!isEditing) {
         <div class="readonlyText">
-          {{ editableUser.birthdate ? (editableUser.birthdate | date:'d MMMM y')
+          {{ editableUser.birthdate ? (editableUser.birthdate | dateSingle)
           : 'Siempre Joven' }}
         </div>
 

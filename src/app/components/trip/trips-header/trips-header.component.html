@@ -8,7 +8,7 @@
         <a [routerLink]="['/forum']" routerLinkActive="active">Foro</a> 
         
       <button class="avatarButton" type="button" (click)="toggleProfileSidebar()">
-      <i class="bi bi-person-circle" style="font-size: 2rem;"></i>
+        <img class="avatarImg" [src]="sesionData?.photo || 'assets/icons/default-avatar.png'" alt="Avatar de Usuario">
     </button>
 
 

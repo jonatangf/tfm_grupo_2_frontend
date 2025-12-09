@@ -2,9 +2,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ITripResponse } from '../../../interfaces/itrip.interface';
 import { TripListMode } from '../../../types/trip-types';
 import { DateRangePipe } from '../../../utils/date-format.pipe';
+import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-trips-card',
-  imports: [DateRangePipe],
+  imports: [DateRangePipe, CommonModule],
   templateUrl: './trips-card.component.html',
   styleUrl: './trips-card.component.css',
 })
@@ -36,5 +38,20 @@ export class TripCardComponent {
     
     showRequests(){
         this.requestClicked.emit(this.trip);
+    }
+
+    statusLabel(): string {
+        switch (this.trip.status){
+            case 'open': 
+                return 'Abierto';
+            case 'closed':
+                return 'Cerrado';
+            case 'finished':
+                return 'Finalizado';
+            case 'cancelled':
+                return 'Cancelado';
+            default:
+                return '';
+        }
     }
 }
