@@ -42,17 +42,17 @@
 
         <div class="detailContainer">
             <h3 class="detailLabel">PAIS</h3>
-            <p>{{countries[trip.destinyCountryId].name}}</p>
+            <p>{{countries[trip.destinyCountryId]?.name}}</p>
         </div>
 
         <div class="detailContainer">
             <h3 class="detailLabel">TRANSPORTE</h3>
-            <p>{{transports[trip.meansOfTransportsId].name}}</p>
+            <p>{{transports[trip.meansOfTransportsId]?.name}}</p>
         </div>
 
         <div class="detailContainer">
             <h3 class="detailLabel">ALOJAMIENTO</h3>
-            <p>{{accomodations[trip.accommodationsId].name}}</p>
+            <p>{{accomodations[trip.accommodationsId]?.name}}</p>
         </div>
 
         <div class="detailContainer">
