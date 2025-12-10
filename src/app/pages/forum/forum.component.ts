@@ -7,11 +7,12 @@ import { TripsService } from '../../services/trips.service';
 import { IComment, ICreateComment, ICreateReply } from '../../interfaces/icomment.interface';
 import { ITripResponse } from '../../interfaces/itrip.interface';
 import { TripsHeaderComponent } from '../../components/trip/trips-header/trips-header.component';
+import { DateRangePipe } from '../../utils/date-format.pipe';
 
 @Component({
   selector: 'app-forum',
   standalone: true,
-  imports: [CommonModule, FormsModule, TripsHeaderComponent],
+  imports:  [DateRangePipe, CommonModule, FormsModule, TripsHeaderComponent],
   templateUrl: './forum.component.html',
   styleUrl: './forum.component.css',
 })

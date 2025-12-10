@@ -89,7 +89,6 @@
     margin-top: 5px;
 }
 
-/* Estilo Enlace de Texto Sencillo */
 .tripButtons button {
     background-color: transparent; 
     border: none; 
@@ -108,7 +107,7 @@
     white-space: nowrap;
 }
 
-/* Separador sutil entre botones */
+
 .tripButtons button:not(:last-child)::after {
     position: absolute;
     right: -10px; 
@@ -116,14 +115,15 @@
     font-weight: 400;
 }
 
-/* Hover */
 .tripButtons button:hover {
     color: #9e9b99; 
     transform: none;
     box-shadow: none;
 }
 
-/*Chip para el estado del viaje*/
+/* ---------------------------------------------------------- */
+/* Estilos del Chip de Estado */
+/* ---------------------------------------------------------- */
 .tripStatusChip {
     position: absolute;
     top: 10px;
@@ -133,13 +133,16 @@
     border-radius: 12px;
     font-size: 0.7rem;
     font-weight: 700;
+    text-transform: uppercase; 
 
     color: white;
-    z-index: 2;
-    background-color: gray;
+    z-index: 2; 
+    
+
+    background-color: gray; 
 }
 
-/*Colores segun el estado*/
+
 .tripStatusChip.open{
     background-color: #f0ad4e; /* naranja */
 }
@@ -195,7 +198,7 @@
     .tripButtons button {
         background-color: white;
         color: var(--color-pastel-orange);
-        border: 2px solid var(--color-pastel-orange);
+     
         padding: 8px 12px;
         text-align: center;
         margin-right: 0;

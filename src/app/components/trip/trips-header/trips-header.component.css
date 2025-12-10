@@ -131,12 +131,15 @@
         gap: 15px;
     }
     
-    .navigation a {
-        display: none;
-    }
+
 
     .avatarImg {
         width: 35px;
         height: 35px;
     }
+
+    .profileSideBar {
+        width: 100%; 
+    }
 }
+
