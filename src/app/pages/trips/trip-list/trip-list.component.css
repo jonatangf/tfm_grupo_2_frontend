@@ -248,11 +248,11 @@ app-detail-trip {
         gap: 10px;
     }
 
-    .filterContainer {
-        width: 100%;
+    .filterContainer , .clearFiltersButton {
+        display: none;
     }
 
-    .createTripSlot, .clearFiltersButton {
+    .createTripSlot {
         width: 100%;
     }
     
@@ -265,8 +265,10 @@ app-detail-trip {
         width: 100%;
     }
 
-    /* Ajuste para el Sidebar en móvil */
+    
     app-detail-trip {
-        max-width: 90%; 
+        max-width: 100%; 
     }
+
+ 
 }
