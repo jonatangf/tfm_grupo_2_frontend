@@ -101,12 +101,17 @@
     align-items: center;
 }
 
+
 .detailLabel {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #777;
-    text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #777;
+  text-transform: uppercase;
+
+  /* Opcional: evita que el label “empuje” el ancho y afecte al wrap */
+  min-width: 0;
 }
+
 
 .ratingValue {
     padding: 10px 12px;
@@ -176,11 +181,17 @@
     gap: 20px;
 }
 
+
 .detailContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  /* --- FIX CLAVE: permitir que los hijos con texto se reduzcan y hagan wrap --- */
+  min-width: 0;          /* Flex item puede reducirse y no desbordar */
+  align-items: stretch;  /* Asegura que el hijo ocupe el ancho disponible */
 }
+
 
 /* Inputs y selects SOLO en edición */
 .profileForm input,
@@ -211,6 +222,7 @@
     padding: 8px 0;
     border-bottom: 1px solid #eee; /* opcional */
 }
+
 
 .expandLink {
     color: var(--color-pastel-orange);
