@@ -1,28 +1,29 @@
-/* Contenedor general */
+
 .notFoundContainer {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+  justify-content: center; 
+  align-items: center; 
   padding: 0 8vw;
   box-sizing: border-box;
   font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif; /* similar a la usada en tu diseño [web:0] */
+    sans-serif; 
   background-color: #ffffff;
   color: #1f2933;
+  text-align: center;
 }
 
-/* 404 grande y ligero */
+
 .NotFoundTitle {
   font-size: 6rem;
   line-height: 1;
   margin: 0 0 0.25rem;
   font-weight: 700;
-  color: #f18b4b; /* naranja similar al logo/botones [web:0] */
+  color: #f18b4b;
 }
 
-/* Subtítulo */
+
 .NotFoudSubtitle {
   font-size: 1.8rem;
   margin: 0 0 0.75rem;
@@ -30,22 +31,24 @@
   color: #111827;
 }
 
-/* Mensaje */
+
 .notFoundMessage {
   margin: 0 0 2rem;
   max-width: 420px;
   font-size: 0.95rem;
   line-height: 1.6;
   color: #4b5563;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* Contenedor del botón */
 .notFoundActions {
   display: flex;
   gap: 1rem;
+  justify-content: center;
 }
 
-/* Botón principal */
+
 .notFoundButton {
   display: inline-flex;
   align-items: center;
@@ -65,7 +68,7 @@
     box-shadow 0.2s ease, transform 0.1s ease;
 }
 
-/* Hover / active */
+
 .notFoundButton:hover {
   background-color: #f59d61;
   border-color: #f59d61;
@@ -78,15 +81,9 @@
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive: centrar en móviles */
+
 @media (max-width: 768px) {
   .notFoundContainer {
-    align-items: center;
-    text-align: center;
     padding: 2rem 1.5rem;
-  }
-
-  .notFoundMessage {
-    max-width: 100%;
   }
 }

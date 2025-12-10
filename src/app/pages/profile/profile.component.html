@@ -4,7 +4,7 @@
   <!-- CABECERA fija: título + iconos + puntuación -->
   <div class="stickyHeader">
     <div class="profileHeader">
-      <h2 class="profileTitle">Editar perfil</h2>
+      <h2 class="profileTitle">EDITAR PERFIL</h2>
 
       <div class="profileIcons">
         @if (!isEditing) {
@@ -203,9 +203,15 @@
 
   <!-- ACCIONES fijas abajo -->
   @if (isEditing) {
-  <div class="stickyFooter">
+  <div class="profileActions">
     <button type="button" (click)="onSave()">EDITAR PERFIL</button>
   </div>
+  }   
+  @if(!isEditing){
+    <div class="profileActions">
+      <button type="button" (click)="onLogout()" class="logout-button">CERRAR SESIÓN</button>
+    </div>
   }
+  
 </div>
 }
