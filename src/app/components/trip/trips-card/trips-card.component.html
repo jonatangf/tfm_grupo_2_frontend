@@ -1,5 +1,8 @@
 <div class="tripCard">
     <div class="tripImageContainer">
+        <span class="tripStatusChip" [ngClass]="trip.status">
+            {{statusLabel()}}
+        </span>
         <img 
             class="tripImage" 
             [src]="trip.destinyImage" 

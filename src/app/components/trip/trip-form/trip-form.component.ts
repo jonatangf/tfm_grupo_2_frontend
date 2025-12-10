@@ -11,6 +11,8 @@ import { UsersService } from '../../../services/users.service';
 import { ISession } from '../../../interfaces/users/isession';
 import { AccomodationsService } from '../../../services/accomodations.service';
 import { IAccomodation } from '../../../interfaces/iaccomodation.interface';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-trip-form',
   imports: [ReactiveFormsModule],
@@ -42,6 +44,8 @@ export class TripFormComponent {
 
     //Coge solo la fecha del dia de hoy
     today = new Date().toISOString().split('T')[0];
+    
+    private snackBar = inject(MatSnackBar);
 
     //Load data for forms
     async getSessionData() {
@@ -86,8 +90,12 @@ export class TripFormComponent {
         this.loadCountries();
         this.getSessionData();
         this.loadAccomodations();
-        if(this.formMode ==='edit' && this.trip)
+
+        if(this.formMode ==='edit' && this.trip){
             this.fillFormDetails();
+            if(!this.canEdit())
+                this.tripForm.disable();
+        }
     }
 
     fillFormDetails(){
@@ -131,10 +139,12 @@ export class TripFormComponent {
         try {
             if(this.formMode === 'create') {
                 const response =  await this.tripService.createTrip(tripData);
+                this.showEditCreateToast('creado');
                 
             }
             else if(this.formMode === 'edit' && this.trip?.id != null){
                 const response = await this.tripService.updateTrip(this.trip.id, tripData);
+                this.showEditCreateToast('editado');
             }
 
             this.closePopUp();
@@ -177,5 +187,30 @@ export class TripFormComponent {
         if(!start || !end) return null;
         
         return (new Date(end) < new Date(start)) ? {dateRange:true} : null;
+    }
+
+    
+    canEdit(): boolean{
+        return this.trip?.status === 'open' || this.trip?.status === 'closed';
+    }
+
+    getStatusMessage(): string {
+        switch(this.trip?.status){
+            case 'cancelled':
+                return 'Este viaje esta cancelado y no se puede editar';
+
+            case 'finished':
+                return 'Este viaje esta finalizado y no se puede editar';
+
+            default:
+                return '';
+        }
+    }
+
+    private showEditCreateToast(mode: string) {
+      this.snackBar.open(`¡Viaje ${mode} correctamente!`, 'Cerrar', {
+      duration: 4000,
+      panelClass: ['success-snackbar'],
+    });
     }
 }

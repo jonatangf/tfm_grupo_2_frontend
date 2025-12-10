@@ -1,9 +1,15 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { ITripResponse } from '../../../interfaces/itrip.interface';
 import { MembersListComponent } from '../../../components/trip/members-list/members-list.component';
 import { CommonModule } from '@angular/common';
 import { TripListMode } from '../../../types/trip-types';
 import { DateRangePipe } from '../../../utils/date-format.pipe';
+import { ITransport } from '../../../interfaces/itransport.interface';
+import { IAccomodation } from '../../../interfaces/iaccomodation.interface';
+import { ICountry } from '../../../interfaces/icountry.interface';
+import { TransportsService } from '../../../services/transports.service';
+import { CountriesService } from '../../../services/countries.service';
+import { AccomodationsService } from '../../../services/accomodations.service';
 
 @Component({
   selector: 'app-detail-trip',
@@ -20,6 +26,20 @@ export class DetailTripComponent {
 
     showMembersList = false;
 
+    transportsService = inject(TransportsService);
+    countriesService = inject(CountriesService);
+    accomodationsService = inject(AccomodationsService);
+
+    transports : ITransport[] = [];
+    countries: ICountry[] = [];
+    accomodations: IAccomodation[] = [];
+
+    ngOnInit(){
+        this.loadTransports();
+        this.loadCountries();
+        this.loadAccomodations();
+    }
+
     closePopUp(){
         this.close.emit();
     }
@@ -34,5 +54,33 @@ export class DetailTripComponent {
 
     closeMembersList(){
         this.showMembersList = false;
+    }
+
+    async loadTransports(){
+        this.transports = await this.transportsService.getTransports();
+    }
+
+    async loadCountries(){
+        this.countries = await this.countriesService.getCountries();
+    }
+
+    async loadAccomodations(){
+        this.accomodations = await this.accomodationsService.getAccomodations();
+    }
+
+    getStatusMessage(): string {
+        switch(this.trip?.status){
+            case 'cancelled':
+                return 'VIAJE CANCELADO';
+
+            case 'finished':
+                return 'VIAJE FINALIZADO';
+
+            case 'closed':
+                return 'INSCRIPCIÓN CERRADA';
+
+            default:
+                return '';
+        }
     }
 }

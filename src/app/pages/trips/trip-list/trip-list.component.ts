@@ -116,6 +116,16 @@ export class TripListComponent {
         } else {
             this.trips = tripsRes.filter(trip => trip.creatorId !== this.sesionData?.userId);
         }
+
+        //Ordenar los viajes por status
+        const statusOrder = { open: 1, closed: 2, finished: 3, cancelled: 4} 
+        this.trips.sort((a,b)=> statusOrder[a.status] - statusOrder[b.status]);
+
+        //Resetear el scroll bar
+        const container = document.querySelector(".tripsCards");
+        if(container)
+            container.scrollTop = 0;
+
     } catch (error) {
         console.error('Error al cargar los viajes', error);
     }

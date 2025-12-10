@@ -26,6 +26,7 @@
     height: 15%; 
     overflow: hidden;
     align-self: center;
+    position: relative;
 }
 
 .tripImage {
@@ -121,6 +122,41 @@
     transform: none;
     box-shadow: none;
 }
+
+/*Chip para el estado del viaje*/
+.tripStatusChip {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+
+    color: white;
+    z-index: 2;
+    background-color: gray;
+}
+
+/*Colores segun el estado*/
+.tripStatusChip.open{
+    background-color: #f0ad4e; /* naranja */
+}
+
+.tripStatusChip.closed{
+    background-color: #0275d8; /* azul */
+}
+
+.tripStatusChip.finished{
+    background-color: #5cb85c; /* verde */
+}
+
+.tripStatusChip.cancelled{
+    background-color: #d9534f; /* rojo */
+}
+
+
 
 /* ========================================================== */
 /* 4. RESPONSIVE (Móvil) - Vuelve a la tarjeta vertical y botones */

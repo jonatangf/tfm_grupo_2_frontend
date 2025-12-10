@@ -30,8 +30,8 @@
             type="button"
             class="joinRequest"
             (click)="requestJoin()"
-            [disabled]="hasRequestPending || isParticipant">
-            {{isParticipant ? 'PARTICIPANDO' : (hasRequestPending ? 'SOLICITUD ENVIADA' : 'SOLICITAR UNIRSE') }}
+            [disabled]="hasRequestPending || isParticipant || !canJoin()">
+            {{isParticipant ? 'PARTICIPANDO' : hasRequestPending ? 'SOLICITUD ENVIADA': !canJoin() ? getStatusMessage() : 'SOLICITAR UNIRSE' }}
         </button>
 
         <div class="accordion">

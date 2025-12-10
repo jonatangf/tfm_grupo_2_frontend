@@ -20,11 +20,12 @@ import { IUser } from '../../interfaces/users/iuser';
 import { ICountry } from '../../interfaces/icountry.interface';
 import { IInterest } from '../../interfaces/iInterest.interface';
 import { DatePipe } from '@angular/common';
+import { DateSinglePipe } from '../../utils/date-format.pipe';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, MatChipsModule, DatePipe],
+  imports: [FormsModule, ReactiveFormsModule, MatChipsModule, DateSinglePipe],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
 })
@@ -83,7 +84,7 @@ async ngOnInit(): Promise<void> {
     email: this.user.email ?? '',
     description: this.user.description ?? '',
     countries_id: this.user.countries_id ?? null,
-    birthdate: this.user.birthdate ?? null,
+    birthdate: this.toDateInputFormat(this.user.birthdate) ?? null,
     telephone: this.user.telephone ?? '',
     interests: interestsFromUser,
     avatar: this.user.avatar ?? null,
@@ -223,6 +224,7 @@ async ngOnInit(): Promise<void> {
     this.interestsCtrl.enable({ emitEvent: false });
     this.showAllInterests = false; // comienza colapsado
     this.showSaveButton = false;
+    this.editableUser.birthdate = this.toDateInputFormat(this.editableUser.birthdate);
   }
 
   // Cancelar edición (círculo con barra): restaura todo
@@ -253,6 +255,12 @@ onCloseClick(): void {
     if (!confirmClose) return;
     this.cancelEdit();
   }
+
+  //Resetear el scroll bar
+  const container = document.querySelector(".scrollContent");
+  if(container)
+        container.scrollTop = 0;
+
   // Emite el cierre
   this.close.emit();
 }
@@ -289,4 +297,15 @@ toggleDescription() {
       panelClass: ['success-snackbar'],
     });
   }
+
+  // Conversion de fecha
+  private toDateInputFormat(value: any): string | null {
+    if (!value) return null;
+    
+    const d = new Date(value);
+    if (isNaN(d.getTime())) return null; // si la fecha no es válida, evitar errores
+    
+    return d.toISOString().split('T')[0]; // "YYYY-MM-DD"
+}
+
 }

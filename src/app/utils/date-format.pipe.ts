@@ -21,3 +21,14 @@ export class DateRangePipe implements PipeTransform {
     return `Del ${startDate.format('D MMMM')} al ${endDate.format('D MMMM YYYY')}`;
   }
 }
+
+@Pipe({
+    name: 'dateSingle'
+})
+
+export class DateSinglePipe implements PipeTransform{
+    transform(value: string | Date): string {
+        if(!value) return '';
+        return dayjs(value).locale('es').format('D [de] MMMM YYYY');
+    }
+}
