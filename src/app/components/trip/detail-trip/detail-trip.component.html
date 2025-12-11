@@ -52,7 +52,11 @@
 
         <div class="detailContainer">
             <h3 class="detailLabel">ALOJAMIENTO</h3>
-            <p>{{accomodations[trip.accommodationsId]?.name}}</p>
+            @if(accomodations[trip.accommodationsId]?.name === null){
+                <p>Ninguno</p>
+            } @else {
+                <p>{{accomodations[trip.accommodationsId]?.name}}</p>
+            }
         </div>
 
         <div class="detailContainer">
