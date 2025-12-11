@@ -8,6 +8,7 @@ import { ISession } from '../interfaces/users/isession';
 import { IMyTripRequest } from '../interfaces/iparticipation.interface';
 import { environment } from '../../environments/environments';
 import { IInterest } from '../interfaces/iInterest.interface';
+import { IAvatar } from '../interfaces/users/iavatar';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +33,8 @@ export class UsersService {
 
     // Destructuring para construir ISession
     const { id: userId, username, email, avatar } = this.userOnline;
-    this.session = { userId, username, email, "photo": avatar };
+    this.session = { userId, username, email, photo: avatar };
+
     // Persistencia del session
     localStorage.setItem('session', JSON.stringify(this.session));
     return this.session;
@@ -44,6 +46,15 @@ export class UsersService {
       if (stored) this.session = JSON.parse(stored);
     }
     return this.session;
+  }
+
+  setSessionPhoto(avatar: string | null): void {
+    if (avatar) {
+      const stored = localStorage.getItem('session');
+      if (stored) this.session = JSON.parse(stored);
+      this.session!.photo = avatar;
+      localStorage.setItem('session', JSON.stringify(this.session));
+    }
   }
 
   logout() {
@@ -66,8 +77,9 @@ export class UsersService {
 
   // Actualiza usuario
   updateUserById(user: IUser): Promise<boolean> {
+    console.log('PATCH');
     const result = lastValueFrom(
-      this.httpClient.put<boolean>(`${this.baseUrl}/users/${user.id}`, user)
+      this.httpClient.patch<boolean>(`${this.baseUrl}/users/${user.id}`, user)
     );
     return result;
   }
@@ -77,12 +89,10 @@ export class UsersService {
   //Encuentra un usuario por ID
   async getUserById(id: number): Promise<IUser> {
     const result = await lastValueFrom(this.httpClient.get<IUser>(`${this.baseUrl}/users/${id}`));
-
     // El avatar esta en la ruta relativa del back
     if (result.avatar && result.avatar.startsWith('/')) {
       result.avatar = `${this.publicBaseUrl}${result?.avatar}`;
     }
-
     return result;
   }
 
@@ -100,7 +110,10 @@ export class UsersService {
   async uploadUserAvatar(id: number, file: File): Promise<string> {
     const formData = new FormData();
     formData.append('avatar', file);
-    return lastValueFrom(this.httpClient.put<string>(`${this.baseUrl}/users/me/avatar`, formData));
+    const result = lastValueFrom(
+      this.httpClient.put<IAvatar>(`${this.baseUrl}/users/me/avatar`, formData)
+    );
+    return (await result).avatar;
   }
 
   //Obtiene todas mis solicitudes a union de viajes

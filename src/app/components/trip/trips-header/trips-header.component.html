@@ -10,13 +10,12 @@
       <button class="avatarButton" type="button" (click)="toggleProfileSidebar()">
         <img class="avatarImg" [src]="sesionData?.photo || 'assets/icons/default-avatar.png'" alt="Avatar de Usuario">
     </button>
-
-
     </div>
 </nav>
 
 <div class="profileSideBar" [class.open]="isProfileSidebarOpen">
   <app-profile
-    (close)="toggleProfileSidebar()">
+    (close)="toggleProfileSidebar()"
+    (avatarUpdated)="onAvatarUpdated($event)">
   </app-profile>
 </div>

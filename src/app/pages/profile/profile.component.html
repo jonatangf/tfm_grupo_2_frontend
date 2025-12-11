@@ -44,12 +44,12 @@
       <div class="avatarWrapper" (click)="onAvatarClick(avatarInput)">
         <img
           class="avatarImg"
-          [src]="(isEditing ? editedUser?.avatar : user.avatar) || 'assets/icons/default-avatar.png'"
+          [src]="editedUser?.avatarUrl || editedUser?.avatarPreview || user.avatar || 'assets/icons/default-avatar.png'"
           alt="Avatar de usuario" />
       </div>
       <input
         type="file"
-        accept="image/png, image/jpeg" 
+        accept="image/png, image/jpeg"
         #avatarInput
         class="hiddenFileInput"
         (change)="onAvatarSelected($event)" />

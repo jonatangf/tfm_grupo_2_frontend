@@ -47,6 +47,8 @@ import {
 export class ProfileComponent implements OnInit {
 
   @Output() close = new EventEmitter<void>();
+@Output() avatarUpdated = new EventEmitter<string | null>();
+
 
   // Constantes de validacion
   readonly MAX_PHONE_LEN = MAX_PHONE_LEN;
@@ -133,10 +135,8 @@ export class ProfileComponent implements OnInit {
     this.allInterests = allInterests ?? [];
     this.userInterest = userInterest ?? [];
 
-    console.log(this.allInterests);
     // Construye el mapa para búsquedas rápidas
     this.interestMap = buildInterestMap(this.allInterests);
-    console.log(this.interestMap);
 
     // Inicializa modelos a partir de user + userInterest
     const interestsFromUser =
@@ -315,7 +315,7 @@ export class ProfileComponent implements OnInit {
 
     // 4) Previsualización inmediata
     const previewUrl = URL.createObjectURL(file);
-    this.editedUser.avatar = previewUrl;
+    this.editedUser.avatarPreview = previewUrl;
     this.showSaveButton = true;
 
     try {
@@ -394,6 +394,7 @@ export class ProfileComponent implements OnInit {
       };
       this.editedUser = { ...this.originalUser };
 
+      this.avatarUpdated.emit(this.user.avatar ?? null);
       this.showSuccessToast();
       this.close.emit();
     } catch (error) {

@@ -13,7 +13,9 @@ export class InterestsService {
   private baseUrl: string = environment.apiUrl;
 
   getInterests(): Promise<IInterest[]> {
-    return lastValueFrom(this.httpClient.get<IInterest[]>(`${this.baseUrl}/interests`));
+    const result = lastValueFrom(this.httpClient.get<IInterest[]>(`${this.baseUrl}/interests`));
+    console.log(result)
+    return result
   }
 
   postInterestsByUser(userId:number): Promise<SuccessResponse> {
