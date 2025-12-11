@@ -43,6 +43,7 @@ export class TripListComponent {
   };
 
   today = new Date().toISOString().split('T')[0];
+  loading: boolean = false;
 
   mode: TripListMode = 'available';
   tripFormMode: TripFormMode | null = null;
@@ -110,6 +111,9 @@ export class TripListComponent {
   }
 
   async searchTrips() {
+
+    this.loading = true;
+
     try {
         const tripsRes = await this.tripsService.getAllTrips(this.filters);
         if (this.mode === 'mine') {
@@ -123,6 +127,8 @@ export class TripListComponent {
         const statusOrder = { open: 1, closed: 2, finished: 3, cancelled: 4} 
         this.trips.sort((a,b)=> statusOrder[a.status] - statusOrder[b.status]);
 
+        this.loading = false;
+
         //Resetear el scroll bar
         const container = document.querySelector(".tripsCards");
         if(container)
@@ -130,6 +136,7 @@ export class TripListComponent {
 
     } catch (error) {
         console.error('Error al cargar los viajes', error);
+        this.loading = false;
     }
   }
 }

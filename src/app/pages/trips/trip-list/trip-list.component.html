@@ -61,7 +61,11 @@
 
     <section>
 
-        @if(trips.length === 0){
+        @if(loading){
+            <div class="loading">Cragando Viajes...</div>
+        }
+
+        @if(!loading && trips.length === 0){
             <div class="no-trips-message">
             <span>{{mode === 'mine' ? "No se encuentra ningún viaje creado. ¡Crea uno o aplica otro tipo de filtro!" : "No se encuentran viajes disponibles. ¡Aplica otro tipo de filtro¡"}}</span>
             </div>

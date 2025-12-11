@@ -1,14 +1,14 @@
 .footer-container {
   width: 100%;
-  padding: 20px 20px;
-  margin-bottom: 0;
+  padding: 20px;
   background-color: #fff;
   border-top: 2px solid var(--color-pastel-orange, #d88853);
   text-align: center;
-}
 
-.footer-content {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .footer-content p {
@@ -16,4 +16,5 @@
   color: #333;
   font-size: 14px;
   font-weight: 400;
+  word-wrap: break-word;
 }
