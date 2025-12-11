@@ -37,7 +37,7 @@
                     (click)="viewDetails()">
                     <i class="bi bi-eye"></i>
                     VER DETALLE
-                </button>
+                </button>   
             } @if(mode === 'mine') {
                 <button
                     type="button" 
@@ -69,6 +69,10 @@
                 </button> 
             }
         </div>
+
+        @if(mode ==='available' && isParticipant){
+            <div class="participationChip">{{participationLabel()}}</div>
+        }
     </div>
 
 </div>

@@ -144,20 +144,37 @@
 
 
 .tripStatusChip.open{
-    background-color: #f0ad4e; /* naranja */
+    background-color: #7BCFA9;
 }
 
 .tripStatusChip.closed{
-    background-color: #0275d8; /* azul */
+    background-color: #7A8FA2;
 }
 
 .tripStatusChip.finished{
-    background-color: #5cb85c; /* verde */
+    background-color: #9C8BB7;
 }
 
 .tripStatusChip.cancelled{
-    background-color: #d9534f; /* rojo */
+    background-color: #D36A6A;
 }
+
+.participationChip {
+    align-self: flex-end;
+    margin-top: 8px;
+    margin-left: auto;
+
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: white;
+
+    background-color: #F2A670;
+    opacity: 0.9;
+}
+
 
 
 
