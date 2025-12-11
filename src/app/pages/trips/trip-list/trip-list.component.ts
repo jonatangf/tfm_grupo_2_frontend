@@ -20,6 +20,9 @@ import { FooterComponent } from '../../../components/footer/footer.component';
   templateUrl: './trip-list.component.html',
   styleUrl: './trip-list.component.css',
 })
+
+export class TripListComponent {
+
   userService = inject(UsersService);
   tripsService = inject(TripsService);
   
