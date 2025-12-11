@@ -1,16 +1,15 @@
 <nav class="mainHeader">
-    <div class="logo">
+    <a [routerLink]="['/trips']" (click)="goToTrips($event)" routerLinkActive="active" class="logo" >
         <img class="logoIcon" src="assets/icons/maletin.png" alt="Logo TravelTogether" />
         <span class="logoText">TravelTogether</span>
-    </div>
+    </a>
     <div class="navigation">
         <a [routerLink]="['/trips']" (click)="goToTrips($event)" routerLinkActive="active">Viajes</a>
         <a [routerLink]="['/forum']" routerLinkActive="active">Foro</a> 
         
-      <button class="avatarButton" type="button" (click)="toggleProfileSidebar()">
-        <img class="avatarImg" [src]="sesionData?.photo || 'assets/icons/default-avatar.png'" alt="Avatar de Usuario">
-    </button>
-
+        <button class="avatarButton" type="button" (click)="toggleProfileSidebar()">
+            <img class="avatarImg" [src]="sesionData?.photo || 'assets/icons/default-avatar.png'" alt="Avatar de Usuario">
+        </button>
 
     </div>
 </nav>

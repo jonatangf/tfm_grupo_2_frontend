@@ -62,7 +62,7 @@
     <section>
 
         @if(loading){
-            <div class="loading">Cragando Viajes...</div>
+            <div class="no-trips-message">Cargando Viajes...</div>
         }
 
         @if(!loading && trips.length === 0){
@@ -145,5 +145,3 @@
         </div>
     }
 </div>
-
-<app-footer></app-footer>

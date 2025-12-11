@@ -12,11 +12,10 @@ import { DetailTripComponent } from '../../../components/trip/detail-trip/detail
 import { TripListMode, PopUpType, TripFormMode } from '../../../types/trip-types';
 import { TripFormComponent } from '../../../components/trip/trip-form/trip-form.component';
 import { PetitionsComponent } from "../../petitions/petitions.component";
-import { FooterComponent } from '../../../components/footer/footer.component';
 
 @Component({
   selector: 'app-trip-list',
-  imports: [TripsHeaderComponent, TripCardComponent, JoinTripComponent, FormsModule, DeleteTripComponent, DetailTripComponent, TripFormComponent, PetitionsComponent, FooterComponent],
+  imports: [TripsHeaderComponent, TripCardComponent, JoinTripComponent, FormsModule, DeleteTripComponent, DetailTripComponent, TripFormComponent, PetitionsComponent],
   templateUrl: './trip-list.component.html',
   styleUrl: './trip-list.component.css',
 })

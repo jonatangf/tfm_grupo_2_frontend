@@ -225,14 +225,6 @@ app-detail-trip {
     overflow-y: auto;
 }
 
-/*CARGANDO VIAJES*/
-.loading {
-  text-align: center;
-  font-weight: bold;
-  padding: 20px;
-  color: #ff6600;
-}
-
 /* Responsive: Cuando no quepan los filtros */
 @media (max-width: 1100px) {
     .filtersRight {

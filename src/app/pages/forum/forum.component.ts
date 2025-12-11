@@ -9,12 +9,11 @@ import { IComment, ICreateComment, ICreateReply } from '../../interfaces/icommen
 import { ITripResponse } from '../../interfaces/itrip.interface';
 import { TripsHeaderComponent } from '../../components/trip/trips-header/trips-header.component';
 import { DateRangePipe } from '../../utils/date-format.pipe';
-import { FooterComponent } from '../../components/footer/footer.component';
 
 @Component({
   selector: 'app-forum',
   standalone: true,
-  imports:  [DateRangePipe, CommonModule, FormsModule, TripsHeaderComponent, FooterComponent],
+  imports:  [DateRangePipe, CommonModule, FormsModule, TripsHeaderComponent],
   templateUrl: './forum.component.html',
   styleUrl: './forum.component.css',
 })
