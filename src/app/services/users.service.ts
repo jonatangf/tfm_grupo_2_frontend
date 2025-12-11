@@ -68,8 +68,6 @@ export class UsersService {
     await lastValueFrom(
       this.httpClient.post<ILoginResponse>(`${this.baseUrl}/auth/register`, credentials)
     );
-    const { email, password } = credentials;
-    const loginData = { email, password };
     return await this.login(credentials);
   }
 
@@ -77,7 +75,6 @@ export class UsersService {
 
   // Actualiza usuario
   updateUserById(user: IUser): Promise<boolean> {
-    console.log('PATCH');
     const result = lastValueFrom(
       this.httpClient.patch<boolean>(`${this.baseUrl}/users/${user.id}`, user)
     );

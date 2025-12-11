@@ -47,7 +47,7 @@ import {
 export class ProfileComponent implements OnInit {
 
   @Output() close = new EventEmitter<void>();
-@Output() avatarUpdated = new EventEmitter<string | null>();
+  @Output() avatarUpdated = new EventEmitter<string | null>();
 
 
   // Constantes de validacion
@@ -159,7 +159,7 @@ export class ProfileComponent implements OnInit {
 
     // País del usuario
     const country = this.countries.find((c) => c.id === this.editedUser.countries_id);
-    this.userCountry = country?.name ?? 'La Tierra';
+    this.userCountry = country?.name ?? null;
 
     // Inicializa chips (string[]), Strings como recomendacion de MatChipsModule para la gestion de ids
     setControlValueSilently(this.interestsCtrl, numberIdsToStrings(interestsFromUser));
@@ -368,6 +368,8 @@ export class ProfileComponent implements OnInit {
         telephone: this.telephoneCtrl.value ?? '',
         description: safeDescription,
         interests: interestsIds,
+        countries_id: this.editedUser.countries_id === "" ? null : this.editedUser.countries_id,
+        birthdate: this.editedUser.birthdate === "" ? null : this.editedUser.birthdate
       };
 
       // 3) Envío
@@ -382,6 +384,8 @@ export class ProfileComponent implements OnInit {
       const fresh = await this.userService.getUserById(this.sesionData.userId);
       this.user = fresh;
 
+      console.log(this.user)
+
       this.originalUser = {
         id: this.user.id,
         email: this.user.email ?? '',
@@ -394,15 +398,13 @@ export class ProfileComponent implements OnInit {
       };
       this.editedUser = { ...this.originalUser };
 
+      const country = this.countries.find((c) => c.id === this.editedUser.countries_id);
+      this.userCountry = country?.name ?? null;
+
       this.avatarUpdated.emit(this.user.avatar ?? null);
       this.showSuccessToast();
       this.close.emit();
     } catch (error) {
-      // Mantener modo edición y valores del usuario (incluidos errores)
-      this.snackBar.open('No se pudo guardar. Revisa la conexión o vuelve a intentar.', 'Cerrar', {
-        duration: 4000,
-        panelClass: ['error-snackbar'],
-      });
       this.isEditing = true;
       this.applyEditableState(true);
       this.showSaveButton = true;

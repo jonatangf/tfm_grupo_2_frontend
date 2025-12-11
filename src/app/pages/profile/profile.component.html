@@ -108,7 +108,9 @@
       <div class="detailContainer">
         <label class="detailLabel">PAÍS</label>
         @if (!isEditing) {
-        <div class="readonlyText">{{ userCountry}}</div>
+          @if (userCountry!=='') {
+        <div class="readonlyText">{{ userCountry || 'La Tierra'}}</div>
+          }
         } @else {
         <select
           [(ngModel)]="editedUser.countries_id"
