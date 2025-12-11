@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, AfterViewInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TripsHeaderComponent } from '../../../components/trip/trips-header/trips-header.component';
 import { ITrip, ITripFilters, ITripResponse } from '../../../interfaces/itrip.interface';
@@ -12,15 +12,14 @@ import { DetailTripComponent } from '../../../components/trip/detail-trip/detail
 import { TripListMode, PopUpType, TripFormMode } from '../../../types/trip-types';
 import { TripFormComponent } from '../../../components/trip/trip-form/trip-form.component';
 import { PetitionsComponent } from "../../petitions/petitions.component";
-import { setAlternateWeakRefImpl } from '@angular/core/primitives/signals';
+import { FooterComponent } from '../../../components/footer/footer.component';
 
 @Component({
   selector: 'app-trip-list',
-  imports: [TripsHeaderComponent, TripCardComponent, JoinTripComponent, FormsModule, DeleteTripComponent, DetailTripComponent, TripFormComponent, PetitionsComponent],
+  imports: [TripsHeaderComponent, TripCardComponent, JoinTripComponent, FormsModule, DeleteTripComponent, DetailTripComponent, TripFormComponent, PetitionsComponent, FooterComponent],
   templateUrl: './trip-list.component.html',
   styleUrl: './trip-list.component.css',
 })
-export class TripListComponent {
   userService = inject(UsersService);
   tripsService = inject(TripsService);
   

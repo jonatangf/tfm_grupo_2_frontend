@@ -175,6 +175,10 @@
     opacity: 0.9;
 }
 
+.participationInside {
+    margin-left: auto;
+    align-self: center;
+}
 
 
 
