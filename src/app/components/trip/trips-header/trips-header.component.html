@@ -16,6 +16,7 @@
 
 <div class="profileSideBar" [class.open]="isProfileSidebarOpen">
   <app-profile
-    (close)="toggleProfileSidebar()">
+    (close)="toggleProfileSidebar()"
+    (avatarUpdated)="onAvatarUpdated($event)">
   </app-profile>
 </div>

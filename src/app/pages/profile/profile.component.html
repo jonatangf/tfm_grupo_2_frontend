@@ -44,12 +44,12 @@
       <div class="avatarWrapper" (click)="onAvatarClick(avatarInput)">
         <img
           class="avatarImg"
-          [src]="(isEditing ? editableUser?.photo : user.avatar) || 'assets/icons/default-avatar.png'"
+          [src]="editedUser?.avatarUrl || editedUser?.avatarPreview || user.avatar || 'assets/icons/default-avatar.png'"
           alt="Avatar de usuario" />
       </div>
       <input
         type="file"
-        accept="image/*"
+        accept="image/png, image/jpeg"
         #avatarInput
         class="hiddenFileInput"
         (change)="onAvatarSelected($event)" />
@@ -70,15 +70,16 @@
         <label class="detailLabel">CORREO</label>
 
         @if (!isEditing) {
-        <div class="readonlyText">{{ editableUser.email || 'Sin correo' }}</div>
+        <div class="readonlyText">{{ editedUser.email || 'Sin correo' }}</div>
         } @else {
-        <input [(ngModel)]="editableUser.email" name="email" />
+        <input [(ngModel)]="editedUser.email" name="email" />
         }
       </div>
 
       <!-- Descripción -->
       <div class="detailContainer">
         <label class="detailLabel">DESCRIPCIÓN</label>
+
         @if (!isEditing) {
         <div class="readonlyText">
           {{ truncatedDescription }}
@@ -87,8 +88,19 @@
           }
         </div>
         } @else {
-        <textarea [(ngModel)]="editableUser.description"
-          name="description"></textarea>
+        <textarea
+          [formControl]="descriptionCtrl"
+          name="description"
+          [readonly]="!isEditing"
+          [maxlength]="MAX_DESCRIPTION_LEN"
+          (input)="onDescriptionInput($event)"
+          placeholder="Cuéntanos algo sobre ti…"
+          class="description-textarea"
+          rows="4"></textarea>
+
+        <div class="hint">
+          {{ descriptionCtrl.value.length || 0 }} / {{ MAX_DESCRIPTION_LEN }}
+        </div>
         }
       </div>
 
@@ -96,10 +108,12 @@
       <div class="detailContainer">
         <label class="detailLabel">PAÍS</label>
         @if (!isEditing) {
-        <div class="readonlyText">{{ userCountry}}</div>
+          @if (userCountry!=='') {
+        <div class="readonlyText">{{ userCountry || 'La Tierra'}}</div>
+          }
         } @else {
         <select
-          [(ngModel)]="editableUser.countries_id"
+          [(ngModel)]="editedUser.countries_id"
           name="countries_id"
           [disabled]="!isEditing"
           class="detailInput">
@@ -118,14 +132,14 @@
 
         @if (!isEditing) {
         <div class="readonlyText">
-          {{ editableUser.birthdate ? (editableUser.birthdate | dateSingle)
+          {{ editedUser.birthdate ? (editedUser.birthdate | dateSingle)
           : 'Siempre Joven' }}
         </div>
 
         } @else {
         <input
           type="date"
-          [(ngModel)]="editableUser.birthdate"
+          [(ngModel)]="editedUser.birthdate"
           name="birthdate"
           [readonly]="!isEditing" />
         }
@@ -135,17 +149,27 @@
       <!-- Teléfono -->
       <div class="detailContainer">
         <label class="detailLabel">TELÉFONO</label>
+
         @if (!isEditing) {
-        <div class="readonlyText">{{ editableUser.telephone || 'Privado'
-          }}</div>
+        <div class="readonlyText">
+          {{ editedUser.telephone || 'Privado' }}
+        </div>
         } @else {
+        <!-- Input controlado por reactive forms -->
         <input
           type="tel"
-          [(ngModel)]="editableUser.telephone"
+          [formControl]="telephoneCtrl"
           name="telephone"
-          [readonly]="!isEditing" />
+          [readonly]="!isEditing"
+          [maxlength]="MAX_PHONE_LEN"
+          inputmode="tel"
+          (input)="onPhoneInput($event)"
+          class="telephone-input" />
+        <!-- Ayuda visual -->
+        <div class="hint">
+          {{ telephoneCtrl.value.length || 0 }} / {{ MAX_PHONE_LEN }}
+        </div>
         }
-
       </div>
 
       <!-- Intereses -->
@@ -206,12 +230,13 @@
   <div class="profileActions">
     <button type="button" (click)="onSave()">EDITAR PERFIL</button>
   </div>
-  }   
-  @if(!isEditing){
-    <div class="profileActions">
-      <button type="button" (click)="onLogout()" class="logout-button">CERRAR SESIÓN</button>
-    </div>
   }
-  
+  @if(!isEditing){
+  <div class="profileActions">
+    <button type="button" (click)="onLogout()" class="logout-button">CERRAR
+      SESIÓN</button>
+  </div>
+  }
+
 </div>
 }

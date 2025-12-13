@@ -245,4 +245,11 @@
         text-align: center;
         width: 100%;
     }
+
+}
+
+@media (max-width: 1133px) {
+    .estado .text {
+        display: none;           
+    }
 }
