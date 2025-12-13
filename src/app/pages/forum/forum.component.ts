@@ -108,6 +108,7 @@ export class ForumComponent implements OnInit {
     try {
       this.loadingComments = true;
       this.comments = await this.commentsService.getTripComments(this.tripId);
+      await this.enrichCommentsWithAvatars();
     } catch (error) {
       console.error('Error cargando comentarios:', error);
       this.comments = [];
@@ -187,6 +188,8 @@ export class ForumComponent implements OnInit {
 
       const session = this.usersService.getSession();
       const currentUser = session?.username || 'Tú';
+      const currentUserId = session?.userId ?? 0;
+      const currentAvatar = (session as any)?.photo as string | undefined;
       const comment = this.comments.find((c) => c.commentId === commentId);
       if (comment) {
         if (!comment.replies) {
@@ -194,9 +197,11 @@ export class ForumComponent implements OnInit {
         }
         comment.replies.push({
           replyId: Date.now(),
+          userId: currentUserId,
           user: currentUser,
           message: reply.message.trim(),
           createdAt: new Date(),
+          avatar: currentAvatar,
         });
       }
 
@@ -241,5 +246,40 @@ export class ForumComponent implements OnInit {
       this.router.navigate(['/trips']);
     }
   }
-}
 
+  private async enrichCommentsWithAvatars(): Promise<void> {
+    try {
+      for (const comment of this.comments) {
+        // Avatar del autor del comentario
+        if (comment.userId) {
+          try {
+            const user = await this.usersService.getUserById(comment.userId);
+            if (user.avatar) {
+              comment.avatar = user.avatar;
+            }
+          } catch (err) {
+            console.error('Error cargando avatar para usuario', comment.userId, err);
+          }
+        }
+
+        // Avatares de las respuestas
+        if (comment.replies) {
+          for (const reply of comment.replies) {
+            if (reply.userId) {
+              try {
+                const user = await this.usersService.getUserById(reply.userId);
+                if (user.avatar) {
+                  reply.avatar = user.avatar;
+                }
+              } catch (err) {
+                console.error('Error cargando avatar para usuario', reply.userId, err);
+              }
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error enriqueciendo comentarios con avatares:', error);
+    }
+  }
+}

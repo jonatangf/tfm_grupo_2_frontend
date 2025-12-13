@@ -109,6 +109,7 @@ export class MembersListComponent implements OnInit {
     try {
       this.loadingReviews = true;
       this.memberReviews = await this.reviewsService.getUserReviews(userId);
+      this.enrichReviewsWithAvatarsFromMembers();
     } catch (error) {
       console.error('Error cargando reviews:', error);
       this.showError('Error al cargar las reseñas del usuario');
@@ -217,9 +218,45 @@ export class MembersListComponent implements OnInit {
     if (review.avatar) {
       return review.avatar;
     }
-    // Fallback actual: avatar generado por Dicebear en base al nombre
+    // Si la reseña es del usuario logueado, usar su avatar de sesión si existe
+    const session = this.usersService.getSession();
+    const sessionAvatar = (session as any)?.photo as string | undefined;
+    if (session && session.username === review.from && sessionAvatar) {
+      return sessionAvatar;
+    }
+
+    // Intentar encontrar un miembro del viaje con el mismo nombre y avatar
+    const memberMatch = this.members.find(
+      (m) => m.name === review.from && !!m.avatar
+    );
+    if (memberMatch && memberMatch.avatar) {
+      return memberMatch.avatar;
+    }
+
+    // Fallback: avatar generado por Dicebear en base al nombre
     const seed = review.from;
     return `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(String(seed))}`;
+  }
+
+  private enrichReviewsWithAvatarsFromMembers(): void {
+    if (!this.members?.length || !this.memberReviews?.length) return;
+
+    const avatarByName = new Map<string, string>();
+
+    for (const member of this.members) {
+      if (member.name && member.avatar) {
+        avatarByName.set(member.name, member.avatar);
+      }
+    }
+
+    for (const review of this.memberReviews) {
+      if (!review.avatar) {
+        const avatar = avatarByName.get(review.from);
+        if (avatar) {
+          review.avatar = avatar;
+        }
+      }
+    }
   }
 
   getMemberFullName(member: ITripMember): string {
