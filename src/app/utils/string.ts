@@ -1,4 +1,11 @@
 
+
+/**
+ * Función truncate:
+ * Devuelve un texto truncado si supera el máximo permitido,
+ * a menos que fullVisible sea true. También * a menos que fullVisible sea true. También indica si fue truncado.
+ */
+
 export function truncate(text: string, max: number, fullVisible: boolean) {
   if (!text) return { text: '', truncated: false };
   if (fullVisible || text.length <= max) return { text, truncated: false };
@@ -7,8 +14,12 @@ export function truncate(text: string, max: number, fullVisible: boolean) {
 
 /** Sanitizador básico del lado cliente.
  *  ⚠️ No sustituye sanitización en servidor.
+ * 
+ * Sanitiza: <script>, atributos on*, "javascript:",
+ * cualquier etiqueta HTML, caracteres de control y recorta a maxLen.
  */
-export function sanitizeDescription(
+ 
+export function sanitizeText(
   input: string,
   maxLen: number
 ): string {

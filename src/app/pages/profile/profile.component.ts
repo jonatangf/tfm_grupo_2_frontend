@@ -12,11 +12,10 @@ import { InterestsService } from '../../services/interests.service';
 import { IInterest } from '../../interfaces/iInterest.interface';
 import { DateSinglePipe } from '../../utils/date-format.pipe';
 
-// Utils (ajusta la ruta base: 'src/app/7utils' o similar)
 import {buildInterestMap,pickInterestsByIds,} from '../../utils/interests';
 import {numberIdsToStrings,stringsIdsToNumbers} from '../../utils/array';
 import { isAllowedImage, getImageSize } from '../../utils/image';
-import { truncate, sanitizeDescription as sanitizeDescUtil } from '../../utils/string';
+import { truncate, sanitizeText } from '../../utils/string';
 import { toDateInputFormat } from '../../utils/date';
 import { normalizeAvatarPath } from '../../utils/path';
 import {
@@ -206,11 +205,6 @@ export class ProfileComponent implements OnInit {
     this.updateDescriptionView();
   }
 
-  /*toggleEdit() {
-    this.isEditing = !this.isEditing;
-    this.applyEditableState(this.isEditing);
-  }*/
-
   // Activamos modo edición
   enterEdit(): void {
     if (this.isEditing) return;
@@ -357,7 +351,7 @@ export class ProfileComponent implements OnInit {
 
       // 2) Preparar payload
       const interestsIds: number[] = stringsIdsToNumbers(this.interestsCtrl.value ?? []);
-      const safeDescription = sanitizeDescUtil(
+      const safeDescription = sanitizeText(
         this.descriptionCtrl.value ?? '',
         MAX_DESCRIPTION_LEN
       );
@@ -471,7 +465,7 @@ export class ProfileComponent implements OnInit {
   onDescriptionInput(event: Event) {
     const el = event.target as HTMLTextAreaElement;
     const val = el.value ?? '';
-    const sanitized = sanitizeDescUtil(val, MAX_DESCRIPTION_LEN);
+    const sanitized = sanitizeText(val, MAX_DESCRIPTION_LEN);
 
     setControlValueSilently(this.descriptionCtrl, sanitized);
 

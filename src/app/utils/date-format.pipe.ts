@@ -2,6 +2,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 
+/*
+* PIPE para rango de fechas en el mismo o distintos meses
+*/
+
 @Pipe({
   name: 'dateRange'
 })
@@ -21,6 +25,10 @@ export class DateRangePipe implements PipeTransform {
     return `Del ${startDate.format('D MMMM')} al ${endDate.format('D MMMM YYYY')}`;
   }
 }
+
+/*
+*  PIPE para una fecha
+*/
 
 @Pipe({
     name: 'dateSingle'
