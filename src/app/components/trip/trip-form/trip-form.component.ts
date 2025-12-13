@@ -80,7 +80,7 @@ export class TripFormComponent {
             destiny: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(150), Validators.pattern(/^(?!\s*$).+/)]),
             destinyImg: new FormControl('', [Validators.required, Validators.maxLength(500), this.webImgValidator]),
             transport: new FormControl('', [Validators.required]),
-            accomodation: new FormControl('', [Validators.required]),
+            accomodation: new FormControl(''),
             itinerary: new FormControl('', [Validators.required, Validators.pattern(/^(?!\s*$).+/)]),
         }, []);
     }
@@ -126,7 +126,7 @@ export class TripFormComponent {
             destinyImage: this.tripForm.value.destinyImg,
             itinerary: this.tripForm.value.itinerary,
             meansOfTransportsId: this.tripForm.value.transport,
-            accommodationsId: this.tripForm.value.accomodation,
+            accommodationsId: this.tripForm.value.accomodation || null,
             startDate: this.tripForm.value.startDate,
             endDate: this.tripForm.value.endDate,
             costPerPerson: this.tripForm.value.cost,

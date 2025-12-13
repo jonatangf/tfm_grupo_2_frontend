@@ -108,7 +108,6 @@
           <option value="">Selecciona un alojamiento</option>
           @for(accomo of accomodations; track accomo.id){ <option [value]="accomo.id">{{accomo.name}}</option> }
         </select>
-        @if(checkControl('accomodation', 'required')){ <p class="text-danger">El alojamiento es obligatorio</p> }
       </div>
 
       <!-- ITINERARIO -->

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, AfterViewInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TripsHeaderComponent } from '../../../components/trip/trips-header/trips-header.component';
 import { ITrip, ITripFilters, ITripResponse } from '../../../interfaces/itrip.interface';
@@ -12,7 +12,6 @@ import { DetailTripComponent } from '../../../components/trip/detail-trip/detail
 import { TripListMode, PopUpType, TripFormMode } from '../../../types/trip-types';
 import { TripFormComponent } from '../../../components/trip/trip-form/trip-form.component';
 import { PetitionsComponent } from "../../petitions/petitions.component";
-import { setAlternateWeakRefImpl } from '@angular/core/primitives/signals';
 
 @Component({
   selector: 'app-trip-list',
@@ -20,7 +19,9 @@ import { setAlternateWeakRefImpl } from '@angular/core/primitives/signals';
   templateUrl: './trip-list.component.html',
   styleUrl: './trip-list.component.css',
 })
+
 export class TripListComponent {
+
   userService = inject(UsersService);
   tripsService = inject(TripsService);
   
@@ -41,6 +42,7 @@ export class TripListComponent {
   };
 
   today = new Date().toISOString().split('T')[0];
+  loading: boolean = false;
 
   mode: TripListMode = 'available';
   tripFormMode: TripFormMode | null = null;
@@ -108,6 +110,9 @@ export class TripListComponent {
   }
 
   async searchTrips() {
+
+    this.loading = true;
+
     try {
         const tripsRes = await this.tripsService.getAllTrips(this.filters);
         if (this.mode === 'mine') {
@@ -121,6 +126,8 @@ export class TripListComponent {
         const statusOrder = { open: 1, closed: 2, finished: 3, cancelled: 4} 
         this.trips.sort((a,b)=> statusOrder[a.status] - statusOrder[b.status]);
 
+        this.loading = false;
+
         //Resetear el scroll bar
         const container = document.querySelector(".tripsCards");
         if(container)
@@ -128,6 +135,7 @@ export class TripListComponent {
 
     } catch (error) {
         console.error('Error al cargar los viajes', error);
+        this.loading = false;
     }
   }
 }

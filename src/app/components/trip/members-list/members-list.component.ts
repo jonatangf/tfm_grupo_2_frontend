@@ -32,6 +32,10 @@ export class MembersListComponent implements OnInit {
   loadingReviews = false;
   creatingReview = false;
 
+  // Mensajes de estado
+  successMessage = '';
+  errorMessage = '';
+
   showCreateReviewForm = false;
   reviewForm = {
     score: 0,
@@ -42,6 +46,16 @@ export class MembersListComponent implements OnInit {
 
   showMembersView = true;
   showReviewsView = false;
+
+  private showSuccess(message: string): void {
+    this.successMessage = message;
+    this.errorMessage = '';
+  }
+
+  private showError(message: string): void {
+    this.errorMessage = message;
+    this.successMessage = '';
+  }
 
   ngOnInit(): void {
     this.loadMembers();
@@ -58,7 +72,7 @@ export class MembersListComponent implements OnInit {
       await this.enrichMembersWithAvatars();
     } catch (error) {
       console.error('Error cargando miembros:', error);
-      alert('Error al cargar los miembros del viaje');
+      this.showError('Error al cargar los miembros del viaje');
       this.members = [];
     } finally {
       this.loadingMembers = false;
@@ -97,7 +111,7 @@ export class MembersListComponent implements OnInit {
       this.memberReviews = await this.reviewsService.getUserReviews(userId);
     } catch (error) {
       console.error('Error cargando reviews:', error);
-      alert('Error al cargar las reseñas del usuario');
+      this.showError('Error al cargar las reseñas del usuario');
     } finally {
       this.loadingReviews = false;
     }
@@ -109,6 +123,8 @@ export class MembersListComponent implements OnInit {
     this.showMembersView = true;
     this.selectedMember = null;
     this.memberReviews = [];
+    this.successMessage = '';
+    this.errorMessage = '';
   }
 
   openCreateReviewForm(): void {
@@ -119,6 +135,8 @@ export class MembersListComponent implements OnInit {
       title: '',
       comment: '',
     };
+    this.successMessage = '';
+    this.errorMessage = '';
   }
 
   setScore(score: number): void {
@@ -129,22 +147,22 @@ export class MembersListComponent implements OnInit {
     if (!this.selectedMember) return;
 
     if (!this.tripId) {
-      alert('Error: No se ha especificado el ID del viaje');
+      this.showError('Error: No se ha especificado el ID del viaje');
       return;
     }
 
     if (this.reviewForm.score === 0) {
-      alert('Por favor, selecciona una puntuación');
+      this.showError('Por favor, selecciona una puntuación');
       return;
     }
 
     if (!this.reviewForm.title.trim()) {
-      alert('Por favor, ingresa un título para la reseña');
+      this.showError('Por favor, ingresa un título para la reseña');
       return;
     }
 
     if (!this.reviewForm.comment.trim()) {
-      alert('Por favor, ingresa un comentario');
+      this.showError('Por favor, ingresa un comentario');
       return;
     }
 
@@ -167,16 +185,18 @@ export class MembersListComponent implements OnInit {
         comment: '',
       };
 
-      alert('Reseña creada exitosamente');
+      this.showSuccess('Reseña creada exitosamente');
     } catch (error: any) {
       console.error('Error creando review:', error);
-      alert(error.error?.message || 'Error al crear la reseña');
+      this.showError(error.error?.message || 'Error al crear la reseña');
     } finally {
       this.creatingReview = false;
     }
   }
 
   closeModal(): void {
+    this.successMessage = '';
+    this.errorMessage = '';
     this.close.emit();
   }
 

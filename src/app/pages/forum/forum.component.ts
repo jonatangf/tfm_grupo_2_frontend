@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommentsService } from '../../services/comments.service';
 import { TripsService } from '../../services/trips.service';
+import { UsersService } from '../../services/users.service';
 import { IComment, ICreateComment, ICreateReply } from '../../interfaces/icomment.interface';
 import { ITripResponse } from '../../interfaces/itrip.interface';
 import { TripsHeaderComponent } from '../../components/trip/trips-header/trips-header.component';
@@ -21,6 +22,7 @@ export class ForumComponent implements OnInit {
   private router = inject(Router);
   private commentsService = inject(CommentsService);
   private tripsService = inject(TripsService);
+  private usersService = inject(UsersService);
 
   tripId?: number;
   trip: ITripResponse | null = null;
@@ -62,7 +64,20 @@ export class ForumComponent implements OnInit {
   async loadTrips(): Promise<void> {
     try {
       this.loadingTrips = true;
-      this.trips = await this.tripsService.getAllTrips();
+      // Obtener los viajes en los que participa el usuario (solicitudes de unión)
+      const [myTripRequests, allTrips] = await Promise.all([
+        this.usersService.getMyTripRequests(),
+        this.tripsService.getAllTrips(),
+      ]);
+
+      const acceptedTripIds = new Set(
+        myTripRequests
+          .filter((req) => req.status === 'accepted')
+          .map((req) => req.tripId)
+      );
+
+      // Solo mostrar viajes en los que el usuario es miembro aceptado
+      this.trips = allTrips.filter((trip) => acceptedTripIds.has(trip.id));
     } catch (error) {
       console.error('Error cargando viajes:', error);
       this.trips = [];
@@ -95,35 +110,10 @@ export class ForumComponent implements OnInit {
       this.comments = await this.commentsService.getTripComments(this.tripId);
     } catch (error) {
       console.error('Error cargando comentarios:', error);
-      // Mock data for testing if API fails
-      this.comments = this.getMockComments();
+      this.comments = [];
     } finally {
       this.loadingComments = false;
     }
-  }
-
-  private getMockComments(): IComment[] {
-    return [
-      {
-        commentId: 1,
-        user: 'Ana',
-        title: 'Bienvenida al viaje',
-        message: '¡Hola a todos! Estoy muy emocionada por este viaje. ¿Alguien tiene recomendaciones sobre qué llevar?',
-        replies: [
-          {
-            replyId: 1,
-            user: 'Pedro',
-            message: '¡Hola Ana! Te recomiendo llevar ropa cómoda y una buena cámara.',
-          },
-        ],
-      },
-      {
-        commentId: 2,
-        user: 'Carlos',
-        message: '¿A qué hora nos encontramos en el aeropuerto?',
-        replies: [],
-      },
-    ];
   }
 
   openCreateCommentPopup(): void {
@@ -195,8 +185,20 @@ export class ForumComponent implements OnInit {
         message: reply.message.trim(),
       });
 
-      // Recargar comentarios
-      await this.loadComments();
+      const session = this.usersService.getSession();
+      const currentUser = session?.username || 'Tú';
+      const comment = this.comments.find((c) => c.commentId === commentId);
+      if (comment) {
+        if (!comment.replies) {
+          comment.replies = [];
+        }
+        comment.replies.push({
+          replyId: Date.now(),
+          user: currentUser,
+          message: reply.message.trim(),
+          createdAt: new Date(),
+        });
+      }
 
       // Cerrar popup y limpiar formulario
       this.closeReplyPopup(commentId);

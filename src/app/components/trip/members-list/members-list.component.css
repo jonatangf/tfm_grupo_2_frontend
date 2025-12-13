@@ -93,6 +93,25 @@
     color: #aaa;
 }
 
+/* Mensajes de alerta dentro del modal */
+.alert {
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+.alert.success {
+    background-color: #e6f4ea;
+    color: #256029;
+}
+
+.alert.error {
+    background-color: #fdecea;
+    color: #b3261e;
+}
+
 /* ========================================================== */
 /* 2. VISTA DE MIEMBROS ACEPTADOS */
 /* ========================================================== */
@@ -122,9 +141,15 @@
     border-color: var(--color-pastel-orange);
 }
 
+.member-avatar {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+}
+
 .member-avatar img {
-    width: 5%;
-    height: 5%;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid var(--color-pastel-orange);
@@ -132,6 +157,7 @@
 
 .member-info {
     flex-grow: 1;
+    min-width: 0; /* permite que el texto se contraiga dentro del flex */
     text-align: left;
 }
 
@@ -146,6 +172,9 @@
     font-size: 0.85rem;
     color: #777;
     margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* corta emails largos con puntos suspensivos */
 }
 
 .view-icon {
