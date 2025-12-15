@@ -35,6 +35,7 @@ export class TripCardComponent {
 
     ngOnInit(){
         this.participationStatus();
+        this.getSessionData();
     }
 
     joinPopUp(){
@@ -55,6 +56,10 @@ export class TripCardComponent {
     
     showRequests(){
         this.requestClicked.emit(this.trip);
+    }
+
+    getSessionData() {
+        this.sesionData = this.userService.getSession();
     }
 
     statusLabel(): string {
