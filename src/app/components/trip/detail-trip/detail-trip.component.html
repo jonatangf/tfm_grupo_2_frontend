@@ -3,8 +3,15 @@
     <!-- Encabezado unificado -->
     <div class="tripDetailHeader">
         <h2 class="tripDetailTitle">DETALLE DEL VIAJE</h2>
-
         <div class="tripDetailIcons">
+            @if(tripMode === 'mine'){
+                <button 
+                type="button"
+                class="iconButton"
+                (click)="editTrip()">
+                <i class="bi bi-pencil"></i>
+                </button>
+        }
             <button
                 type="button"
                 class="iconButton"
