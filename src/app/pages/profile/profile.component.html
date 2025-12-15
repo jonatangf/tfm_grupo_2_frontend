@@ -57,7 +57,7 @@
     <!-- Puntuación -->
     <div class="detailContainer ratingContainer">
       <label class="detailLabel">PUNTUACIÓN</label>
-      <div class="ratingValue">{{ user.avg_rating }}</div>
+      <div class="ratingValue">{{ user.avg_rating === null ? "Sin puntuación" : user.avg_rating }}</div>
     </div>
   </div>
 
