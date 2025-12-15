@@ -211,8 +211,6 @@ export class MembersListComponent implements OnInit {
     return `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(String(seed))}`;
   }
 
-  // TODO: en el futuro, poblar `avatar` en cada review desde el usuario (GET /users/:id)
-  // y usar directamente la URL real aquí en lugar del identicon de fallback.
   getReviewAvatar(review: IReviewResponse): string {
     // Si el backend envía avatar para el autor de la reseña, úsalo
     if (review.avatar) {
@@ -241,20 +239,11 @@ export class MembersListComponent implements OnInit {
   private enrichReviewsWithAvatarsFromMembers(): void {
     if (!this.members?.length || !this.memberReviews?.length) return;
 
-    const avatarByName = new Map<string, string>();
+    const avatarByUserId = new Map<number, string>();
 
     for (const member of this.members) {
-      if (member.name && member.avatar) {
-        avatarByName.set(member.name, member.avatar);
-      }
-    }
-
-    for (const review of this.memberReviews) {
-      if (!review.avatar) {
-        const avatar = avatarByName.get(review.from);
-        if (avatar) {
-          review.avatar = avatar;
-        }
+      if (member.userId && member.avatar) {
+        avatarByUserId.set(member.userId, member.avatar);
       }
     }
   }

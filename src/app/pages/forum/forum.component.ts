@@ -108,6 +108,7 @@ export class ForumComponent implements OnInit {
     try {
       this.loadingComments = true;
       this.comments = await this.commentsService.getTripComments(this.tripId);
+      await this.loadRepliesForComments();
       await this.enrichCommentsWithAvatars();
     } catch (error) {
       console.error('Error cargando comentarios:', error);
@@ -280,6 +281,22 @@ export class ForumComponent implements OnInit {
       }
     } catch (error) {
       console.error('Error enriqueciendo comentarios con avatares:', error);
+    }
+  }
+
+  private async loadRepliesForComments(): Promise<void> {
+    if (!this.tripId) return;
+
+    for (const comment of this.comments) {
+      try {
+        const replies = await this.commentsService.getCommentReplies(
+          this.tripId,
+          comment.commentId
+        );
+        comment.replies = replies;
+      } catch (err) {
+        console.error('Error cargando respuestas para comentario', comment.commentId, err);
+      }
     }
   }
 }
