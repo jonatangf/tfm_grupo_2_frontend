@@ -68,6 +68,22 @@ export class DetailTripComponent {
         this.accomodations = await this.accomodationsService.getAccomodations();
     }
 
+    getCountryName(id: number | null): string {
+        if (!id) return '';
+        return this.countries.find(c => c.id === id)?.name ?? '';
+    }
+
+    getTransportName(id: number | null): string {
+        if (!id) return '';
+        return this.transports.find(t => t.id === id)?.name ?? '';
+    }
+
+    getAccomodationName(id: number | null): string {
+        if (!id) return 'Ninguno';
+        return this.accomodations.find(a => a.id === id)?.name ?? 'Ninguno';
+    }
+
+
     getStatusMessage(): string {
         switch(this.trip?.status){
             case 'cancelled':

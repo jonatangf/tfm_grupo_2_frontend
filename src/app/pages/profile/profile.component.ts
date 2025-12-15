@@ -378,8 +378,6 @@ export class ProfileComponent implements OnInit {
       const fresh = await this.userService.getUserById(this.sesionData.userId);
       this.user = fresh;
 
-      console.log(this.user)
-
       this.originalUser = {
         id: this.user.id,
         email: this.user.email ?? '',

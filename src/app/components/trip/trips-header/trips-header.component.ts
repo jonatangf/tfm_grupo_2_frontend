@@ -42,7 +42,6 @@ export class TripsHeaderComponent implements OnInit {
   }
 
   onAvatarUpdated(url: string | null) {
-    console.log('updating...')
     this.userService.setSessionPhoto(url!);
     this.sesionData = this.userService.getSession();
   }

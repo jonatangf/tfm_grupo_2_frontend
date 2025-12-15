@@ -117,7 +117,6 @@ export class TripFormComponent {
   
     async submitForm(){
         if(this.tripForm.invalid) return;
-
         const tripData: ITrip = {
             name: this.tripForm.value.title,
             description: this.tripForm.value.description,
