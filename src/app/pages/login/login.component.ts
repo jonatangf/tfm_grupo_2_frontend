@@ -3,7 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 
 @Component({
   selector: 'app-login',
-  standalone: true, // Asumo standalone como antes
+  standalone: true, 
   imports: [ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -24,16 +24,13 @@ export class LoginComponent implements OnInit {
 
   submitUser() {
     if (this.userForm.valid) {
-      console.log('Formulario válido, enviando...');
       this.submitted.emit(this.userForm.value);
     } else {
-      console.log('Formulario no válido, marcando campos...');
       this.userForm.markAllAsTouched();
     }
   }
 
   checkControl(controlName: string, errorName: string): boolean | undefined {
-    // Usamos el operador 'safe navigation' (?) para evitar errores si el control aún no existe
     const control = this.userForm.get(controlName);
     return control?.hasError(errorName) && control?.touched;
   }

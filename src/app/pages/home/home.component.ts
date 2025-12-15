@@ -8,7 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-home',
-  standalone: true, // Asumo que usas standalone
+  standalone: true, 
   imports: [LoginComponent, LoginHeaderComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
@@ -50,14 +50,12 @@ export class HomeComponent {
     this.loginReq = data;
     if (this.state === 'register'){
       const response: any = await this.userService.registerUser(this.loginReq);
-      //aqui me logado correctamente redirijo dashboard
       if (response.userId) {
         this.showWelcomeToast(response.username || 'Usuario');
         this.router.navigate(['/trips']);
       }
     } else if (this.state === 'login'){
       const response: any = await this.userService.login(this.loginReq);
-      //aqui me logado correctamente redirijo dashboard
       if (response.userId) {
         this.router.navigate(['/trips']);
       }
